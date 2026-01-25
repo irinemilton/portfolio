@@ -2,7 +2,7 @@
 export const portfolioData = {
     name: "Irine Milton",
     title: "B.Tech CS | Full-Stack, AI & ML Enthusiast",
-    tagline: "                                        Building digital experiences with precision and purpose",
+    tagline: "Building digital experiences with precision and purpose",
 
     about: {
         description: "I'm a Computer Science Engineering student at Christ College of Engineering, passionate about building impactful solutions. With a strong foundation in Full-Stack Development and AI/ML, I thrive on solving complex problems—whether it's building a fintech platform, an AI grievance system, or winning national hackathons.",
@@ -96,6 +96,7 @@ export const portfolioData = {
     contact: {
         email: "irinemilton009@gmail.com",
         github: "https://github.com/irinemilton",
-        linkedin: "https://www.linkedin.com/in/irinemilton/"
+        linkedin: "https://www.linkedin.com/in/irinemilton/",
+        resume: "/resume.pdf"
     }
 };

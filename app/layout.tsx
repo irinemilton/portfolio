@@ -1,4 +1,5 @@
 import DynamicLogo from '@/components/ui/DynamicLogo';
+import DynamicResume from '@/components/ui/DynamicResume';
 import '../src/styles/globals.css';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -6,6 +7,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body className="bg-black text-white antialiased relative">
         <DynamicLogo />
+        <DynamicResume />
         <div
           style={{
             backgroundImage: "url('/backsucces.jpg')",

@@ -34,6 +34,9 @@ export default function Hero() {
                 >
                     {portfolioData.tagline}
                 </motion.p>
+
+
+
             </motion.div>
 
             {/* Scroll Indicator */}
@@ -51,6 +54,6 @@ export default function Hero() {
                     <div className="w-1 h-2 bg-white/50 rounded-full" />
                 </motion.div>
             </motion.div>
-        </section>
+        </section >
     );
 }
