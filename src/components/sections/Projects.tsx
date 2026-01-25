@@ -41,7 +41,7 @@ export default function Projects() {
                                         <span className="text-sm md:text-base opacity-40">{project.year}</span>
                                     </div>
 
-                                    <p className="text-base md:text-lg opacity-60 mb-6 leading-relaxed max-w-2xl">
+                                    <p className="text-base md:text-lg opacity-60 mb-6 leading-loose tracking-wide max-w-2xl">
                                         {project.description}
                                     </p>
 

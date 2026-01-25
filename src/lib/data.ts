@@ -58,8 +58,8 @@ export const portfolioData = {
     ],
 
     contact: {
-        email: "your.email@example.com",
-        github: "https://github.com/yourusername",
-        linkedin: "https://linkedin.com/in/yourusername"
+        email: "irinemilton009@gmail.com",
+        github: "https://github.com/irinemilton",
+        linkedin: "https://www.linkedin.com/in/irinemilton/"
     }
 };

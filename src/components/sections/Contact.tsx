@@ -23,7 +23,7 @@ export default function Contact() {
 
                 <motion.p
                     variants={fadeUp}
-                    className="text-lg md:text-xl lg:text-2xl opacity-60 mb-20 leading-relaxed max-w-3xl"
+                    className="text-lg md:text-xl lg:text-2xl opacity-60 mb-20 leading-loose tracking-wide max-w-3xl"
                 >
                     I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision.
                 </motion.p>

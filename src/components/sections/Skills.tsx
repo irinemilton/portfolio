@@ -45,7 +45,7 @@ export default function Skills() {
                                         whileInView={{ opacity: 1, x: 0 }}
                                         viewport={{ once: true }}
                                         transition={{ duration: 0.4, delay: skillIndex * 0.1 }}
-                                        className="text-lg md:text-xl opacity-70 hover:opacity-100 transition-opacity duration-300 cursor-default pl-4 border-l-2 border-transparent hover:border-white/40"
+                                        className="text-lg md:text-xl opacity-70 hover:opacity-100 transition-opacity duration-300 cursor-default pl-4 border-l-2 border-transparent hover:border-white/40 tracking-wide"
                                     >
                                         {skill}
                                     </motion.div>

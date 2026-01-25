@@ -22,7 +22,7 @@ export default function About() {
                     <h2 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-8 tracking-tight">
                         DRIVEN BY
                     </h2>
-                    <p className="text-lg md:text-xl opacity-60 max-w-3xl leading-relaxed">
+                    <p className="text-lg md:text-xl opacity-60 max-w-3xl leading-loose tracking-wide">
                         {portfolioData.about.description}
                     </p>
                 </motion.div>

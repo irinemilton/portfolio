@@ -12,27 +12,15 @@ export default function Hero() {
                 transition={{ duration: 1, ease: "easeOut" }}
                 className="text-center max-w-6xl w-full"
             >
-                {/* Main Name - Massive Typography */}
-                <h1 className="text-7xl sm:text-8xl md:text-9xl lg:text-[12rem] xl:text-[14rem] font-bold tracking-tighter leading-none mb-8">
-                    {portfolioData.name.split(' ').map((word, index) => (
-                        <motion.span
-                            key={index}
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.8, delay: index * 0.1 }}
-                            className="block"
-                        >
-                            {word}
-                        </motion.span>
-                    ))}
-                </h1>
+                {/* Main Name - Massive Typography spacer to push content down below centered logo */}
+                <div className="h-[20vh] md:h-[30vh]" />
 
                 {/* Subtitle */}
                 <motion.p
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.5, duration: 1 }}
-                    className="text-base sm:text-lg md:text-xl lg:text-2xl opacity-60 tracking-wide uppercase font-light"
+                    className="mt-24 md:mt-32 text-base sm:text-lg md:text-xl lg:text-2xl opacity-80 tracking-widest uppercase font-medium"
                 >
                     {portfolioData.title}
                 </motion.p>
@@ -42,7 +30,7 @@ export default function Hero() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.8, duration: 1 }}
-                    className="mt-6 text-sm md:text-base opacity-40 max-w-2xl mx-auto"
+                    className="mt-20 text-center text-sm md:text-base opacity-40 max-w-3xl mx-auto tracking-wider leading-loose"
                 >
                     {portfolioData.tagline}
                 </motion.p>

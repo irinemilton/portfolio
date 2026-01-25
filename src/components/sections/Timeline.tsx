@@ -41,7 +41,7 @@ export default function Timeline() {
                                 <h3 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4 tracking-tight">
                                     {item.title}
                                 </h3>
-                                <p className="text-base md:text-lg opacity-60 leading-relaxed max-w-2xl">
+                                <p className="text-base md:text-lg opacity-60 leading-loose tracking-wide max-w-2xl">
                                     {item.description}
                                 </p>
                             </div>
