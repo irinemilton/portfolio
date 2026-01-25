@@ -86,7 +86,7 @@ export default function Contact() {
                     className="border-t border-white/10 pt-8"
                 >
                     <p className="text-sm md:text-base opacity-30">
-                        © 2024 {portfolioData.name}. Built with Next.js & Framer Motion.
+                        © {new Date().getFullYear()} Built with ❤️ by {portfolioData.name} .
                     </p>
                 </motion.div>
             </motion.div>
