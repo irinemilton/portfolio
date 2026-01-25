@@ -1,4 +1,13 @@
 // Portfolio data and content
+
+export interface Project {
+    id: number;
+    title: string;
+    description: string;
+    tech: string[];
+    year: string;
+}
+
 export const portfolioData = {
     name: "Irine Milton",
     title: "B.Tech CS | Full-Stack, AI & ML Enthusiast",

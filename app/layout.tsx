@@ -2,10 +2,13 @@ import DynamicLogo from '@/components/ui/DynamicLogo';
 import DynamicResume from '@/components/ui/DynamicResume';
 import '../src/styles/globals.css';
 
+import Cursor from '@/components/ui/Cursor'; // Import Cursor
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className="bg-black text-white antialiased relative">
+      <body className="bg-black text-white antialiased relative cursor-none"> {/* Hide default cursor */}
+        <Cursor />
         <DynamicLogo />
         <DynamicResume />
         <div
