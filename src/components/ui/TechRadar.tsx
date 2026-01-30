@@ -97,29 +97,44 @@ export default function TechRadar({ skills }: TechRadarProps) {
                             transition={{ duration: 0.5, delay: index * 0.1 }}
                             viewport={{ once: true }}
                         >
-                            <div className="flex items-center justify-between mb-3">
-                                <h4 className="text-lg font-bold">{skillGroup.category}</h4>
-                                <span className="text-sm opacity-50">{getSkillLevel(skillGroup.category)}%</span>
-                            </div>
-
-                            {/* Dotted Progress Bar */}
-                            <div className="flex flex-wrap gap-1 mb-4">
-                                {Array.from({ length: 20 }).map((_, i) => {
-                                    const isFilled = i < Math.round(getSkillLevel(skillGroup.category) / 5);
-                                    return (
-                                        <motion.div
-                                            key={i}
-                                            initial={{ opacity: 0, scale: 0 }}
-                                            whileInView={{
-                                                opacity: 1,
-                                                scale: 1
-                                            }}
-                                            transition={{ duration: 0.2, delay: index * 0.1 + (i * 0.02) }}
-                                            viewport={{ once: true }}
-                                            className={`w-2 h-2 rounded-full ${isFilled ? 'bg-white' : 'bg-white/10'}`}
-                                        />
-                                    );
-                                })}
+                            <div className="flex items-center justify-between mb-4">
+                                <div className="flex items-center gap-4">
+                                    {/* Dotted Circular Progress */}
+                                    <div className="relative w-16 h-16">
+                                        <svg className="w-full h-full -rotate-90" viewBox="0 0 100 100">
+                                            {/* Track - Dotted */}
+                                            <circle
+                                                cx="50"
+                                                cy="50"
+                                                r="45"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                strokeWidth="4"
+                                                strokeDasharray="4 6"
+                                                className="text-white/10"
+                                            />
+                                            {/* Progress - Dotted */}
+                                            <motion.circle
+                                                cx="50"
+                                                cy="50"
+                                                r="45"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                strokeWidth="4"
+                                                strokeDasharray="4 6"
+                                                className="text-white"
+                                                initial={{ pathLength: 0 }}
+                                                whileInView={{ pathLength: getSkillLevel(skillGroup.category) / 100 }}
+                                                transition={{ duration: 1.5, delay: index * 0.2, ease: "easeOut" }}
+                                                viewport={{ once: true }}
+                                            />
+                                        </svg>
+                                        <div className="absolute inset-0 flex items-center justify-center">
+                                            <span className="text-xs font-bold opacity-70">{getSkillLevel(skillGroup.category)}%</span>
+                                        </div>
+                                    </div>
+                                    <h4 className="text-xl font-bold">{skillGroup.category}</h4>
+                                </div>
                             </div>
 
                             {/* Skills tags */}

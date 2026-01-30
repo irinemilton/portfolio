@@ -106,31 +106,42 @@ export default function GitHubStats({ username }: GitHubStatsProps) {
                         className="border border-white/10 rounded-lg p-6 hover:border-white/30 transition-all duration-300"
                     >
                         <h4 className="text-lg font-bold mb-4 opacity-70">Top Languages</h4>
-                        <div className="space-y-3">
+                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
                             {stats.topLanguages.map((lang, index) => (
-                                <div key={lang.language}>
-                                    <div className="flex justify-between mb-1">
-                                        <span className="text-sm">{lang.language}</span>
-                                        <span className="text-sm opacity-50">{lang.percentage}%</span>
+                                <div key={lang.language} className="flex flex-col items-center">
+                                    <div className="relative w-16 h-16 mb-2">
+                                        <svg className="w-full h-full -rotate-90" viewBox="0 0 100 100">
+                                            {/* Track */}
+                                            <circle
+                                                cx="50"
+                                                cy="50"
+                                                r="45"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                strokeWidth="8"
+                                                className="text-white/10"
+                                            />
+                                            {/* Progress */}
+                                            <motion.circle
+                                                cx="50"
+                                                cy="50"
+                                                r="45"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                strokeWidth="8"
+                                                strokeLinecap="round"
+                                                className="text-white"
+                                                initial={{ pathLength: 0 }}
+                                                whileInView={{ pathLength: parseFloat(lang.percentage) / 100 }}
+                                                transition={{ duration: 1, delay: index * 0.1 }}
+                                                viewport={{ once: true }}
+                                            />
+                                        </svg>
+                                        <div className="absolute inset-0 flex items-center justify-center">
+                                            <span className="text-xs font-bold">{lang.percentage}%</span>
+                                        </div>
                                     </div>
-                                    {/* Segmented Progress Bar */}
-                                    <div className="flex gap-1 w-full h-2">
-                                        {Array.from({ length: 10 }).map((_, i) => {
-                                            const isFilled = i < Math.round(parseFloat(lang.percentage) / 10);
-                                            return (
-                                                <motion.div
-                                                    key={i}
-                                                    initial={{ opacity: 0 }}
-                                                    whileInView={{
-                                                        opacity: 1
-                                                    }}
-                                                    transition={{ duration: 0.2, delay: index * 0.1 + (i * 0.05) }}
-                                                    viewport={{ once: true }}
-                                                    className={`flex-1 rounded-sm ${isFilled ? 'bg-white' : 'bg-white/10'}`}
-                                                />
-                                            );
-                                        })}
-                                    </div>
+                                    <span className="text-sm font-medium text-center opacity-80">{lang.language}</span>
                                 </div>
                             ))}
                         </div>
