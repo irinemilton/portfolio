@@ -25,13 +25,25 @@ export default function GitHubStats({ username }: GitHubStatsProps) {
     const [stats, setStats] = useState<GitHubStatsData | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
+    const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
+        setMounted(true);
+
         const fetchStats = async () => {
             try {
+                console.log('[GitHub Stats] Starting fetch...');
                 const response = await fetch('/api/github-stats');
-                if (!response.ok) throw new Error('Failed to fetch stats');
+                console.log('[GitHub Stats] Response status:', response.status);
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    console.error('[GitHub Stats] Error response:', errorText);
+                    throw new Error('Failed to fetch stats');
+                }
+
                 const data = await response.json();
+                console.log('[GitHub Stats] Received data:', data);
                 setStats(data);
             } catch (err) {
                 console.error('[GitHub Stats] Error:', err);
@@ -43,6 +55,11 @@ export default function GitHubStats({ username }: GitHubStatsProps) {
 
         fetchStats();
     }, []);
+
+    // Don't render anything until mounted on client
+    if (!mounted) {
+        return null;
+    }
 
     return (
         <motion.div
