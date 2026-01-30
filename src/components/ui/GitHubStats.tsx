@@ -40,19 +40,24 @@ export default function GitHubStats({ username }: GitHubStatsProps) {
                 >
                     {!statsError ? (
                         <img
-                            src={`https://github-readme-stats.vercel.app/api?username=${username}&show_icons=true&theme=transparent&hide_border=true&title_color=ffffff&text_color=ffffff&icon_color=ffffff&bg_color=00000000`}
+                            src={`https://github-readme-stats.vercel.app/api?username=${username}&show_icons=true&theme=transparent&hide_border=true&title_color=ffffff&text_color=ffffff&icon_color=ffffff&bg_color=00000000&cache_seconds=1800`}
                             alt="GitHub Stats"
                             className="w-full"
-                            onError={() => setStatsError(true)}
+                            loading="lazy"
+                            onError={() => {
+                                console.log('[GitHub Stats] Failed to load stats image');
+                                setStatsError(true);
+                            }}
                         />
                     ) : (
                         <div className="text-center space-y-3">
                             <p className="text-white/50 text-sm">Stats temporarily unavailable</p>
+                            <p className="text-white/30 text-xs">This may be due to GitHub API rate limits</p>
                             <a
                                 href={`https://github.com/${username}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="text-xs text-white/30 hover:text-white/60 transition-colors"
+                                className="inline-block text-xs text-white/30 hover:text-white/60 transition-colors border border-white/10 px-3 py-1 rounded-full"
                             >
                                 View on GitHub
                             </a>
@@ -68,19 +73,24 @@ export default function GitHubStats({ username }: GitHubStatsProps) {
                 >
                     {!langsError ? (
                         <img
-                            src={`https://github-readme-stats.vercel.app/api/top-langs/?username=${username}&layout=compact&theme=transparent&hide_border=true&title_color=ffffff&text_color=ffffff&bg_color=00000000`}
+                            src={`https://github-readme-stats.vercel.app/api/top-langs/?username=${username}&layout=compact&theme=transparent&hide_border=true&title_color=ffffff&text_color=ffffff&bg_color=00000000&cache_seconds=1800`}
                             alt="Top Languages"
                             className="w-full"
-                            onError={() => setLangsError(true)}
+                            loading="lazy"
+                            onError={() => {
+                                console.log('[GitHub Stats] Failed to load languages image');
+                                setLangsError(true);
+                            }}
                         />
                     ) : (
                         <div className="text-center space-y-3">
                             <p className="text-white/50 text-sm">Languages temporarily unavailable</p>
+                            <p className="text-white/30 text-xs">This may be due to GitHub API rate limits</p>
                             <a
                                 href={`https://github.com/${username}?tab=repositories`}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="text-xs text-white/30 hover:text-white/60 transition-colors"
+                                className="inline-block text-xs text-white/30 hover:text-white/60 transition-colors border border-white/10 px-3 py-1 rounded-full"
                             >
                                 View Repositories
                             </a>
