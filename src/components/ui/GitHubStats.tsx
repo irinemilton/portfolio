@@ -113,14 +113,23 @@ export default function GitHubStats({ username }: GitHubStatsProps) {
                                         <span className="text-sm">{lang.language}</span>
                                         <span className="text-sm opacity-50">{lang.percentage}%</span>
                                     </div>
-                                    <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden">
-                                        <motion.div
-                                            initial={{ width: 0 }}
-                                            whileInView={{ width: `${lang.percentage}%` }}
-                                            transition={{ duration: 1, delay: index * 0.1 }}
-                                            viewport={{ once: true }}
-                                            className="h-full bg-white"
-                                        />
+                                    {/* Segmented Progress Bar */}
+                                    <div className="flex gap-1 w-full h-2">
+                                        {Array.from({ length: 10 }).map((_, i) => {
+                                            const isFilled = i < Math.round(parseFloat(lang.percentage) / 10);
+                                            return (
+                                                <motion.div
+                                                    key={i}
+                                                    initial={{ opacity: 0 }}
+                                                    whileInView={{
+                                                        opacity: 1
+                                                    }}
+                                                    transition={{ duration: 0.2, delay: index * 0.1 + (i * 0.05) }}
+                                                    viewport={{ once: true }}
+                                                    className={`flex-1 rounded-sm ${isFilled ? 'bg-white' : 'bg-white/10'}`}
+                                                />
+                                            );
+                                        })}
                                     </div>
                                 </div>
                             ))}

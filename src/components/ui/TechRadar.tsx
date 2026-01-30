@@ -102,15 +102,24 @@ export default function TechRadar({ skills }: TechRadarProps) {
                                 <span className="text-sm opacity-50">{getSkillLevel(skillGroup.category)}%</span>
                             </div>
 
-                            {/* Progress bar */}
-                            <div className="w-full h-1 bg-white/10 rounded-full overflow-hidden mb-4">
-                                <motion.div
-                                    initial={{ width: 0 }}
-                                    whileInView={{ width: `${getSkillLevel(skillGroup.category)}%` }}
-                                    transition={{ duration: 1, delay: index * 0.1 + 0.2 }}
-                                    viewport={{ once: true }}
-                                    className="h-full bg-white"
-                                />
+                            {/* Dotted Progress Bar */}
+                            <div className="flex flex-wrap gap-1 mb-4">
+                                {Array.from({ length: 20 }).map((_, i) => {
+                                    const isFilled = i < Math.round(getSkillLevel(skillGroup.category) / 5);
+                                    return (
+                                        <motion.div
+                                            key={i}
+                                            initial={{ opacity: 0, scale: 0 }}
+                                            whileInView={{
+                                                opacity: 1,
+                                                scale: 1
+                                            }}
+                                            transition={{ duration: 0.2, delay: index * 0.1 + (i * 0.02) }}
+                                            viewport={{ once: true }}
+                                            className={`w-2 h-2 rounded-full ${isFilled ? 'bg-white' : 'bg-white/10'}`}
+                                        />
+                                    );
+                                })}
                             </div>
 
                             {/* Skills tags */}
