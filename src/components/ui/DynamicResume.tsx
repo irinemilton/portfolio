@@ -54,7 +54,7 @@ export default function DynamicResume() {
             <a
                 href={portfolioData.contact.resume}
                 download="Irine_Milton_Resume.pdf"
-                className="flex items-center gap-2 px-6 py-3 border border-white/20 rounded-full text-sm font-medium hover:bg-white/10 transition-all duration-300 backdrop-blur-sm bg-black/20"
+                className="flex items-center gap-2 px-6 py-3 border border-white/20 rounded-full text-sm font-medium hover:bg-white/10 transition-all duration-300"
             >
                 <span className="uppercase tracking-widest text-xs md:text-sm">Download Resume</span>
                 <svg
