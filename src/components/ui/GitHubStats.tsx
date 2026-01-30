@@ -133,12 +133,30 @@ export default function GitHubStats({ username }: GitHubStatsProps) {
                         transition={{ duration: 0.2 }}
                         className="border border-white/10 rounded-lg p-6 hover:border-white/30 transition-all duration-300"
                     >
+                        <h4 className="text-lg font-bold mb-4 opacity-70">GitHub Streak</h4>
                         <img
                             src={`https://streak-stats.demolab.com?user=${username}&theme=dark&hide_border=true&background=00000000&stroke=ffffff&ring=ffffff&fire=ffffff&currStreakLabel=ffffff&sideLabels=ffffff&currStreakNum=ffffff&sideNums=ffffff&dates=ffffff`}
                             alt="GitHub Streak"
                             className="w-full"
                             loading="lazy"
+                            onError={(e) => {
+                                const target = e.target as HTMLImageElement;
+                                target.style.display = 'none';
+                                const fallback = target.nextElementSibling as HTMLElement;
+                                if (fallback) fallback.style.display = 'block';
+                            }}
                         />
+                        <div style={{ display: 'none' }} className="text-center py-8">
+                            <p className="text-white/50 mb-2">Streak stats temporarily unavailable</p>
+                            <a
+                                href={`https://github.com/${username}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-sm text-white/70 hover:text-white transition-colors"
+                            >
+                                View on GitHub →
+                            </a>
+                        </div>
                     </motion.div>
 
                     {/* Contribution Graph */}
@@ -147,12 +165,30 @@ export default function GitHubStats({ username }: GitHubStatsProps) {
                         transition={{ duration: 0.2 }}
                         className="border border-white/10 rounded-lg p-6 hover:border-white/30 transition-all duration-300 overflow-hidden"
                     >
+                        <h4 className="text-lg font-bold mb-4 opacity-70">Contribution Graph</h4>
                         <img
                             src={`https://github-readme-activity-graph.vercel.app/graph?username=${username}&theme=high-contrast&hide_border=true&bg_color=00000000&color=ffffff&line=ffffff&point=ffffff&area=true&area_color=ffffff`}
                             alt="Contribution Graph"
                             className="w-full"
                             loading="lazy"
+                            onError={(e) => {
+                                const target = e.target as HTMLImageElement;
+                                target.style.display = 'none';
+                                const fallback = target.nextElementSibling as HTMLElement;
+                                if (fallback) fallback.style.display = 'block';
+                            }}
                         />
+                        <div style={{ display: 'none' }} className="text-center py-8">
+                            <p className="text-white/50 mb-2">Contribution graph temporarily unavailable</p>
+                            <a
+                                href={`https://github.com/${username}?tab=overview`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-sm text-white/70 hover:text-white transition-colors"
+                            >
+                                View on GitHub →
+                            </a>
+                        </div>
                     </motion.div>
                 </>
             )}
