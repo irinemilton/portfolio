@@ -6,7 +6,7 @@ export const fadeUp = {
         y: 0,
         transition: {
             duration: 0.6,
-            ease: [0.25, 0.46, 0.45, 0.94] // Smooth easeOutQuad
+            ease: "easeOut" as const
         }
     }
 };
@@ -17,7 +17,7 @@ export const fadeIn = {
         opacity: 1,
         transition: {
             duration: 0.5,
-            ease: "easeOut"
+            ease: "easeOut" as const
         }
     }
 };
@@ -29,7 +29,7 @@ export const slideInLeft = {
         x: 0,
         transition: {
             duration: 0.7,
-            ease: [0.22, 1, 0.36, 1] // Smooth easeOutExpo
+            ease: "easeOut" as const
         }
     }
 };
@@ -41,7 +41,7 @@ export const slideInRight = {
         x: 0,
         transition: {
             duration: 0.7,
-            ease: [0.22, 1, 0.36, 1] // Smooth easeOutExpo
+            ease: "easeOut" as const
         }
     }
 };
@@ -53,7 +53,6 @@ export const staggerContainer = {
         transition: {
             staggerChildren: 0.08,
             delayChildren: 0.1,
-            ease: "easeOut"
         }
     }
 };
@@ -65,7 +64,7 @@ export const scaleIn = {
         scale: 1,
         transition: {
             duration: 0.5,
-            ease: [0.34, 1.56, 0.64, 1] // Smooth easeOutBack (slight bounce)
+            ease: "easeOut" as const
         }
     }
 };
