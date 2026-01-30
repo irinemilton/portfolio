@@ -42,7 +42,6 @@ export default function DynamicLogo() {
                 y,
                 scale,
                 zIndex: 999,
-                mixBlendMode: 'difference',
                 transformOrigin: 'top left',
                 width: 'fit-content', // Critical for centering
                 height: 'fit-content', // Critical for centering
