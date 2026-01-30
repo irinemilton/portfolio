@@ -35,7 +35,7 @@ export default function RepositoryScroll({ repositories }: RepositoryScrollProps
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+                transition={{ duration: 0.6, ease: "easeOut" as const }}
                 className="mb-8"
             >
                 <h3 className="text-2xl md:text-3xl font-bold tracking-tight opacity-50">
