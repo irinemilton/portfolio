@@ -56,11 +56,6 @@ export default function GitHubStats({ username }: GitHubStatsProps) {
         fetchStats();
     }, []);
 
-    // Don't render anything until mounted on client
-    if (!mounted) {
-        return null;
-    }
-
     return (
         <motion.div
             variants={fadeUp}
