@@ -9,10 +9,12 @@ import { useEffect, useState } from 'react';
 
 export default function Projects() {
     const [repositories, setRepositories] = useState<Repository[]>(portfolioData.repositories);
-    const [isLoading, setIsLoading] = useState(false); // Changed to false to show static data immediately
     const [error, setError] = useState<string | null>(null);
+    const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
+        setMounted(true);
+
         const fetchRepos = async () => {
             try {
                 console.log('[Frontend] Fetching repositories from API...');
