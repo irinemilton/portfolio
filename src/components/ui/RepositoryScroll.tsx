@@ -1,7 +1,7 @@
 'use client';
 
 import { motion, useAnimationFrame } from 'framer-motion';
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { Repository } from '@/lib/data';
 
 interface RepositoryScrollProps {
@@ -11,10 +11,15 @@ interface RepositoryScrollProps {
 export default function RepositoryScroll({ repositories }: RepositoryScrollProps) {
     const scrollRef = useRef<HTMLDivElement>(null);
     const [isPaused, setIsPaused] = useState(false);
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
     // Auto-scroll animation
     useAnimationFrame((time, delta) => {
-        if (!scrollRef.current || isPaused) return;
+        if (!scrollRef.current || isPaused || !mounted) return;
 
         const scrollSpeed = 0.3; // Reduced from 0.5 for smoother scrolling
         scrollRef.current.scrollLeft += scrollSpeed;
@@ -25,6 +30,11 @@ export default function RepositoryScroll({ repositories }: RepositoryScrollProps
             scrollRef.current.scrollLeft = 0;
         }
     });
+
+    // Don't render until mounted on client
+    if (!mounted) {
+        return null;
+    }
 
     // Duplicate repositories for seamless infinite scroll
     const duplicatedRepos = [...repositories, ...repositories];
