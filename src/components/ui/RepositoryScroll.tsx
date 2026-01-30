@@ -31,11 +31,6 @@ export default function RepositoryScroll({ repositories }: RepositoryScrollProps
         }
     });
 
-    // Don't render until mounted on client
-    if (!mounted) {
-        return null;
-    }
-
     // Duplicate repositories for seamless infinite scroll
     const duplicatedRepos = [...repositories, ...repositories];
 
