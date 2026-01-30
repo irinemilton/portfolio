@@ -25,11 +25,8 @@ export default function GitHubStats({ username }: GitHubStatsProps) {
     const [stats, setStats] = useState<GitHubStatsData | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
-    const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
-        setMounted(true);
-
         const fetchStats = async () => {
             try {
                 console.log('[GitHub Stats] Starting fetch...');
