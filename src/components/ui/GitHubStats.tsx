@@ -140,20 +140,6 @@ export default function GitHubStats({ username }: GitHubStatsProps) {
                             loading="lazy"
                         />
                     </motion.div>
-
-                    {/* Contribution Graph */}
-                    <motion.div
-                        whileHover={{ scale: 1.005 }}
-                        transition={{ duration: 0.2 }}
-                        className="border border-white/10 rounded-lg p-6 hover:border-white/30 transition-all duration-300 overflow-hidden"
-                    >
-                        <img
-                            src={`https://github-readme-activity-graph.vercel.app/graph?username=${username}&theme=high-contrast&hide_border=true&bg_color=00000000&color=ffffff&line=ffffff&point=ffffff&area=true&area_color=ffffff`}
-                            alt="Contribution Graph"
-                            className="w-full"
-                            loading="lazy"
-                        />
-                    </motion.div>
                 </>
             )}
         </motion.div>
