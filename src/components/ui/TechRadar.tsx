@@ -74,7 +74,7 @@ export default function TechRadar({ skills }: TechRadarProps) {
                                 <div className="relative group">
                                     <div className="w-4 h-4 bg-white rounded-full" />
                                     {/* Label - Always visible on mobile, hover on desktop */}
-                                    <div className="absolute left-1/2 -translate-x-1/2 -top-8 whitespace-nowrap opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300">
+                                    <div className="absolute left-1/2 -translate-x-1/2 -top-8 whitespace-nowrap opacity-100 transition-opacity duration-300">
                                         <span className="text-xs font-bold">{skill.category}</span>
                                         <span className="text-xs opacity-50 ml-2">{level}%</span>
                                     </div>
