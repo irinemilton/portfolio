@@ -35,7 +35,7 @@ export default function RepositoryScroll({ repositories }: RepositoryScrollProps
     const duplicatedRepos = [...repositories, ...repositories];
 
     return (
-        <div className="w-full overflow-hidden py-12">
+        <div className="w-full overflow-hidden py-12" suppressHydrationWarning>
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
