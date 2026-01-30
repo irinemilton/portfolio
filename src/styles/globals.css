@@ -138,3 +138,32 @@ button {
     outline: 2px solid #ffffff;
     outline-offset: 4px;
 }
+
+/* Hide Scrollbar */
+.scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+}
+
+/* Horizontal Scroll Animation */
+@keyframes scrollHorizontal {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+.animate-scroll {
+    animation: scrollHorizontal 60s linear infinite;
+}
+
+.animate-scroll:hover {
+    animation-play-state: paused;
+}

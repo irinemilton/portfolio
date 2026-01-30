@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { fadeUp, staggerContainer } from '@/lib/animations';
 import { portfolioData } from '@/lib/data';
 import ProjectCard from '../ui/ProjectCard';
+import RepositoryScroll from '../ui/RepositoryScroll';
 
 export default function Projects() {
     return (
@@ -27,7 +28,13 @@ export default function Projects() {
                         <ProjectCard key={project.id} project={project} index={index} />
                     ))}
                 </div>
+
+                {/* Repository Showcase */}
+                <div className="mt-32">
+                    <RepositoryScroll repositories={portfolioData.repositories} />
+                </div>
             </motion.div>
         </section>
     );
 }
+
