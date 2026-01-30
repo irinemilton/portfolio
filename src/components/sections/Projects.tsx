@@ -2,11 +2,48 @@
 
 import { motion } from 'framer-motion';
 import { fadeUp, staggerContainer } from '@/lib/animations';
-import { portfolioData } from '@/lib/data';
-import ProjectCard from '../ui/ProjectCard';
+import { portfolioData, Repository } from '@/lib/data';
+import ProjectFilter from '../ui/ProjectFilter';
 import RepositoryScroll from '../ui/RepositoryScroll';
+import { useEffect, useState } from 'react';
 
 export default function Projects() {
+    const [repositories, setRepositories] = useState<Repository[]>(portfolioData.repositories);
+    const [isLoading, setIsLoading] = useState(false); // Changed to false to show static data immediately
+    const [error, setError] = useState<string | null>(null);
+
+    useEffect(() => {
+        const fetchRepos = async () => {
+            try {
+                console.log('[Frontend] Fetching repositories from API...');
+                const response = await fetch('/api/github-repos');
+                console.log('[Frontend] API response status:', response.status);
+
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({ details: 'Failed to parse error' }));
+                    console.error('[Frontend] API error:', errorData);
+                    throw new Error(errorData.details || 'Failed to fetch repositories');
+                }
+
+                const data = await response.json();
+                console.log('[Frontend] Received data:', data.length, 'repositories');
+
+                if (data && data.length > 0) {
+                    setRepositories(data);
+                    console.log('[Frontend] Successfully updated repositories');
+                } else {
+                    console.warn('[Frontend] No repositories returned from API');
+                }
+            } catch (err) {
+                console.error('[Frontend] Error fetching GitHub repos:', err);
+                setError(err instanceof Error ? err.message : 'Using static repository data');
+                // Keep using static data as fallback
+            }
+        };
+
+        fetchRepos();
+    }, []);
+
     return (
         <section className="min-h-screen flex items-center justify-center px-6 py-20">
             <motion.div
@@ -23,15 +60,17 @@ export default function Projects() {
                     SELECTED WORK
                 </motion.h2>
 
-                <div className="grid gap-12 perspective-1000">
-                    {portfolioData.projects.map((project, index) => (
-                        <ProjectCard key={project.id} project={project} index={index} />
-                    ))}
-                </div>
+                {/* Project Filter */}
+                <ProjectFilter projects={portfolioData.projects} />
 
                 {/* Repository Showcase */}
                 <div className="mt-32">
-                    <RepositoryScroll repositories={portfolioData.repositories} />
+                    {error && (
+                        <div className="mb-4 text-center">
+                            <p className="text-sm opacity-40">{error}</p>
+                        </div>
+                    )}
+                    <RepositoryScroll repositories={repositories} />
                 </div>
             </motion.div>
         </section>

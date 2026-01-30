@@ -16,7 +16,7 @@ export default function RepositoryScroll({ repositories }: RepositoryScrollProps
     useAnimationFrame((time, delta) => {
         if (!scrollRef.current || isPaused) return;
 
-        const scrollSpeed = 0.5; // pixels per frame
+        const scrollSpeed = 0.3; // Reduced from 0.5 for smoother scrolling
         scrollRef.current.scrollLeft += scrollSpeed;
 
         // Reset scroll when reaching the end (infinite loop)
@@ -35,7 +35,7 @@ export default function RepositoryScroll({ repositories }: RepositoryScrollProps
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.6 }}
+                transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
                 className="mb-8"
             >
                 <h3 className="text-2xl md:text-3xl font-bold tracking-tight opacity-50">
@@ -50,6 +50,8 @@ export default function RepositoryScroll({ repositories }: RepositoryScrollProps
                     scrollbarWidth: 'none',
                     msOverflowStyle: 'none',
                 }}
+                tabIndex={-1}
+                onKeyDown={(e) => e.preventDefault()}
                 onMouseEnter={() => setIsPaused(true)}
                 onMouseLeave={() => setIsPaused(false)}
             >
@@ -59,17 +61,26 @@ export default function RepositoryScroll({ repositories }: RepositoryScrollProps
                         href={repo.repo !== 'Private' ? `https://github.com/${repo.repo}` : undefined}
                         target={repo.repo !== 'Private' ? '_blank' : undefined}
                         rel={repo.repo !== 'Private' ? 'noopener noreferrer' : undefined}
-                        initial={{ opacity: 0, scale: 0.9 }}
+                        tabIndex={-1}
+                        initial={{ opacity: 0, scale: 0.95 }}
                         whileInView={{ opacity: 1, scale: 1 }}
                         viewport={{ once: true }}
-                        transition={{ duration: 0.4, delay: (index % repositories.length) * 0.05 }}
+                        transition={{
+                            duration: 0.5,
+                            delay: (index % repositories.length) * 0.03,
+                            ease: [0.25, 0.46, 0.45, 0.94]
+                        }}
                         whileHover={{
                             scale: 1.05,
                             y: -8,
-                            transition: { duration: 0.2 }
+                            transition: {
+                                type: "spring",
+                                stiffness: 300,
+                                damping: 20
+                            }
                         }}
                         className={`
-                            group relative flex-shrink-0 w-80 h-48 
+                            group relative flex-shrink-0 w-80 h-48
                             border border-white/10 rounded-lg p-6
                             transition-all duration-300
                             hover:border-white/30
