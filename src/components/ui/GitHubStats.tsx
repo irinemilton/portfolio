@@ -155,19 +155,29 @@ export default function GitHubStats({ username }: GitHubStatsProps) {
                         className="border border-white/10 rounded-lg p-6 hover:border-white/30 transition-all duration-300 overflow-hidden"
                     >
                         <h4 className="text-lg font-bold mb-4 opacity-70">Contribution Graph</h4>
-                        <div className="w-full overflow-x-auto">
-                            {stats.contributionGraph ? (
-                                <div
-                                    className="w-full min-w-[600px] bg-white/5 rounded p-2 [&>svg]:w-full [&>svg]:h-auto text-white"
-                                    dangerouslySetInnerHTML={{ __html: stats.contributionGraph }}
-                                />
-                            ) : (
-                                <div className="text-center py-8 text-white/30">
-                                    Graph not available
-                                </div>
-                            )}
-                        </div>
-                    </motion.div>
+                        <div className="w-full flex justify-center">
+                            <div className="w-[60%] md:w-[50%] overflow-x-auto">
+                                {stats.contributionGraph ? (
+                                    <div
+                                        className="w-full min-w-[300px] bg-black/20 rounded-md p-3 grayscale
+                                        [&>svg]:w-full [&>svg]:h-auto
+                                        [&_rect]:rx-[2px] [&_rect]:ry-[2px]
+                                        [&_rect[data-level='0']]:fill-white/5
+                                        [&_rect[data-level='1']]:fill-white/20
+                                        [&_rect[data-level='2']]:fill-white/40
+                                        [&_rect[data-level='3']]:fill-white/60
+                                        [&_rect[data-level='4']]:fill-white
+                                        [&_text]:fill-white/30 [&_text]:text-[10px]"
+                                        dangerouslySetInnerHTML={{ __html: stats.contributionGraph }}
+                                    />
+                                ) : (
+                                    <div className="text-center py-8 text-white/30">
+                                        Graph not available
+                                    </div>
+                                )}
+                            </div>
+                        </div>\
+                    </motion.div>\
 
                     {/* GitHub Streak */}
                     <motion.div

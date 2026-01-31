@@ -67,7 +67,8 @@ export async function GET() {
 
         // Fetch contribution graph SVG
         try {
-            const graphResponse = await fetch(`https://ghchart.rshah.org/ffffff/${username}`);
+            // Using ssr-contributions-svg with explicit dark theme for better contrast
+            const graphResponse = await fetch(`https://ssr-contributions-svg.vercel.app/_/${username}?chart=calendar&format=svg&theme=dark`);
             if (graphResponse.ok) {
                 const graphSvg = await graphResponse.text();
                 // Add the SVG to the stats object
