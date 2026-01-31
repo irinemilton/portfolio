@@ -19,6 +19,7 @@ interface GitHubStatsData {
         count: number;
         percentage: string;
     }[];
+    contributionGraph?: string;
 }
 
 export default function GitHubStats({ username }: GitHubStatsProps) {
@@ -144,6 +145,27 @@ export default function GitHubStats({ username }: GitHubStatsProps) {
                                     <span className="text-sm font-medium text-center opacity-80">{lang.language}</span>
                                 </div>
                             ))}
+                        </div>
+                    </motion.div>
+
+                    {/* GitHub Contribution Graph */}
+                    <motion.div
+                        whileHover={{ scale: 1.01 }}
+                        transition={{ duration: 0.2 }}
+                        className="border border-white/10 rounded-lg p-6 hover:border-white/30 transition-all duration-300 overflow-hidden"
+                    >
+                        <h4 className="text-lg font-bold mb-4 opacity-70">Contribution Graph</h4>
+                        <div className="w-full overflow-x-auto">
+                            {stats.contributionGraph ? (
+                                <div
+                                    className="w-full min-w-[600px] bg-white/5 rounded p-2 [&>svg]:w-full [&>svg]:h-auto text-white"
+                                    dangerouslySetInnerHTML={{ __html: stats.contributionGraph }}
+                                />
+                            ) : (
+                                <div className="text-center py-8 text-white/30">
+                                    Graph not available
+                                </div>
+                            )}
                         </div>
                     </motion.div>
 

@@ -64,15 +64,16 @@ export default function Projects() {
 
                 {/* Repository Showcase */}
                 <div className="mt-32">
-                    {error && (
-                        <div className="mb-4 text-center">
+                    {error ? (
+                        <div className="text-center py-12">
+                            <p className="text-lg opacity-50 mb-2">Notice</p>
                             <p className="text-sm opacity-40">{error}</p>
                         </div>
+                    ) : (
+                        <RepositoryScroll repositories={repositories} />
                     )}
-                    <RepositoryScroll repositories={repositories} />
                 </div>
             </motion.div>
         </section>
     );
 }
-

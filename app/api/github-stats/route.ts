@@ -65,6 +65,19 @@ export async function GET() {
             topLanguages,
         };
 
+        // Fetch contribution graph SVG
+        try {
+            const graphResponse = await fetch(`https://ghchart.rshah.org/ffffff/${username}`);
+            if (graphResponse.ok) {
+                const graphSvg = await graphResponse.text();
+                // Add the SVG to the stats object
+                Object.assign(stats, { contributionGraph: graphSvg });
+            }
+        } catch (graphError) {
+            console.error('[GitHub Stats API] Failed to fetch contribution graph:', graphError);
+            // Non-fatal error, continue without the graph
+        }
+
         return NextResponse.json(stats);
     } catch (error) {
         console.error('[GitHub Stats API] Error:', error);
