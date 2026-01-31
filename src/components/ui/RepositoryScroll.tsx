@@ -6,11 +6,17 @@ import { Repository } from '@/lib/data';
 
 interface RepositoryScrollProps {
     repositories: Repository[];
+    error?: string | null;
 }
 
-export default function RepositoryScroll({ repositories }: RepositoryScrollProps) {
+export default function RepositoryScroll({ repositories, error }: RepositoryScrollProps) {
     const scrollRef = useRef<HTMLDivElement>(null);
     const [isPaused, setIsPaused] = useState(false);
+    const [isMounted, setIsMounted] = useState(false);
+
+    useEffect(() => {
+        setIsMounted(true);
+    }, []);
 
     // Auto-scroll animation
     useAnimationFrame((time, delta) => {
@@ -26,11 +32,29 @@ export default function RepositoryScroll({ repositories }: RepositoryScrollProps
         }
     });
 
+    // Prevent hydration errors
+    if (!isMounted) {
+        return null;
+    }
+
+    // Show error message if API fetch failed
+    if (error) {
+        return (
+            <div className="w-full overflow-hidden py-12">
+                <div className="text-center">
+                    <p className="text-lg opacity-50 mb-2">Notice</p>
+                    <p className="text-sm opacity-40">{error}</p>
+                    <p className="text-xs opacity-30 mt-4">Showing static repository data</p>
+                </div>
+            </div>
+        );
+    }
+
     // Duplicate repositories for seamless infinite scroll
     const duplicatedRepos = [...repositories, ...repositories];
 
     return (
-        <div className="w-full overflow-hidden py-12" suppressHydrationWarning>
+        <div className="w-full overflow-hidden py-12">
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
