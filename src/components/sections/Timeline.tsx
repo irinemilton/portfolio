@@ -6,7 +6,7 @@ import { portfolioData } from '@/lib/data';
 
 export default function Timeline() {
     return (
-        <section className="min-h-screen flex items-center justify-center px-6 py-20">
+        <section id="timeline" className="min-h-screen flex items-center justify-center px-6 py-20">
             <motion.div
                 variants={staggerContainer}
                 initial="hidden"

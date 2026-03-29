@@ -76,6 +76,49 @@ export const portfolioData = {
         }
     ],
 
+    experience: [
+        {
+            role: "Artificial Intelligence Intern",
+            company: "AICTE–IBM SkillsBuild",
+            date: "Jan 2026 - Present",
+            location: "India · Remote",
+            description: "Completed an AICTE-approved virtual internship through IBM SkillsBuild focused on emerging technologies and industry-relevant skills. Gained practical knowledge in artificial intelligence, data analysis, and professional workplace skills. Completed structured learning modules, assessments, and hands-on activities.",
+            skills: ["Artificial Intelligence (AI)", "Machine Learning"]
+        },
+        {
+            role: "Full Stack Engineer",
+            company: "SaiKet Systems",
+            date: "Feb 2026 - Mar 2026",
+            location: "Remote",
+            description: "Full Stack developer contributing to the development of web applications.",
+            skills: ["Full Stack Development"]
+        },
+        {
+            role: "Python Developer",
+            company: "Cognifyz Technologies",
+            date: "Dec 2025 - Jan 2026",
+            location: "Remote",
+            description: "Python Developer focused on backend logic and scalable solutions.",
+            skills: ["Python"]
+        },
+        {
+            role: "Software Engineer Intern",
+            company: "Bluestock™",
+            date: "Nov 2025 - Dec 2025",
+            location: "Remote",
+            description: "Software Developer Engineering involved in module creation and database integration.",
+            skills: ["Software Engineering", "React", "Node.js", "PostgreSQL"]
+        },
+        {
+            role: "Frontend Developer",
+            company: "CODEXINTERN",
+            date: "Aug 2025",
+            location: "Remote",
+            description: "Crafted responsive interfaces and refined front-end experiences.",
+            skills: ["Cascading Style Sheets (CSS)", "JavaScript", "Frontend Development"]
+        }
+    ],
+
     timeline: [
         {
             year: "2026",

@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server';
 
+export const revalidate = 3600; // Cache the response for 1 hour to prevent rate limiting
+
 interface GitHubRepo {
     name: string;
     description: string | null;
@@ -14,14 +16,18 @@ export async function GET() {
         const username = 'irinemilton';
         console.log('[GitHub API] Fetching repos for:', username);
 
+        const headers: Record<string, string> = {
+            'Accept': 'application/vnd.github.v3+json',
+            'User-Agent': 'Portfolio-App',
+        };
+
+        if (process.env.GITHUB_TOKEN) {
+            headers['Authorization'] = `token ${process.env.GITHUB_TOKEN}`;
+        }
+
         const response = await fetch(
             `https://api.github.com/users/${username}/repos?sort=updated&per_page=100`,
-            {
-                headers: {
-                    'Accept': 'application/vnd.github.v3+json',
-                    'User-Agent': 'Portfolio-App',
-                },
-            }
+            { headers }
         );
 
         console.log('[GitHub API] Response status:', response.status);

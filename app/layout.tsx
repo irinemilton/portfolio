@@ -1,6 +1,6 @@
 import DynamicLogo from '@/components/ui/DynamicLogo';
 import DynamicResume from '@/components/ui/DynamicResume';
-import ThemeToggle from '@/components/ui/ThemeToggle';
+import NavigationMenu from '@/components/ui/NavigationMenu';
 import ServiceWorkerRegistration from '@/components/ServiceWorkerRegistration';
 import GoogleAnalytics from '@/components/analytics/GoogleAnalytics';
 import '../src/styles/globals.css';
@@ -23,7 +23,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Cursor />
         <DynamicLogo />
         <DynamicResume />
-        <ThemeToggle />
+        <NavigationMenu />
         <ServiceWorkerRegistration />
         <GoogleAnalytics measurementId="G-XXXXXXXXXX" />
 

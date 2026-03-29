@@ -1,18 +1,24 @@
 import { NextResponse } from 'next/server';
 
+export const revalidate = 3600; // Cache the response for 1 hour to prevent rate limiting
+
 export async function GET() {
     try {
         const username = 'irinemilton';
 
+        const headers: Record<string, string> = {
+            'Accept': 'application/vnd.github.v3+json',
+            'User-Agent': 'Portfolio-App',
+        };
+
+        if (process.env.GITHUB_TOKEN) {
+            headers['Authorization'] = `token ${process.env.GITHUB_TOKEN}`;
+        }
+
         // Fetch user data
         const userResponse = await fetch(
             `https://api.github.com/users/${username}`,
-            {
-                headers: {
-                    'Accept': 'application/vnd.github.v3+json',
-                    'User-Agent': 'Portfolio-App',
-                },
-            }
+            { headers }
         );
 
         if (!userResponse.ok) {
@@ -24,12 +30,7 @@ export async function GET() {
         // Fetch repositories for language stats
         const reposResponse = await fetch(
             `https://api.github.com/users/${username}/repos?per_page=100`,
-            {
-                headers: {
-                    'Accept': 'application/vnd.github.v3+json',
-                    'User-Agent': 'Portfolio-App',
-                },
-            }
+            { headers }
         );
 
         if (!reposResponse.ok) {

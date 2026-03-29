@@ -5,7 +5,7 @@ import { portfolioData } from '@/lib/data';
 
 export default function Hero() {
     return (
-        <section className="min-h-screen flex flex-col items-center justify-center px-6 relative">
+        <section id="hero" className="min-h-screen flex flex-col items-center justify-center px-6 relative">
             <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
