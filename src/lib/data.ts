@@ -265,6 +265,6 @@ export const portfolioData = {
         email: "irinemilton009@gmail.com",
         github: "https://github.com/irinemilton",
         linkedin: "https://www.linkedin.com/in/irinemilton/",
-        resume: "/resume.pdf"
+        resume: "/Resume2 (1).pdf"
     }
 };
