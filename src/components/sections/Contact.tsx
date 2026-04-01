@@ -12,8 +12,10 @@ export default function Contact() {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setStatus('sending');
-
-        const formData = new FormData(e.currentTarget);
+        
+        // Capture the form element immediately before any async calls
+        const form = e.currentTarget;
+        const formData = new FormData(form);
         const object = Object.fromEntries(formData);
         const json = JSON.stringify({
             ...object,
@@ -34,15 +36,16 @@ export default function Contact() {
 
             if (data.success) {
                 setStatus('success');
-                e.currentTarget.reset();
+                form.reset(); // Use the captured form reference
             } else {
                 setStatus('error');
                 setResult(data.message || "Something went wrong.");
+                console.error("Web3Forms Error:", data);
             }
         } catch (error) {
             console.error("Submission Error:", error);
             setStatus('error');
-            setResult("Connectivity issue. Please check your internet or try again later.");
+            setResult("Could not complete submission. Please try again or email me directly.");
         }
     };
 
