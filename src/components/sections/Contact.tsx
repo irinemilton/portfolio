@@ -14,20 +14,25 @@ export default function Contact() {
         setStatus('sending');
 
         const formData = new FormData(e.currentTarget);
-        formData.append("access_key", "9d862ab4-f83c-4145-a2af-78006b3ad92e");
+        const object = Object.fromEntries(formData);
+        const json = JSON.stringify({
+            ...object,
+            access_key: "9d862ab4-f83c-4145-a2af-78006b3ad92e"
+        });
 
         try {
             const response = await fetch("https://api.web3forms.com/submit", {
                 method: "POST",
                 headers: {
+                    "Content-Type": "application/json",
                     "Accept": "application/json"
                 },
-                body: formData
+                body: json
             });
 
             const data = await response.json();
 
-            if (response.status === 200 || data.success) {
+            if (data.success) {
                 setStatus('success');
                 e.currentTarget.reset();
             } else {
@@ -37,7 +42,7 @@ export default function Contact() {
         } catch (error) {
             console.error("Submission Error:", error);
             setStatus('error');
-            setResult("Network error. Please check your connection or try again later.");
+            setResult("Connectivity issue. Please check your internet or try again later.");
         }
     };
 
