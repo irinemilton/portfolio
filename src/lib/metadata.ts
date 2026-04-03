@@ -62,7 +62,7 @@ export const siteMetadata: Metadata = {
     },
     manifest: '/manifest.json',
     verification: {
-        google: 'your-google-verification-code',
+        google: 'bUoeHL1tsonY9xHn0wyogrtfHH7k2xYmp-mPwNE5e9Y',
     },
 };
 
