@@ -30,20 +30,17 @@ export async function GET() {
             { headers }
         );
 
-        console.log('[GitHub API] Response status:', response.status);
+        console.log('[GitHub API] Status:', response.status);
 
         if (!response.ok) {
             const errorText = await response.text();
-            console.error('[GitHub API] Error response:', errorText);
-            throw new Error(`GitHub API error: ${response.status} - ${errorText}`);
+            console.error('[GitHub API] GitHub Error Payload:', errorText);
+            throw new Error(`GitHub responded with ${response.status}: ${errorText}`);
         }
 
         const repos: GitHubRepo[] = await response.json();
-        console.log('[GitHub API] Fetched repos count:', repos.length);
-
-        // Transform GitHub repos to match our Repository interface
         const transformedRepos = repos
-            .filter(repo => !repo.private) // Filter out private repos
+            .filter(repo => !repo.private)
             .map(repo => ({
                 name: repo.name,
                 repo: `${username}/${repo.name}`,
@@ -51,12 +48,19 @@ export async function GET() {
                 category: categorizeRepo(repo.topics, repo.language),
             }));
 
-        console.log('[GitHub API] Transformed repos count:', transformedRepos.length);
         return NextResponse.json(transformedRepos);
-    } catch (error) {
-        console.error('[GitHub API] Error fetching repos:', error);
+    } catch (error: any) {
+        console.error('[GitHub API] Final Error Catch:', {
+            name: error?.name,
+            message: error?.message,
+            stack: error?.stack
+        });
+        
         return NextResponse.json(
-            { error: 'Failed to fetch repositories', details: error instanceof Error ? error.message : 'Unknown error' },
+            { 
+                error: 'Failed to fetch repositories', 
+                details: error?.message || 'Unknown error occurred on the server'
+            },
             { status: 500 }
         );
     }

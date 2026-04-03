@@ -23,9 +23,17 @@ export default function Projects() {
                 console.log('[Frontend] API response status:', response.status);
 
                 if (!response.ok) {
-                    const errorData = await response.json().catch(() => ({ details: 'Failed to parse error' }));
-                    console.error('[Frontend] API error:', errorData);
-                    throw new Error(errorData.details || 'Failed to fetch repositories');
+                    let errorDetails = 'Failed to fetch repositories';
+                    try {
+                        const errorData = await response.json();
+                        errorDetails = errorData.details || errorData.error || errorDetails;
+                        console.error('[Frontend] API Error Object:', errorData);
+                    } catch (e) {
+                        const errorText = await response.text().catch(() => 'Unknown Error Body');
+                        console.error('[Frontend] Could not parse error JSON. Raw body:', errorText);
+                        errorDetails = `API Error ${response.status}: ${errorText.substring(0, 50)}`;
+                    }
+                    throw new Error(errorDetails);
                 }
 
                 const data = await response.json();

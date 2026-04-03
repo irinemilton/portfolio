@@ -11,6 +11,7 @@ const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 const outfit = Outfit({ subsets: ['latin'], variable: '--font-outfit' });
 
 import Cursor from '@/components/ui/Cursor';
+import SharedChat from '@/components/ui/SharedChat';
 import { siteMetadata, jsonLd } from '@/lib/metadata';
 
 export const metadata = siteMetadata;
@@ -31,6 +32,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <NavigationMenu />
         <ServiceWorkerRegistration />
         <GoogleAnalytics measurementId="G-XXXXXXXXXX" />
+        <SharedChat />
 
         <div className="fixed inset-0 z-[-1] pointer-events-none">
           <Image
