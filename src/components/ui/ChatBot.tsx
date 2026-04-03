@@ -122,7 +122,7 @@ export default function ChatBot({
             else if (hour < 22) greeting = "Good evening!";
             else greeting = "Late night project browsing? I like your style!";
 
-            let contextualIntro = " I'm Irine's AI assistant. Ask me anything about her skills, projects, or experience!";
+            let contextualIntro = " I'm Irine's AI assistant. Ask me anything about his skills, projects, or experience!";
             
             if (activeSection === 'projects') {
                 contextualIntro = " I see you're checking out my projects! Want to know which one won a national hackathon?";
