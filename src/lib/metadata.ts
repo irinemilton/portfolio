@@ -35,7 +35,7 @@ export const siteMetadata: Metadata = {
     openGraph: {
         type: 'website',
         locale: 'en_US',
-        url: 'https://irinemilton.vercel.app',
+        url: 'https://irinemilton.qzz.io',
         siteName: 'Irine Milton Portfolio',
         title: 'Irine Milton | Full-Stack Developer & AI Enthusiast',
         description: 'B.Tech CS student passionate about Full-Stack Development and AI/ML. Winner of YODHA National Hackathon.',
@@ -70,7 +70,7 @@ export const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Person',
     name: 'Irine Milton',
-    url: 'https://irinemilton.vercel.app',
+    url: 'https://irinemilton.qzz.io',
     image: '/og-image.png',
     jobTitle: 'Full-Stack Developer & AI Enthusiast',
     worksFor: {
