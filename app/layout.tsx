@@ -32,7 +32,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <NavigationMenu />
         <ServiceWorkerRegistration />
         <GoogleAnalytics measurementId="G-XXXXXXXXXX" />
-        <SharedChat />
 
         <div className="fixed inset-0 z-[-1] pointer-events-none">
           <Image
@@ -46,6 +45,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           />
         </div>
         {children}
+        <SharedChat />
       </body>
     </html>
   );
