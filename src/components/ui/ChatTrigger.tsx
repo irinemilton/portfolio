@@ -33,10 +33,11 @@ export default function ChatTrigger({ onClick, isOpen }: { onClick: () => void; 
         <motion.div
             initial={{ opacity: 0, scale: 0.5, y: 50 }}
             animate={{ 
-                opacity: 1, 
-                scale: 1,
                 y: 0,
-                ...(isOpen ? { scale: 0, opacity: 0, pointerEvents: 'none' } : { pointerEvents: 'auto' })
+                ...(isOpen 
+                    ? { scale: 0, opacity: 0, pointerEvents: 'none' as const } 
+                    : { scale: 1, opacity: 1, pointerEvents: 'auto' as const }
+                )
             }}
             transition={{ duration: 0.5 }}
             className="fixed bottom-8 right-8 z-[9999]"
