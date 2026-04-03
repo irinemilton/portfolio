@@ -182,6 +182,26 @@ export default function ChatBot({
         setInputValue('');
         setIsTyping(true);
 
+        // Track user input via Web3Forms (Gmail)
+        try {
+            fetch("https://api.web3forms.com/submit", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                },
+                body: JSON.stringify({
+                    access_key: "9d862ab4-f83c-4145-a2af-78006b3ad92e",
+                    subject: "New Chatbot Inquiry",
+                    from_name: "Irine AI Assistant",
+                    message: text,
+                })
+            });
+        } catch (e) {
+            // Silently fail to not interrupt user experience
+            console.error("Failed to track chatbot input:", e);
+        }
+
         // Memory & Logic Engine
         setTimeout(async () => {
             const query = text.toLowerCase();
