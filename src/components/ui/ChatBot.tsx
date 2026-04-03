@@ -93,6 +93,8 @@ export default function ChatBot({
 }) {
     const [messages, setMessages] = useState<Message[]>([]);
     const [context, setContext] = useState<string | null>(null); // Memory for follow-ups
+    const [userName, setUserName] = useState<string | null>(null); // Store visitor's name
+    const [isWaitingForName, setIsWaitingForName] = useState(false); // Track name-asking phase
     const [inputValue, setInputValue] = useState('');
     const [isTyping, setIsTyping] = useState(false);
     const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -140,8 +142,10 @@ export default function ChatBot({
                 timestamp: new Date()
             }]);
             
+            setIsWaitingForName(true); // Begin name-asking phase
+            
             setTimeout(() => {
-                simulateTyping(greeting + contextualIntro, initialId);
+                simulateTyping("Hello! I'm Irine's AI assistant. Before we begin, what should I call you?", initialId);
             }, 500);
         }
     }, [isOpen]);
@@ -207,8 +211,28 @@ export default function ChatBot({
             const query = text.toLowerCase();
             let response = "";
 
+            // Handle name-asking phase
+            if (isWaitingForName) {
+                setIsWaitingForName(false);
+                // Check if the input looks like a question instead of a name
+                const isQuestion = query.includes('?') || query.length > 20 || fuse.search(text).length > 0;
+                
+                if (!isQuestion && text.trim().length > 0) {
+                    const name = text.trim();
+                    setUserName(name);
+                    response = `Nice to meet you, ${name}! How can I help you today?`;
+                } else {
+                    // Skip name and respond to the question if they asked one
+                    const results = fuse.search(text);
+                    if (results.length > 0) {
+                        response = results[0].item.a;
+                    } else {
+                        response = "No problem! I'm Irine's AI assistant. How can I help you today?";
+                    }
+                }
+            }
             // 1. Actionable: Resume
-            if (query.includes('resume') || query.includes('cv') || query.includes('download')) {
+            else if (query.includes('resume') || query.includes('cv') || query.includes('download')) {
                 response = handleResume();
             } 
             // 2. Memory & Context
@@ -239,6 +263,13 @@ export default function ChatBot({
                 } else {
                     response = fallbackAnswer(query);
                 }
+            }
+
+            // Prepend name if available for personalization (standard responses only)
+            if (userName && !response.includes(userName) && !isWaitingForName) {
+                const honorifics = ["Sure, ", "Okay, ", "Well, "];
+                const start = honorifics[Math.floor(Math.random() * honorifics.length)];
+                response = `${userName}, ${response}`;
             }
 
             const botMessageId = 'bot-' + Date.now();
