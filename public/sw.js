@@ -1,5 +1,5 @@
 // Service Worker for PWA
-const CACHE_NAME = 'irine-portfolio-v1';
+const CACHE_NAME = 'irine-portfolio-v2';
 const urlsToCache = [
     '/',
     '/manifest.json',
@@ -18,34 +18,48 @@ self.addEventListener('install', (event) => {
     self.skipWaiting();
 });
 
-// Fetch event - serve from cache when offline
+// Fetch event - Network-First for navigation, Cache-First for others
 self.addEventListener('fetch', (event) => {
+    // For navigation requests (like the main page), use Network-First
+    if (event.request.mode === 'navigate') {
+        event.respondWith(
+            fetch(event.request)
+                .then((response) => {
+                    // Update cache with fresh version
+                    const responseToCache = response.clone();
+                    caches.open(CACHE_NAME).then((cache) => {
+                        cache.put(event.request, responseToCache);
+                    });
+                    return response;
+                })
+                .catch(() => {
+                    // Fallback to cache if network fails
+                    return caches.match(event.request);
+                })
+        );
+        return;
+    }
+
+    // For other assets (js, css, images), use Cache-First
     event.respondWith(
         caches.match(event.request)
             .then((response) => {
-                // Cache hit - return response
                 if (response) {
                     return response;
                 }
 
-                return fetch(event.request).then(
-                    (response) => {
-                        // Check if valid response
-                        if (!response || response.status !== 200 || response.type !== 'basic') {
-                            return response;
-                        }
-
-                        // Clone the response
-                        const responseToCache = response.clone();
-
-                        caches.open(CACHE_NAME)
-                            .then((cache) => {
-                                cache.put(event.request, responseToCache);
-                            });
-
+                return fetch(event.request).then((response) => {
+                    if (!response || response.status !== 200 || response.type !== 'basic') {
                         return response;
                     }
-                );
+
+                    const responseToCache = response.clone();
+                    caches.open(CACHE_NAME).then((cache) => {
+                        cache.put(event.request, responseToCache);
+                    });
+
+                    return response;
+                });
             })
     );
 });

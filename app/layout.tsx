@@ -4,6 +4,11 @@ import NavigationMenu from '@/components/ui/NavigationMenu';
 import ServiceWorkerRegistration from '@/components/ServiceWorkerRegistration';
 import GoogleAnalytics from '@/components/analytics/GoogleAnalytics';
 import '../src/styles/globals.css';
+import { Inter, Outfit } from 'next/font/google';
+import Image from 'next/image';
+
+const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
+const outfit = Outfit({ subsets: ['latin'], variable: '--font-outfit' });
 
 import Cursor from '@/components/ui/Cursor';
 import { siteMetadata, jsonLd } from '@/lib/metadata';
@@ -13,7 +18,7 @@ export const metadata = siteMetadata;
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className="bg-black text-white antialiased relative cursor-none">
+      <body className={`${inter.variable} ${outfit.variable} bg-black text-white antialiased relative cursor-none`}>
         {/* JSON-LD for structured data */}
         <script
           type="application/ld+json"
@@ -27,22 +32,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ServiceWorkerRegistration />
         <GoogleAnalytics measurementId="G-XXXXXXXXXX" />
 
-        <div
-          style={{
-            backgroundImage: "url('/backsucces.jpg')",
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundAttachment: 'fixed',
-            backgroundRepeat: 'no-repeat',
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '100%',
-            zIndex: -1,
-            pointerEvents: 'none'
-          }}
-        />
+        <div className="fixed inset-0 z-[-1] pointer-events-none">
+          <Image
+            src="/backsucces.jpg"
+            alt="Background"
+            fill
+            priority
+            className="object-cover fixed"
+            sizes="100vw"
+            quality={85}
+          />
+        </div>
         {children}
       </body>
     </html>
