@@ -31,7 +31,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <DynamicResume />
         <NavigationMenu />
         <ServiceWorkerRegistration />
-        <GoogleAnalytics measurementId="G-XXXXXXXXXX" />
+        <GoogleAnalytics measurementId="G-49XKMX0FSN" />
 
         <div className="fixed inset-0 z-[-1] pointer-events-none">
           <Image
