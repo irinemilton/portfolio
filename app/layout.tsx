@@ -6,6 +6,7 @@ import GoogleAnalytics from '@/components/analytics/GoogleAnalytics';
 import '../src/styles/globals.css';
 import { Inter, Outfit } from 'next/font/google';
 import Image from 'next/image';
+import Script from 'next/script';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 const outfit = Outfit({ subsets: ['latin'], variable: '--font-outfit' });
@@ -31,6 +32,22 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <DynamicResume />
         <NavigationMenu />
         <ServiceWorkerRegistration />
+        
+        {/* Google Tag (gtag.js) - Manual Implementation */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-49XKMX0FSN"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-49XKMX0FSN');
+          `}
+        </Script>
+
         <GoogleAnalytics measurementId="G-49XKMX0FSN" />
 
         <div className="fixed inset-0 z-[-1] pointer-events-none">
