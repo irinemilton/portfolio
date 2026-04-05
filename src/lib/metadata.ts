@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 
 export const siteMetadata: Metadata = {
-    title: 'Irine Milton | Full-Stack Developer & AI Enthusiast',
+    title: 'Irine Milton – Full Stack Developer | AI Projects | Portfolio',
     description: 'B.Tech CS student passionate about Full-Stack Development and AI/ML. Winner of YODHA National Hackathon. Building impactful solutions with React, Next.js, Python, and AI.',
     keywords: [
         'Irine Milton',
@@ -37,7 +37,7 @@ export const siteMetadata: Metadata = {
         locale: 'en_US',
         url: 'https://irinemilton.qzz.io',
         siteName: 'Irine Milton Portfolio',
-        title: 'Irine Milton | Full-Stack Developer & AI Enthusiast',
+        title: 'Irine Milton – Full Stack Developer | AI Projects | Portfolio',
         description: 'B.Tech CS student passionate about Full-Stack Development and AI/ML. Winner of YODHA National Hackathon.',
         images: [
             {
@@ -50,7 +50,7 @@ export const siteMetadata: Metadata = {
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'Irine Milton | Full-Stack Developer & AI Enthusiast',
+        title: 'Irine Milton – Full Stack Developer | AI Projects | Portfolio',
         description: 'B.Tech CS student passionate about Full-Stack Development and AI/ML. Winner of YODHA National Hackathon.',
         images: ['/og-image.png'],
         creator: '@irinemilton',
@@ -71,8 +71,8 @@ export const jsonLd = {
     '@type': 'Person',
     name: 'Irine Milton',
     url: 'https://irinemilton.qzz.io',
-    image: '/og-image.png',
-    jobTitle: 'Full-Stack Developer & AI Enthusiast',
+    image: 'https://irinemilton.qzz.io/og-image.png',
+    jobTitle: 'Full-Stack Developer | AI Projects | Portfolio',
     worksFor: {
         '@type': 'Organization',
         name: 'Christ College of Engineering',

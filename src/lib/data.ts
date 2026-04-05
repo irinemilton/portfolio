@@ -17,7 +17,7 @@ export interface Repository {
 
 export const portfolioData = {
     name: "Irine Milton",
-    title: "B.Tech CS | Full-Stack, AI & ML Enthusiast",
+    title: "Full-Stack Developer | AI Projects | Portfolio",
     tagline: "Building digital experiences with precision and purpose",
 
     about: {

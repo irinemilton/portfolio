@@ -19,8 +19,8 @@ export default function About() {
                     variants={fadeUp}
                     className="mb-20"
                 >
-                    <h2 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-8 tracking-tight">
-                        DRIVEN BY
+                    <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-8 tracking-tight leading-tight">
+                        Building AI-powered solutions for real-world problems
                     </h2>
                     <p className="text-lg md:text-xl opacity-60 max-w-3xl leading-loose tracking-wide">
                         {portfolioData.about.description}
