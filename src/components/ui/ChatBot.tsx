@@ -144,12 +144,12 @@ export default function ChatBot({
                     initial={{ opacity: 0, y: 20, scale: 0.95 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: 20, scale: 0.95 }}
-                    className="fixed inset-3 z-[100] flex overflow-hidden rounded-[32px] border border-white/10 bg-black/90 text-white shadow-[0_24px_90px_rgba(0,0,0,0.6)] backdrop-blur-2xl md:inset-auto md:bottom-6 md:right-6 md:h-[560px] md:w-[390px]"
+                    className="fixed inset-4 z-[100] flex overflow-hidden rounded-[24px] border border-white/10 bg-black/90 text-white shadow-[0_24px_90px_rgba(0,0,0,0.6)] backdrop-blur-2xl md:inset-auto md:bottom-6 md:right-6 md:h-[560px] md:w-[390px] md:rounded-[32px]"
                 >
                     <div className="flex h-full min-h-0 flex-col">
-                        <header className="shrink-0 border-b border-white/10 bg-white/5 px-4 py-4 pt-[calc(1rem+env(safe-area-inset-top))] md:px-5 md:pt-5">
-                            <div className="flex items-center justify-between gap-4">
-                                <div className="flex min-w-0 items-center gap-3">
+                        <header className="shrink-0 border-b border-white/10 bg-white/5 px-6 py-4 pt-[calc(1.25rem+env(safe-area-inset-top))] md:px-5 md:pt-5">
+                            <div className="flex items-center justify-between gap-5">
+                                <div className="flex min-w-0 items-center gap-3 pl-1">
                                     <ConversationGlyph className="h-5 w-5 shrink-0 text-white/75" />
                                     <div className="min-w-0">
                                         <div className="flex items-center gap-2">
@@ -172,8 +172,8 @@ export default function ChatBot({
                             </div>
                         </header>
 
-                        <main className="flex-1 min-h-0 overflow-y-auto px-4 py-4 scrollbar-hide md:px-5 md:py-5">
-                            <div className="space-y-4">
+                        <main className="flex-1 min-h-0 overflow-y-auto px-6 py-5 scrollbar-hide md:px-5 md:py-5">
+                            <div className="space-y-5">
                                 {messages.map((msg) => (
                                     <motion.div
                                         key={msg.id}
@@ -181,7 +181,7 @@ export default function ChatBot({
                                         animate={{ opacity: 1, y: 0 }}
                                         className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
                                     >
-                                        <div className={`w-full max-w-[92%] ${msg.sender === 'user' ? 'border-r border-white/15 pr-4 text-right' : 'border-l border-white/15 pl-4 text-left'}`}>
+                                        <div className={`w-full max-w-[92%] ${msg.sender === 'user' ? 'border-r border-white/15 pr-5 text-right' : 'border-l border-white/15 pl-5 text-left'}`}>
                                             <div className={`text-[10px] uppercase tracking-[0.32em] ${msg.sender === 'user' ? 'text-white/30' : 'text-white/35'}`}>
                                                 {msg.sender === 'user' ? 'You' : 'Assistant'}
                                             </div>
@@ -213,7 +213,7 @@ export default function ChatBot({
                             </div>
                         </main>
 
-                        <footer className="shrink-0 border-t border-white/10 bg-black/85 px-4 py-4 pb-[calc(1rem+env(safe-area-inset-bottom))] md:px-5 md:py-5">
+                        <footer className="shrink-0 border-t border-white/10 bg-black/85 px-6 py-5 pb-[calc(1.25rem+env(safe-area-inset-bottom))] md:px-5 md:py-5">
                             <form
                                 onSubmit={(e) => { e.preventDefault(); handleSend(); }}
                                 className="flex items-end gap-2"
