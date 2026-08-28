@@ -148,99 +148,107 @@ export default function ChatBot({
                     initial={{ opacity: 0, y: 20, scale: 0.95 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: 20, scale: 0.95 }}
-                    className="fixed bottom-24 right-6 w-[90vw] md:w-[400px] h-[600px] bg-black/80 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl flex flex-col z-[100] overflow-hidden"
+                    className="fixed inset-0 z-[100] flex h-[100dvh] w-screen flex-col overflow-hidden bg-black/92 text-white md:inset-auto md:bottom-24 md:right-6 md:h-[620px] md:w-[420px] md:rounded-[28px] md:border md:border-white/10 md:bg-black/80 md:backdrop-blur-xl md:shadow-2xl"
                 >
                     {/* Header */}
-                    <div className="p-4 border-b border-white/10 flex justify-between items-center bg-white/5">
-                        <div className="flex items-center gap-3">
-                            <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center border border-white/20">
-                                <span className="text-xs font-bold">IM</span>
-                            </div>
-                            <div>
-                                <div className="flex items-center gap-1">
+                    <div className="shrink-0 border-b border-white/10 bg-white/5 px-4 py-4 backdrop-blur-xl md:px-5">
+                        <div className="flex items-center justify-between gap-4">
+                            <div className="flex items-center gap-3">
+                                <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center border border-white/20">
+                                    <span className="text-xs font-bold">IM</span>
+                                </div>
+                                <div className="flex items-center gap-1.5">
                                     <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
-                                    <span className="text-[10px] opacity-100 uppercase tracking-tighter text-white/50">Irine AI Thinking...</span>
+                                    <span className="text-[10px] md:text-[11px] font-medium uppercase tracking-[0.24em] text-white/50">
+                                        Irine AI Thinking...
+                                    </span>
                                 </div>
                             </div>
-                        </div>
-                        <button 
-                            onClick={onClose}
-                            className="p-2 hover:bg-white/10 rounded-full transition-colors"
-                        >
-                            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M1 1L13 13M1 13L13 1" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-                            </svg>
-                        </button>
-                    </div>
-
-                    {/* Messages */}
-                    <div className="flex-1 overflow-y-auto p-4 space-y-4 scrollbar-hide">
-                        {messages.map((msg) => (
-                            <motion.div
-                                key={msg.id}
-                                initial={{ opacity: 0, x: msg.sender === 'user' ? 10 : -10 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
-                            >
-                                <div className={`max-w-[85%] p-3 rounded-2xl text-sm leading-relaxed ${
-                                    msg.sender === 'user' 
-                                        ? 'bg-white text-black rounded-tr-none' 
-                                        : 'bg-white/10 text-white border border-white/10 rounded-tl-none'
-                                }`}>
-                                    {msg.text}
-                                </div>
-                            </motion.div>
-                        ))}
-                        {isTyping && (
-                            <motion.div
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                className="flex justify-start"
-                            >
-                                <div className="bg-white/10 text-white/50 p-3 rounded-2xl rounded-tl-none border border-white/10 flex gap-1 text-[10px] uppercase tracking-tighter">
-                                    AI is thinking...
-                                </div>
-                            </motion.div>
-                        )}
-                        <div ref={messagesEndRef} />
-                    </div>
-
-                    {/* Suggestions (Dynamic) */}
-                    <div className="px-4 pb-3 flex gap-2 overflow-x-auto scrollbar-hide no-scrollbar">
-                        {getSuggestions().map((suggestion, i) => (
                             <button
-                                key={i}
-                                onClick={() => handleSend(suggestion)}
-                                className="whitespace-nowrap px-4 py-2 bg-white/5 border border-white/10 rounded-full text-[10px] uppercase tracking-widest hover:bg-white/10 hover:border-white/30 transition-all opacity-70 hover:opacity-100"
+                                onClick={onClose}
+                                className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/80 transition-colors hover:bg-white/10 hover:text-white"
                             >
-                                {suggestion}
-                            </button>
-                        ))}
-                    </div>
-
-                    {/* Input */}
-                    <div className="p-4 border-t border-white/10 bg-white/5">
-                        <form 
-                            onSubmit={(e) => { e.preventDefault(); handleSend(); }}
-                            className="flex gap-2"
-                        >
-                            <input
-                                type="text"
-                                value={inputValue}
-                                onChange={(e) => setInputValue(e.target.value)}
-                                placeholder="Message Irine AI..."
-                                className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-white/30 transition-colors"
-                            />
-                            <button 
-                                type="submit"
-                                disabled={!inputValue.trim() || isTyping}
-                                className="p-3 bg-white text-black rounded-xl hover:scale-105 active:scale-95 transition-all disabled:opacity-50 disabled:scale-100 flex items-center justify-center"
-                            >
-                                <svg width="18" height="18" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M17.5 2.5L2.5 9.16667L8.33333 11.6667L10.8333 17.5L17.5 2.5Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M1 1L13 13M1 13L13 1" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
                                 </svg>
                             </button>
-                        </form>
+                        </div>
+                    </div>
+
+                    <div className="flex flex-1 min-h-0 flex-col">
+                        {/* Messages */}
+                        <div className="flex-1 min-h-0 overflow-y-auto px-4 py-6 md:px-5 md:py-7 scrollbar-hide">
+                            <div className="space-y-4 md:space-y-5">
+                                {messages.map((msg) => (
+                                    <motion.div
+                                        key={msg.id}
+                                        initial={{ opacity: 0, x: msg.sender === 'user' ? 10 : -10 }}
+                                        animate={{ opacity: 1, x: 0 }}
+                                        className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
+                                    >
+                                        <div className={`max-w-[88%] rounded-2xl px-4 py-3 text-[15px] leading-relaxed md:text-sm ${
+                                            msg.sender === 'user'
+                                                ? 'bg-white text-black rounded-tr-md'
+                                                : 'bg-white/10 text-white border border-white/10 rounded-tl-md'
+                                        }`}>
+                                            {msg.text}
+                                        </div>
+                                    </motion.div>
+                                ))}
+                                {isTyping && (
+                                    <motion.div
+                                        initial={{ opacity: 0 }}
+                                        animate={{ opacity: 1 }}
+                                        className="flex justify-start"
+                                    >
+                                        <div className="rounded-2xl rounded-tl-md border border-white/10 bg-white/10 px-4 py-3 text-[10px] uppercase tracking-[0.28em] text-white/50">
+                                            AI is thinking...
+                                        </div>
+                                    </motion.div>
+                                )}
+                                <div ref={messagesEndRef} />
+                            </div>
+                        </div>
+
+                        {/* Suggestions */}
+                        <div className="shrink-0 border-t border-white/10 bg-white/[0.03] px-4 py-3 md:px-5 md:py-4">
+                            <div className="flex flex-wrap gap-2 md:flex-nowrap md:overflow-x-auto scrollbar-hide">
+                                {getSuggestions().map((suggestion, i) => (
+                                    <button
+                                        key={i}
+                                        onClick={() => handleSend(suggestion)}
+                                        className="whitespace-nowrap rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[10px] uppercase tracking-[0.24em] text-white/70 transition-all hover:border-white/30 hover:bg-white/10 hover:text-white"
+                                    >
+                                        {suggestion}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Input */}
+                        <div className="shrink-0 border-t border-white/10 bg-black/70 px-4 py-4 md:px-5 md:py-5 pb-[calc(1rem+env(safe-area-inset-bottom))]">
+                            <form
+                                onSubmit={(e) => { e.preventDefault(); handleSend(); }}
+                                className="flex gap-2"
+                            >
+                                <input
+                                    type="text"
+                                    value={inputValue}
+                                    onChange={(e) => setInputValue(e.target.value)}
+                                    placeholder="Message Irine AI..."
+                                    className="flex-1 rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder:text-white/30 focus:border-white/30 focus:outline-none transition-colors"
+                                />
+                                <button
+                                    type="submit"
+                                    disabled={!inputValue.trim() || isTyping}
+                                    className="flex items-center justify-center rounded-xl bg-white px-4 text-black transition-all hover:scale-105 active:scale-95 disabled:opacity-50 disabled:scale-100"
+                                >
+                                    <svg width="18" height="18" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M17.5 2.5L2.5 9.16667L8.33333 11.6667L10.8333 17.5L17.5 2.5Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                    </svg>
+                                </button>
+                            </form>
+                        </div>
                     </div>
                 </motion.div>
             )}
