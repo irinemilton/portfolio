@@ -148,17 +148,17 @@ export default function ChatBot({
                     initial={{ opacity: 0, y: 20, scale: 0.95 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: 20, scale: 0.95 }}
-                    className="fixed inset-0 z-[100] flex h-[100dvh] w-screen flex-col overflow-hidden bg-black text-white md:inset-auto md:bottom-24 md:right-6 md:h-[620px] md:w-[420px] md:rounded-[28px] md:border md:border-white/10 md:bg-black/80 md:backdrop-blur-xl md:shadow-2xl"
+                    className="fixed inset-0 z-[100] flex h-[100dvh] w-screen flex-col overflow-hidden bg-black text-white md:inset-auto md:bottom-24 md:right-6 md:h-[620px] md:w-[420px] md:rounded-none md:border md:border-white/10 md:bg-black/80 md:backdrop-blur-xl md:shadow-2xl"
                 >
                     {/* Header */}
                     <div className="shrink-0 border-b border-white/10 bg-white/5 px-5 py-5 pt-[calc(1.25rem+env(safe-area-inset-top))] backdrop-blur-xl md:px-6 md:pt-6">
                         <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3">
                             <div className="flex min-w-0 items-center gap-3 overflow-hidden">
-                                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-white/20 bg-white/10">
+                                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-none border border-white/20 bg-white/10">
                                     <span className="text-xs font-bold leading-none">IM</span>
                                 </div>
                                 <div className="flex min-w-0 items-center gap-1.5 overflow-hidden">
-                                    <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
+                                    <div className="h-2 w-2 bg-green-500 animate-pulse" />
                                     <span className="truncate text-[10px] md:text-[11px] font-medium uppercase tracking-[0.24em] text-white/50 leading-none">
                                         Irine AI Thinking...
                                     </span>
@@ -166,7 +166,7 @@ export default function ChatBot({
                             </div>
                             <button
                                 onClick={onClose}
-                                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/80 transition-colors hover:bg-white/10 hover:text-white"
+                                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-none border border-white/10 bg-white/5 text-white/80 transition-colors hover:bg-white/10 hover:text-white"
                             >
                                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M1 1L13 13M1 13L13 1" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
@@ -187,10 +187,10 @@ export default function ChatBot({
                                         animate={{ opacity: 1, x: 0 }}
                                         className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
                                     >
-                                        <div className={`w-fit max-w-[92%] rounded-2xl px-5 py-4 text-[15px] leading-7 md:max-w-[84%] md:text-sm ${
+                                        <div className={`w-fit max-w-[92%] rounded-none border px-5 py-4 text-[15px] leading-7 md:max-w-[84%] md:text-sm ${
                                             msg.sender === 'user'
-                                                ? 'bg-white text-black rounded-tr-md'
-                                                : 'bg-white/10 text-white border border-white/10 rounded-tl-md'
+                                                ? 'border-white bg-white text-black'
+                                                : 'border-white/10 bg-white/10 text-white'
                                         }`}>
                                             {msg.text}
                                         </div>
@@ -202,7 +202,7 @@ export default function ChatBot({
                                         animate={{ opacity: 1 }}
                                         className="flex justify-start"
                                     >
-                                        <div className="rounded-2xl rounded-tl-md border border-white/10 bg-white/10 px-4 py-3 text-[10px] uppercase tracking-[0.28em] text-white/50">
+                                        <div className="rounded-none border border-white/10 bg-white/10 px-4 py-3 text-[10px] uppercase tracking-[0.28em] text-white/50">
                                             AI is thinking...
                                         </div>
                                     </motion.div>
@@ -218,7 +218,7 @@ export default function ChatBot({
                                     <button
                                         key={i}
                                         onClick={() => handleSend(suggestion)}
-                                        className="flex h-9 items-center whitespace-nowrap rounded-full border border-white/10 bg-white/5 px-4 text-[10px] uppercase tracking-[0.24em] text-white/70 transition-all hover:border-white/30 hover:bg-white/10 hover:text-white"
+                                        className="flex h-9 items-center whitespace-nowrap rounded-none border border-white/10 bg-white/5 px-4 text-[10px] uppercase tracking-[0.24em] text-white/70 transition-all hover:border-white/30 hover:bg-white/10 hover:text-white"
                                     >
                                         {suggestion}
                                     </button>
@@ -237,12 +237,12 @@ export default function ChatBot({
                                     value={inputValue}
                                     onChange={(e) => setInputValue(e.target.value)}
                                     placeholder="Message Irine AI..."
-                                    className="flex-1 rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm leading-none text-white placeholder:text-white/30 focus:border-white/30 focus:outline-none transition-colors"
+                                    className="flex-1 rounded-none border border-white/10 bg-white/5 px-4 py-3 text-sm leading-none text-white placeholder:text-white/30 focus:border-white/30 focus:outline-none transition-colors"
                                 />
                                 <button
                                     type="submit"
                                     disabled={!inputValue.trim() || isTyping}
-                                    className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-white text-black transition-all hover:scale-105 active:scale-95 disabled:opacity-50 disabled:scale-100"
+                                    className="flex h-12 w-12 shrink-0 items-center justify-center rounded-none bg-white text-black transition-all hover:scale-105 active:scale-95 disabled:opacity-50 disabled:scale-100"
                                 >
                                     <svg width="18" height="18" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M17.5 2.5L2.5 9.16667L8.33333 11.6667L10.8333 17.5L17.5 2.5Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
