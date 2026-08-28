@@ -50,7 +50,7 @@ export default function Contact() {
     };
 
     return (
-        <section id="contact" className="min-h-screen w-full flex flex-col items-center justify-center px-6 py-32 md:py-48 relative overflow-hidden">
+        <section id="contact" className="min-h-screen w-full flex flex-col items-center justify-center px-6 py-36 md:py-56 relative overflow-hidden">
             {/* Background Accent */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-white/[0.02] rounded-full blur-[120px] pointer-events-none" />
             
@@ -59,18 +59,18 @@ export default function Contact() {
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.1 }}
-                className="max-w-7xl w-full relative z-10 space-y-20 md:space-y-28"
+                className="max-w-7xl w-full relative z-10 space-y-24 md:space-y-32"
             >
                 <motion.h2
                     variants={fadeUp}
-                    className="text-5xl md:text-7xl lg:text-9xl font-bold tracking-tight uppercase"
+                    className="text-5xl md:text-7xl lg:text-9xl font-bold mb-24 md:mb-32 tracking-tight uppercase"
                 >
                     Connect
                 </motion.h2>
 
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 md:gap-28">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 md:gap-32">
                     {/* Left Column: Info & Links */}
-                    <div className="flex flex-col space-y-16">
+                    <div className="flex flex-col space-y-20">
                         <motion.p
                             variants={fadeUp}
                             className="text-lg md:text-xl lg:text-2xl opacity-60 leading-relaxed tracking-wide max-w-xl"
