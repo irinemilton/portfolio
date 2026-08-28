@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { portfolioData } from '@/lib/data';
+import ConversationGlyph from './ConversationGlyph';
 
 interface Message {
     id: string;
@@ -154,11 +155,9 @@ export default function ChatBot({
                     <div className="shrink-0 border-b border-white/10 bg-white/5 px-5 py-5 pt-[calc(1.25rem+env(safe-area-inset-top))] backdrop-blur-xl md:px-6 md:pt-6">
                         <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3">
                             <div className="flex min-w-0 items-center gap-3 overflow-hidden">
-                                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-none border border-white/20 bg-white/10">
-                                    <span className="text-xs font-bold leading-none">IM</span>
-                                </div>
+                                <ConversationGlyph className="h-5 w-5 shrink-0 text-white/75" />
                                 <div className="flex min-w-0 items-center gap-1.5 overflow-hidden">
-                                    <div className="h-2 w-2 bg-green-500 animate-pulse" />
+                                    <div className="h-px w-3 bg-green-500 animate-pulse" />
                                     <span className="truncate text-[10px] md:text-[11px] font-medium uppercase tracking-[0.24em] text-white/50 leading-none">
                                         Irine AI Thinking...
                                     </span>

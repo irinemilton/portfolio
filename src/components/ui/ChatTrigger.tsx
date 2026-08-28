@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import ConversationGlyph from './ConversationGlyph';
 
 export default function ChatTrigger({ onClick, isOpen }: { onClick: () => void; isOpen: boolean }) {
     return (
@@ -18,15 +19,12 @@ export default function ChatTrigger({ onClick, isOpen }: { onClick: () => void; 
         >
             <motion.button
                 onClick={onClick}
-                whileHover={{ scale: 1.06 }}
+                whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.96 }}
-                className="group relative flex h-14 w-14 items-center justify-center overflow-hidden rounded-none border border-white/15 bg-black/65 text-white shadow-[0_12px_32px_rgba(0,0,0,0.45)] backdrop-blur-xl transition-all duration-300 hover:border-white/30 hover:bg-white/10"
+                aria-label="Open chat"
+                className="group relative flex h-14 w-14 items-center justify-center text-white/80 transition-colors duration-300 hover:text-white"
             >
-                <span className="absolute inset-x-3 top-3 h-px bg-white/20 transition-opacity duration-300 group-hover:bg-white/35" />
-                <span className="absolute inset-x-3 bottom-3 h-px bg-white/10" />
-                <span className="relative z-10 text-[11px] font-semibold tracking-[0.35em]">
-                    AI
-                </span>
+                <ConversationGlyph className="relative z-10 h-8 w-8 drop-shadow-[0_0_10px_rgba(255,255,255,0.14)] transition-transform duration-300 group-hover:scale-110" />
             </motion.button>
         </motion.div>
     );
