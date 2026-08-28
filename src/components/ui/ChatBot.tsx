@@ -152,22 +152,25 @@ export default function ChatBot({
                     className="fixed inset-0 z-[100] flex h-[100dvh] w-screen flex-col overflow-hidden bg-black text-white md:inset-auto md:bottom-24 md:right-6 md:h-[620px] md:w-[420px] md:rounded-none md:border md:border-white/10 md:bg-black/80 md:backdrop-blur-xl md:shadow-2xl"
                 >
                     {/* Header */}
-                    <div className="shrink-0 border-b border-white/10 bg-white/5 px-5 py-5 pt-[calc(1.25rem+env(safe-area-inset-top))] backdrop-blur-xl md:px-6 md:pt-6">
-                        <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3">
-                            <div className="flex min-w-0 items-center gap-3 overflow-hidden">
+                    <div className="shrink-0 border-b border-white/10 bg-white/5 px-4 py-4 pt-[calc(1.1rem+env(safe-area-inset-top))] backdrop-blur-xl md:px-6 md:pt-6">
+                        <div className="flex items-center justify-between gap-2">
+                            <div className="flex min-w-0 items-center gap-2">
                                 <ConversationGlyph className="h-5 w-5 shrink-0 text-white/75" />
-                                <div className="flex min-w-0 items-center gap-1.5 overflow-hidden">
-                                    <div className="h-px w-3 bg-green-500 animate-pulse" />
-                                    <span className="truncate text-[10px] md:text-[11px] font-medium uppercase tracking-[0.24em] text-white/50 leading-none">
+                                <div className="min-w-0">
+                                    <div className="h-px w-3 bg-green-500 animate-pulse mb-1" />
+                                    <span className="truncate text-[10px] font-medium uppercase tracking-[0.22em] text-white/50 leading-none sm:hidden">
+                                        Irine AI
+                                    </span>
+                                    <span className="hidden truncate text-[10px] md:text-[11px] font-medium uppercase tracking-[0.24em] text-white/50 leading-none sm:inline">
                                         Irine AI Thinking...
                                     </span>
                                 </div>
                             </div>
                             <button
                                 onClick={onClose}
-                                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-none border border-white/10 bg-white/5 text-white/80 transition-colors hover:bg-white/10 hover:text-white"
+                                className="flex h-8 w-8 shrink-0 items-center justify-center rounded-none border border-white/10 bg-white/5 text-white/80 transition-colors hover:bg-white/10 hover:text-white"
                             >
-                                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <svg width="13" height="13" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M1 1L13 13M1 13L13 1" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
                                 </svg>
                             </button>
