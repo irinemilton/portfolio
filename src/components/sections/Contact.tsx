@@ -63,7 +63,7 @@ export default function Contact() {
             >
                 <motion.h2
                     variants={fadeUp}
-                    className="text-5xl md:text-7xl lg:text-9xl font-bold mb-16 tracking-tight uppercase"
+                    className="text-5xl md:text-7xl lg:text-9xl font-bold mb-20 md:mb-28 tracking-tight uppercase"
                 >
                     Connect
                 </motion.h2>

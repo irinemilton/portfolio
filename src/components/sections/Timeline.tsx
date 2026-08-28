@@ -12,11 +12,11 @@ export default function Timeline() {
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.3 }}
-                className="max-w-7xl w-full space-y-20 md:space-y-28"
+                className="max-w-7xl w-full"
             >
                 <motion.h2
                     variants={fadeUp}
-                    className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight"
+                    className="text-5xl md:text-7xl lg:text-8xl font-bold mb-20 md:mb-28 tracking-tight"
                 >
                     JOURNEY
                 </motion.h2>
