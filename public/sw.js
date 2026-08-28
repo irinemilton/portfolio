@@ -1,7 +1,6 @@
 // Service Worker for PWA
-const CACHE_NAME = 'irine-portfolio-v2';
+const CACHE_NAME = 'irine-portfolio-v3';
 const urlsToCache = [
-    '/',
     '/manifest.json',
     '/favicon.ico',
 ];
@@ -20,16 +19,24 @@ self.addEventListener('install', (event) => {
 
 // Fetch event - Network-First for navigation, Cache-First for others
 self.addEventListener('fetch', (event) => {
+    if (event.request.method !== 'GET') {
+        return;
+    }
+
+    const requestUrl = new URL(event.request.url);
+
     // For navigation requests (like the main page), use Network-First
-    if (event.request.mode === 'navigate') {
+    if (event.request.mode === 'navigate' || requestUrl.pathname.startsWith('/_next/')) {
         event.respondWith(
             fetch(event.request)
                 .then((response) => {
                     // Update cache with fresh version
                     const responseToCache = response.clone();
-                    caches.open(CACHE_NAME).then((cache) => {
-                        cache.put(event.request, responseToCache);
-                    });
+                    if (response.ok && requestUrl.origin === self.location.origin) {
+                        caches.open(CACHE_NAME).then((cache) => {
+                            cache.put(event.request, responseToCache);
+                        });
+                    }
                     return response;
                 })
                 .catch(() => {
@@ -40,7 +47,7 @@ self.addEventListener('fetch', (event) => {
         return;
     }
 
-    // For other assets (js, css, images), use Cache-First
+    // For other assets, use Cache-First with network fallback
     event.respondWith(
         caches.match(event.request)
             .then((response) => {

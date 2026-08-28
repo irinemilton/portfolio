@@ -50,7 +50,7 @@ export default function Contact() {
     };
 
     return (
-        <section id="contact" className="min-h-screen w-full flex flex-col items-center justify-center px-6 py-36 md:py-56 relative overflow-hidden">
+        <section id="contact" className="min-h-screen w-full flex flex-col items-center justify-center px-6 py-40 md:py-60 relative overflow-hidden">
             {/* Background Accent */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-white/[0.02] rounded-full blur-[120px] pointer-events-none" />
             
@@ -59,18 +59,18 @@ export default function Contact() {
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.1 }}
-                className="max-w-7xl w-full relative z-10 space-y-24 md:space-y-32"
+                className="max-w-7xl w-full relative z-10 space-y-28 md:space-y-36"
             >
                 <motion.h2
                     variants={fadeUp}
-                    className="text-5xl md:text-7xl lg:text-9xl font-bold mb-24 md:mb-32 tracking-tight uppercase"
+                    className="text-5xl md:text-7xl lg:text-9xl font-bold mb-28 md:mb-36 tracking-tight uppercase"
                 >
                     Connect
                 </motion.h2>
 
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 md:gap-32">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-28 md:gap-36">
                     {/* Left Column: Info & Links */}
-                    <div className="flex flex-col space-y-20">
+                    <div className="flex flex-col space-y-24 md:space-y-28">
                         <motion.p
                             variants={fadeUp}
                             className="text-lg md:text-xl lg:text-2xl opacity-60 leading-relaxed tracking-wide max-w-xl"
@@ -81,7 +81,7 @@ export default function Contact() {
 
                         <motion.div
                             variants={fadeUp}
-                            className="space-y-6"
+                            className="space-y-8 md:space-y-10"
                         >
                             <motion.a
                                 href={`mailto:${portfolioData.contact.email}`}
@@ -124,9 +124,9 @@ export default function Contact() {
                         <motion.form
                             key="form"
                             onSubmit={handleSubmit}
-                            className="space-y-12"
+                            className="space-y-14 md:space-y-16"
                         >
-                            <div className="space-y-3 relative group">
+                            <div className="space-y-4 relative group">
                                 <label htmlFor="name" className="text-[10px] uppercase tracking-[0.3em] opacity-40 group-focus-within:opacity-100 transition-opacity">Name</label>
                                 <input
                                     type="text"
@@ -138,7 +138,7 @@ export default function Contact() {
                                 />
                             </div>
 
-                            <div className="space-y-3 relative group">
+                            <div className="space-y-4 relative group">
                                 <label htmlFor="email" className="text-[10px] uppercase tracking-[0.3em] opacity-40 group-focus-within:opacity-100 transition-opacity">Email</label>
                                 <input
                                     type="email"
@@ -150,7 +150,7 @@ export default function Contact() {
                                 />
                             </div>
 
-                            <div className="space-y-3 relative group">
+                            <div className="space-y-4 relative group">
                                 <label htmlFor="message" className="text-[10px] uppercase tracking-[0.3em] opacity-40 group-focus-within:opacity-100 transition-opacity">Message</label>
                                 <textarea
                                     name="message"

@@ -4,31 +4,48 @@ import { useEffect } from 'react';
 
 export default function ServiceWorkerRegistration() {
     useEffect(() => {
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker
-                    .register('/sw.js')
-                    .then((registration) => {
-                        console.log('Service Worker registered:', registration);
+        if (!('serviceWorker' in navigator)) {
+            return;
+        }
 
-                        // Listen for updates
-                        registration.addEventListener('updatefound', () => {
-                            const newWorker = registration.installing;
-                            if (newWorker) {
-                                newWorker.addEventListener('statechange', () => {
-                                    if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                                        // A new version is available and ready to take over
-                                        console.log('New content is available; please refresh.');
-                                        window.location.reload();
-                                    }
-                                });
-                            }
-                        });
-                    })
-                    .catch((error) => {
-                        console.log('Service Worker registration failed:', error);
-                    });
+        // Prevent stale cached assets from masking local edits during development.
+        if (process.env.NODE_ENV !== 'production') {
+            navigator.serviceWorker.getRegistrations().then((registrations) => {
+                registrations.forEach((registration) => registration.unregister());
             });
+
+            if ('caches' in window) {
+                caches.keys().then((keys) => {
+                    keys.forEach((key) => caches.delete(key));
+                });
+            }
+
+            return;
+        }
+
+        const register = () => {
+            navigator.serviceWorker
+                .register('/sw.js')
+                .then((registration) => {
+                    console.log('Service Worker registered:', registration);
+
+                    // Listen for updates
+                    registration.addEventListener('updatefound', () => {
+                        const newWorker = registration.installing;
+                        if (newWorker) {
+                            newWorker.addEventListener('statechange', () => {
+                                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                    // A new version is available and ready to take over
+                                    console.log('New content is available; please refresh.');
+                                    window.location.reload();
+                                }
+                            });
+                        }
+                    });
+                })
+                .catch((error) => {
+                    console.log('Service Worker registration failed:', error);
+                });
 
             // Handle forced reload when the new worker takes control
             let refreshing = false;
@@ -38,6 +55,12 @@ export default function ServiceWorkerRegistration() {
                     window.location.reload();
                 }
             });
+        };
+
+        if (document.readyState === 'complete') {
+            register();
+        } else {
+            window.addEventListener('load', register, { once: true });
         }
     }, []);
 
