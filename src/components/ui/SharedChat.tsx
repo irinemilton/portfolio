@@ -12,7 +12,7 @@ export default function SharedChat() {
     useEffect(() => {
         setMounted(true);
 
-        const sections = ['hero', 'about', 'skills', 'experience', 'projects', 'timeline', 'contact'];
+        const sections = ['hero', 'about', 'skills', 'experience', 'projects', 'resume', 'timeline', 'contact'];
         const observers = sections.map(id => {
             const el = document.getElementById(id);
             if (!el) return null;

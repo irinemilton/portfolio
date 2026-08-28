@@ -6,6 +6,7 @@ import Skills from "@/components/sections/Skills";
 import Experience from "@/components/sections/Experience";
 import Timeline from "@/components/sections/Timeline";
 import Contact from "@/components/sections/Contact";
+import Resume from "@/components/sections/Resume";
 import SmoothScroll from "@/components/ui/SmoothScroll";
 import LoadingScreen from "@/components/ui/LoadingScreen";
 import dynamic from 'next/dynamic';
@@ -63,6 +64,8 @@ export default function Home() {
           <RevealSection><Experience /></RevealSection>
           <Divider />
           <RevealSection><Projects /></RevealSection>
+          <Divider />
+          <RevealSection><Resume /></RevealSection>
           <Divider />
           <RevealSection><Timeline /></RevealSection>
           <Divider />

@@ -45,6 +45,8 @@ export default function ChatBot({
                 contextualIntro = " I can talk through the tech stack.";
             } else if (activeSection === 'experience') {
                 contextualIntro = " I can walk through the journey.";
+            } else if (activeSection === 'resume') {
+                contextualIntro = " I can show the resume preview.";
             } else if (activeSection === 'contact') {
                 contextualIntro = " I can share contact details.";
             }
