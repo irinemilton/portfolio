@@ -68,12 +68,12 @@ export default function Contact() {
                     Connect
                 </motion.h2>
 
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 md:gap-24">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 md:gap-28">
                     {/* Left Column: Info & Links */}
                     <div className="flex flex-col h-full">
                         <motion.p
                             variants={fadeUp}
-                            className="text-lg md:text-xl lg:text-2xl opacity-60 mb-12 leading-relaxed tracking-wide max-w-xl"
+                            className="text-lg md:text-xl lg:text-2xl opacity-60 mb-16 leading-relaxed tracking-wide max-w-xl"
                         >
                             I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision.
                             Let's build something exceptional together.

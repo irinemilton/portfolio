@@ -61,17 +61,17 @@ export default function Projects() {
     }
 
     return (
-        <section id="projects" className="min-h-screen flex items-center justify-center px-6 py-20">
+        <section id="projects" className="min-h-screen w-full flex flex-col items-center justify-center px-6 py-32 md:py-48 relative z-10 bg-black/40 backdrop-blur-sm">
             <motion.div
                 variants={staggerContainer}
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.3 }}
-                className="max-w-7xl w-full"
+                className="max-w-7xl w-full space-y-20 md:space-y-28"
             >
                 <motion.h2
                     variants={fadeUp}
-                    className="text-5xl md:text-7xl lg:text-8xl font-bold mb-20 tracking-tight"
+                    className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight"
                 >
                     SELECTED WORK
                 </motion.h2>
@@ -80,7 +80,7 @@ export default function Projects() {
                 <ProjectFilter projects={portfolioData.projects} />
 
                 {/* Repository Showcase */}
-                <div className="mt-32">
+                <div>
                     <RepositoryScroll repositories={repositories} error={error} />
                 </div>
             </motion.div>

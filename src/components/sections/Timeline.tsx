@@ -12,16 +12,16 @@ export default function Timeline() {
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.3 }}
-                className="max-w-7xl w-full"
+                className="max-w-7xl w-full space-y-20 md:space-y-28"
             >
                 <motion.h2
                     variants={fadeUp}
-                    className="text-5xl md:text-7xl lg:text-8xl font-bold mb-20 tracking-tight"
+                    className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight"
                 >
                     JOURNEY
                 </motion.h2>
 
-                <div className="space-y-16">
+                <div className="space-y-20 md:space-y-28">
                     {portfolioData.timeline.map((item, index) => (
                         <motion.div
                             key={index}
@@ -38,7 +38,7 @@ export default function Timeline() {
 
                             {/* Content */}
                             <div className="flex-1 border-l-2 border-white/20 pl-8 md:pl-12 group-hover:border-white/40 transition-colors">
-                                <h3 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4 tracking-tight">
+                                <h3 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-6 tracking-tight">
                                     {item.title}
                                 </h3>
                                 <p className="text-base md:text-lg opacity-60 leading-loose tracking-wide max-w-2xl">

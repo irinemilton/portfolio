@@ -8,7 +8,7 @@ import GitHubStats from '../ui/GitHubStats';
 
 export default function Skills() {
     return (
-        <section id="skills" className="min-h-screen flex items-center justify-center px-6 py-20">
+        <section id="skills" className="min-h-screen w-full flex flex-col items-center justify-center px-6 py-32 md:py-48 relative z-10 bg-black/40 backdrop-blur-sm">
             <motion.div
                 variants={staggerContainer}
                 initial="hidden"

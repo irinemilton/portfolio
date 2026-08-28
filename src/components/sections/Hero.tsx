@@ -10,7 +10,7 @@ export default function Hero() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1, ease: "easeOut" }}
-                className="text-center max-w-6xl w-full"
+                className="flex flex-col items-center text-center max-w-6xl w-full mx-auto"
             >
                 {/* Main Name - Massive Typography spacer to push content down below centered logo */}
                 <div className="h-[20vh] md:h-[30vh]" />
@@ -20,7 +20,7 @@ export default function Hero() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.5, duration: 1 }}
-                    className="mt-24 md:mt-32 text-base sm:text-lg md:text-xl lg:text-2xl opacity-80 tracking-widest uppercase font-medium"
+                    className="mt-24 md:mt-32 text-base sm:text-lg md:text-xl lg:text-2xl opacity-80 tracking-widest uppercase font-medium text-center"
                 >
                     {portfolioData.title}
                 </motion.p>
@@ -34,8 +34,6 @@ export default function Hero() {
                 >
                     {portfolioData.tagline}
                 </motion.p>
-
-
 
             </motion.div>
 

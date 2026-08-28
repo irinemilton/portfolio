@@ -6,18 +6,18 @@ import { portfolioData } from '@/lib/data';
 
 export default function About() {
     return (
-        <section id="about" className="min-h-screen flex items-center justify-center px-6 py-20">
+        <section id="about" className="min-h-screen w-full flex flex-col items-center justify-center px-6 py-32 md:py-48 relative z-10 bg-black/40 backdrop-blur-sm">
             <motion.div
                 variants={staggerContainer}
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.3 }}
-                className="max-w-7xl w-full"
+                className="max-w-7xl w-full space-y-20 md:space-y-28"
             >
                 {/* Section Title */}
                 <motion.div
                     variants={fadeUp}
-                    className="mb-20"
+                    className="space-y-8 md:space-y-10"
                 >
                     <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-8 tracking-tight leading-tight">
                         Building AI-powered solutions for real-world problems
@@ -30,7 +30,7 @@ export default function About() {
                 {/* Core Values Grid */}
                 <motion.div
                     variants={fadeUp}
-                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12"
+                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 md:gap-16"
                 >
                     {portfolioData.about.highlights.map((highlight, index) => (
                         <motion.div
