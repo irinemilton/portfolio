@@ -135,13 +135,6 @@ export default function ChatBot({
         }
     };
 
-    // Quick Buttons
-    const getSuggestions = () => {
-        if (activeSection === 'projects') return ["Tell me about CivicPulse", "Hackathon victories?", "Most complex project?"];
-        if (activeSection === 'skills') return ["Backend tech stack?", "Design tools?", "AI experience?"];
-        return ["Skills", "Projects", "About Me", "Download Resume"];
-    };
-
     const sectionMeta: Record<string, { label: string; note: string }> = {
         hero: {
             label: 'General Guide',
@@ -174,7 +167,6 @@ export default function ChatBot({
     };
 
     const currentContext = sectionMeta[activeSection] ?? sectionMeta.hero;
-    const suggestions = getSuggestions();
 
     return (
         <AnimatePresence>
@@ -229,19 +221,10 @@ export default function ChatBot({
                                 </div>
 
                                 <div className="border-t border-white/10 pt-4">
-                                    <p className="text-[10px] uppercase tracking-[0.35em] text-white/30">Shortcuts</p>
-                                    <div className="mt-3 grid grid-cols-2 gap-x-3 gap-y-2 md:grid-cols-1">
-                                        {suggestions.map((suggestion, i) => (
-                                            <button
-                                                key={i}
-                                                onClick={() => handleSend(suggestion)}
-                                                className="group flex items-center justify-between border-b border-white/10 py-2 text-left text-[10px] uppercase tracking-[0.24em] text-white/60 transition-colors hover:border-white/30 hover:text-white"
-                                            >
-                                                <span className="truncate pr-2">{suggestion}</span>
-                                                <span className="text-white/25 transition-colors group-hover:text-white/60">→</span>
-                                            </button>
-                                        ))}
-                                    </div>
+                                    <p className="text-[10px] uppercase tracking-[0.35em] text-white/30">Prompt</p>
+                                    <p className="mt-3 text-xs leading-6 text-white/45">
+                                        Type freely or ask about the current section.
+                                    </p>
                                 </div>
                             </div>
                         </aside>
