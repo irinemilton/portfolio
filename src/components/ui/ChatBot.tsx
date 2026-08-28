@@ -148,10 +148,10 @@ export default function ChatBot({
                     initial={{ opacity: 0, y: 20, scale: 0.95 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: 20, scale: 0.95 }}
-                    className="fixed inset-0 z-[100] flex h-[100dvh] w-screen flex-col overflow-hidden bg-black/92 text-white md:inset-auto md:bottom-24 md:right-6 md:h-[620px] md:w-[420px] md:rounded-[28px] md:border md:border-white/10 md:bg-black/80 md:backdrop-blur-xl md:shadow-2xl"
+                    className="fixed inset-0 z-[100] flex h-[100dvh] w-screen flex-col overflow-hidden bg-black text-white md:inset-auto md:bottom-24 md:right-6 md:h-[620px] md:w-[420px] md:rounded-[28px] md:border md:border-white/10 md:bg-black/80 md:backdrop-blur-xl md:shadow-2xl"
                 >
                     {/* Header */}
-                    <div className="shrink-0 border-b border-white/10 bg-white/5 px-4 py-4 backdrop-blur-xl md:px-5">
+                    <div className="shrink-0 border-b border-white/10 bg-white/5 px-5 py-5 backdrop-blur-xl md:px-6">
                         <div className="flex items-center justify-between gap-4">
                             <div className="flex items-center gap-3">
                                 <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center border border-white/20">
@@ -177,8 +177,9 @@ export default function ChatBot({
 
                     <div className="flex flex-1 min-h-0 flex-col">
                         {/* Messages */}
-                        <div className="flex-1 min-h-0 overflow-y-auto px-4 py-6 md:px-5 md:py-7 scrollbar-hide">
-                            <div className="space-y-4 md:space-y-5">
+                        <div className="flex-1 min-h-0 overflow-y-auto px-5 py-8 md:px-6 md:py-8 scrollbar-hide">
+                            <div className="h-2 md:h-4" />
+                            <div className="space-y-5 md:space-y-6">
                                 {messages.map((msg) => (
                                     <motion.div
                                         key={msg.id}
@@ -186,7 +187,7 @@ export default function ChatBot({
                                         animate={{ opacity: 1, x: 0 }}
                                         className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
                                     >
-                                        <div className={`max-w-[88%] rounded-2xl px-4 py-3 text-[15px] leading-relaxed md:text-sm ${
+                                        <div className={`max-w-[92%] rounded-2xl px-5 py-4 text-[15px] leading-7 md:max-w-[84%] md:text-sm ${
                                             msg.sender === 'user'
                                                 ? 'bg-white text-black rounded-tr-md'
                                                 : 'bg-white/10 text-white border border-white/10 rounded-tl-md'
@@ -211,13 +212,13 @@ export default function ChatBot({
                         </div>
 
                         {/* Suggestions */}
-                        <div className="shrink-0 border-t border-white/10 bg-white/[0.03] px-4 py-3 md:px-5 md:py-4">
-                            <div className="flex flex-wrap gap-2 md:flex-nowrap md:overflow-x-auto scrollbar-hide">
+                        <div className="shrink-0 border-t border-white/10 bg-white/[0.03] px-5 py-4 md:px-6 md:py-5">
+                            <div className="flex flex-wrap gap-2.5 md:flex-nowrap md:overflow-x-auto scrollbar-hide">
                                 {getSuggestions().map((suggestion, i) => (
                                     <button
                                         key={i}
                                         onClick={() => handleSend(suggestion)}
-                                        className="whitespace-nowrap rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[10px] uppercase tracking-[0.24em] text-white/70 transition-all hover:border-white/30 hover:bg-white/10 hover:text-white"
+                                        className="whitespace-nowrap rounded-full border border-white/10 bg-white/5 px-4 py-2.5 text-[10px] uppercase tracking-[0.24em] text-white/70 transition-all hover:border-white/30 hover:bg-white/10 hover:text-white"
                                     >
                                         {suggestion}
                                     </button>
@@ -226,7 +227,7 @@ export default function ChatBot({
                         </div>
 
                         {/* Input */}
-                        <div className="shrink-0 border-t border-white/10 bg-black/70 px-4 py-4 md:px-5 md:py-5 pb-[calc(1rem+env(safe-area-inset-bottom))]">
+                        <div className="shrink-0 border-t border-white/10 bg-black/80 px-5 py-5 md:px-6 md:py-6 pb-[calc(1.25rem+env(safe-area-inset-bottom))]">
                             <form
                                 onSubmit={(e) => { e.preventDefault(); handleSend(); }}
                                 className="flex gap-2"
