@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import Fuse from 'fuse.js';
 import { portfolioData } from '@/lib/data';
 
 interface Message {
@@ -11,76 +10,6 @@ interface Message {
     sender: 'user' | 'bot';
     timestamp: Date;
 }
-
-// Helper to generate a comprehensive FAQ list from portfolioData
-const generateFaqs = () => {
-    const baseFaqs = [
-        {
-            q: "Who are you?",
-            questions: ["who are you", "what is your name", "who am i talking to", "tell me about yourself", "your background"],
-            a: `I'm ${portfolioData.name}, a ${portfolioData.title}. I'm currently a Computer Science student at Christ College of Engineering.`,
-            tags: ["about", "profile", "bio", "identity", "name"]
-        },
-        {
-            q: "What is your education?",
-            questions: ["where do you study", "your education", "what is your degree", "college info", "study background"],
-            a: `I am pursuing a B.Tech in Computer Science at Christ College of Engineering (2024-Present). I specialize in Algorithms, System Design, and AI/ML.`,
-            tags: ["study", "college", "degree", "btech", "cs", "university"]
-        },
-        {
-            q: "How can I contact you?",
-            questions: ["how to reach you", "your email", "your linkedin", "contact info", "hire you"],
-            a: `You can reach me at ${portfolioData.contact.email} or find me on LinkedIn: ${portfolioData.contact.linkedin}.`,
-            tags: ["email", "linkedin", "contact", "reach", "message", "hire"]
-        }
-    ];
-
-    // Add projects
-    const projectFaqs = portfolioData.projects.map(p => ({
-        q: `Tell me about ${p.title}`,
-        questions: [`what is ${p.title}`, `how did you build ${p.title}`, `show me ${p.title}`, `details on ${p.title}`],
-        a: `${p.title} (${p.year}): ${p.description}. Tech used: ${p.tech.join(', ')}.`,
-        tags: ["project", p.title.toLowerCase(), ...p.tech.map(t => t.toLowerCase())]
-    }));
-
-    // Add experience/internships
-    const experienceFaqs = portfolioData.experience.map(e => ({
-        q: `What did you do at ${e.company}?`,
-        questions: [`your role at ${e.company}`, `internship at ${e.company}`, `what was your work at ${e.company}`, `details on ${e.company}`],
-        a: `I was an ${e.role} at ${e.company} (${e.date}). I ${e.description.substring(0, 150)}...`,
-        tags: ["work", "experience", "internship", e.company.toLowerCase(), e.role.toLowerCase()]
-    }));
-
-    // Add skills
-    const skillFaqs = portfolioData.skills.map(s => ({
-        q: `What are your ${s.category} skills?`,
-        questions: [`your ${s.category} stack`, `what ${s.category} tools do you use`, `skills in ${s.category}`, `${s.category} background`],
-        a: `In ${s.category}, I'm proficient in: ${s.items.join(', ')}.`,
-        tags: ["skill", s.category.toLowerCase(), ...s.items.map(i => i.toLowerCase())]
-    }));
-
-    // Add repositories
-    const repoFaqs = portfolioData.repositories.map(r => ({
-        q: `What is ${r.name}?`,
-        questions: [`tell me about ${r.name}`, `what does ${r.name} do`, `details on repo ${r.name}`],
-        a: `${r.name} is a ${r.category} project. ${r.description}.`,
-        tags: ["repo", "github", r.name.toLowerCase(), r.category.toLowerCase()]
-    }));
-
-    return [...baseFaqs, ...projectFaqs, ...experienceFaqs, ...skillFaqs, ...repoFaqs];
-};
-
-const faqs = generateFaqs();
-
-const fuse = new Fuse(faqs, {
-    keys: [
-        { name: 'q', weight: 0.5 },
-        { name: 'questions', weight: 0.8 },
-        { name: 'tags', weight: 0.4 }
-    ],
-    threshold: 0.45,
-    distance: 100
-});
 
 export default function ChatBot({ 
     isOpen, 
@@ -92,26 +21,9 @@ export default function ChatBot({
     activeSection?: string;
 }) {
     const [messages, setMessages] = useState<Message[]>([]);
-    const [context, setContext] = useState<string | null>(null); // Memory for follow-ups
-    const [userName, setUserName] = useState<string | null>(null); // Store visitor's name
-    const [isWaitingForName, setIsWaitingForName] = useState(false); // Track name-asking phase
     const [inputValue, setInputValue] = useState('');
     const [isTyping, setIsTyping] = useState(false);
     const messagesEndRef = useRef<HTMLDivElement>(null);
-
-    // Typing Simulation logic
-    const simulateTyping = (text: string, messageId: string) => {
-        let i = 0;
-        const interval = setInterval(() => {
-            setMessages(prev => prev.map(m => 
-                m.id === messageId 
-                    ? { ...m, text: text.substring(0, i + 1) } 
-                    : m
-            ));
-            i++;
-            if (i >= text.length) clearInterval(interval);
-        }, 30); // Speed of typing
-    };
 
     // Initial Greeting based on time and section
     useEffect(() => {
@@ -134,21 +46,16 @@ export default function ChatBot({
                 contextualIntro = " Looking at my journey? I've interned at IBM and Bluestock. Want details on my roles?";
             }
 
-            const initialId = 'init-' + Date.now();
+            const initialMessage = greeting + contextualIntro;
+
             setMessages([{
-                id: initialId,
-                text: "", // Start empty for typing
+                id: 'init-' + Date.now(),
+                text: initialMessage,
                 sender: 'bot',
                 timestamp: new Date()
             }]);
-            
-            setIsWaitingForName(true); // Begin name-asking phase
-            
-            setTimeout(() => {
-                simulateTyping("Hello! I'm Irine's AI assistant. Before we begin, what should I call you?", initialId);
-            }, 500);
         }
-    }, [isOpen]);
+    }, [isOpen, messages.length, activeSection]);
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -157,20 +64,6 @@ export default function ChatBot({
     useEffect(() => {
         scrollToBottom();
     }, [messages, isTyping]);
-
-    // Actionable: Resume
-    const handleResume = () => {
-        window.open(portfolioData.contact.resume, '_blank');
-        return "Opening my resume in a new tab for you! Let me know if you have any questions about my experience.";
-    };
-
-    // Level 3: Smart Fallback
-    const fallbackAnswer = (query: string) => {
-        if (query.includes("who")) return `I am ${portfolioData.name}, a Computer Science student and Full-Stack developer passionate about building real-world applications.`;
-        if (query.includes("contact") || query.includes("reach")) return "You can reach me via the contact section below, or email me at " + portfolioData.contact.email;
-        if (query.includes("help") || query.includes("what")) return "I can tell you about my projects, skills, and education! What are you interested in?";
-        return "Try asking about my skills, projects, or education! I'm still learning and will get better as you talk to me.";
-    };
 
     const handleSend = async (text: string = inputValue) => {
         if (!text.trim()) return;
@@ -182,12 +75,13 @@ export default function ChatBot({
             timestamp: new Date()
         };
 
-        setMessages(prev => [...prev, userMessage]);
+        const newMessages = [...messages, userMessage];
+        setMessages(newMessages);
         setInputValue('');
         setIsTyping(true);
 
-        // Track user input via Web3Forms (Gmail)
         try {
+            // Track user input via Web3Forms (Gmail)
             fetch("https://api.web3forms.com/submit", {
                 method: "POST",
                 headers: {
@@ -200,94 +94,44 @@ export default function ChatBot({
                     from_name: "Irine AI Assistant",
                     message: text,
                 })
+            }).catch(e => console.error("Failed to track chatbot input:", e));
+
+            // Call Groq API route
+            const res = await fetch('/api/chat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ messages: newMessages }),
             });
-        } catch (e) {
-            // Silently fail to not interrupt user experience
-            console.error("Failed to track chatbot input:", e);
-        }
 
-        // Memory & Logic Engine
-        setTimeout(async () => {
-            const query = text.toLowerCase();
-            let response = "";
-
-            // Handle name-asking phase
-            if (isWaitingForName) {
-                setIsWaitingForName(false);
-                // Check if the input looks like a question instead of a name
-                const isQuestion = query.includes('?') || query.length > 20 || fuse.search(text).length > 0;
-                
-                if (!isQuestion && text.trim().length > 0) {
-                    const name = text.trim();
-                    setUserName(name);
-                    response = `Nice to meet you, ${name}! How can I help you today?`;
-                } else {
-                    // Skip name and respond to the question if they asked one
-                    const results = fuse.search(text);
-                    if (results.length > 0) {
-                        response = results[0].item.a;
-                    } else {
-                        response = "No problem! I'm Irine's AI assistant. How can I help you today?";
-                    }
-                }
-            }
-            // 1. Actionable: Resume
-            else if (query.includes('resume') || query.includes('cv') || query.includes('download')) {
-                response = handleResume();
-            } 
-            // 2. Memory & Context
-            else if (context && (query.includes('more') || query.includes('hardest') || query.includes('how') || query.includes('tech'))) {
-                const lastProject = portfolioData.projects.find(p => p.title.toLowerCase().includes(context.toLowerCase()));
-                if (lastProject) {
-                    if (query.includes('tech')) response = `For ${lastProject.title}, I used ${lastProject.tech.join(', ')}.`;
-                    else if (query.includes('hardest')) response = `The biggest challenge in ${lastProject.title} was ensuring real-time performance and scalability.`;
-                    else response = `Beyond the basics, ${lastProject.title} was built durante a hackathon and focused on solving ${lastProject.description}.`;
-                } else {
-                    response = "Can you tell me more specifically what you're asking about? I forgot which project we were talking about!";
-                }
-            }
-            // 3. Easter Eggs
-            else if (query.includes('favorite') || query.includes('food') || query.includes('coffee') || query.includes('hobby')) {
-                if (query.includes('food')) response = "I love exploring different cuisines, but a good Paneer Butter Masala is hard to beat!";
-                else if (query.includes('coffee')) response = "Definitely a coffee person! It's the fuel behind most of these projects.";
-                else response = "When I'm not coding, I love participating in hackathons and exploring new AI tools.";
-            }
-            // 4. Standard FAQ Match
-            else {
-                const results = fuse.search(text);
-                if (results.length > 0) {
-                    response = results[0].item.a;
-                    // Store context for next turn
-                    const match = results[0].item.tags.find(t => portfolioData.projects.some(p => p.title.toLowerCase() === t));
-                    if (match) setContext(match);
-                } else {
-                    response = fallbackAnswer(query);
-                }
+            if (!res.ok) {
+                throw new Error("Network response was not ok");
             }
 
-            // Prepend name if available for personalization (standard responses only)
-            if (userName && !response.includes(userName) && !isWaitingForName) {
-                const honorifics = ["Sure, ", "Okay, ", "Well, "];
-                const start = honorifics[Math.floor(Math.random() * honorifics.length)];
-                response = `${userName}, ${response}`;
-            }
+            const data = await res.json();
 
-            const botMessageId = 'bot-' + Date.now();
             const botMessage: Message = {
-                id: botMessageId,
-                text: "", // Start typing
+                id: 'bot-' + Date.now(),
+                text: data.response,
                 sender: 'bot',
                 timestamp: new Date()
             };
 
             setMessages(prev => [...prev, botMessage]);
+
+        } catch (error) {
+            console.error("Error communicating with AI:", error);
+            const errorMessage: Message = {
+                id: 'bot-error-' + Date.now(),
+                text: "I'm sorry, I'm having trouble connecting to my brain right now. Please try again later.",
+                sender: 'bot',
+                timestamp: new Date()
+            };
+            setMessages(prev => [...prev, errorMessage]);
+        } finally {
             setIsTyping(false);
-            
-            // Start simulated typing
-            setTimeout(() => {
-                simulateTyping(response, botMessageId);
-            }, 100);
-        }, 800); // Thinking... delay
+        }
     };
 
     // Quick Buttons
@@ -344,7 +188,6 @@ export default function ChatBot({
                                         : 'bg-white/10 text-white border border-white/10 rounded-tl-none'
                                 }`}>
                                     {msg.text}
-                                    {msg.sender === 'bot' && msg.text === "" && <span className="animate-pulse">|</span>}
                                 </div>
                             </motion.div>
                         ))}
