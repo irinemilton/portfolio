@@ -19,7 +19,7 @@ export default function About() {
                     variants={fadeUp}
                     className="space-y-8 md:space-y-10"
                 >
-                    <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-8 tracking-tight leading-tight">
+                    <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-tight">
                         Building AI-powered solutions for real-world problems
                     </h2>
                     <p className="text-lg md:text-xl opacity-60 max-w-3xl leading-loose tracking-wide">
