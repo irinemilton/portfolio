@@ -50,7 +50,7 @@ export default function Contact() {
     };
 
     return (
-        <section id="contact" className="min-h-screen w-full flex flex-col items-center justify-center px-6 py-40 md:py-60 relative overflow-hidden">
+        <section id="contact" className="min-h-screen w-full flex flex-col items-center justify-start px-6 py-40 md:py-60 relative overflow-hidden">
             {/* Background Accent */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-white/[0.02] rounded-full blur-[120px] pointer-events-none" />
             
@@ -59,18 +59,18 @@ export default function Contact() {
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.1 }}
-                className="max-w-7xl w-full relative z-10 space-y-28 md:space-y-36"
+                className="max-w-7xl w-full relative z-10 pt-16 md:pt-24 space-y-32 md:space-y-40"
             >
                 <motion.h2
                     variants={fadeUp}
-                    className="text-5xl md:text-7xl lg:text-9xl font-bold mb-28 md:mb-36 tracking-tight uppercase"
+                    className="text-5xl md:text-7xl lg:text-9xl font-bold mb-32 md:mb-40 tracking-tight uppercase"
                 >
                     Connect
                 </motion.h2>
 
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-28 md:gap-36">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-32 md:gap-40">
                     {/* Left Column: Info & Links */}
-                    <div className="flex flex-col space-y-24 md:space-y-28">
+                    <div className="flex flex-col space-y-24 md:space-y-32">
                         <motion.p
                             variants={fadeUp}
                             className="text-lg md:text-xl lg:text-2xl opacity-60 leading-relaxed tracking-wide max-w-xl"
@@ -81,7 +81,7 @@ export default function Contact() {
 
                         <motion.div
                             variants={fadeUp}
-                            className="space-y-8 md:space-y-10"
+                            className="space-y-10 md:space-y-12"
                         >
                             <motion.a
                                 href={`mailto:${portfolioData.contact.email}`}
@@ -124,7 +124,7 @@ export default function Contact() {
                         <motion.form
                             key="form"
                             onSubmit={handleSubmit}
-                            className="space-y-14 md:space-y-16"
+                            className="space-y-16 md:space-y-20"
                         >
                             <div className="space-y-4 relative group">
                                 <label htmlFor="name" className="text-[10px] uppercase tracking-[0.3em] opacity-40 group-focus-within:opacity-100 transition-opacity">Name</label>
