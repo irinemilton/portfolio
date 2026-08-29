@@ -100,14 +100,14 @@ export default function Projects() {
     return (
         <section
             id="projects"
-            className="relative z-10 flex min-h-screen w-full flex-col items-center justify-center bg-black/40 px-6 py-20 backdrop-blur-sm md:py-28"
+            className="relative z-10 flex min-h-screen w-full flex-col items-center justify-center overflow-hidden bg-black/40 px-4 py-16 backdrop-blur-sm md:px-6 md:py-28"
         >
             <motion.div
                 variants={staggerContainer}
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.3 }}
-                className="w-full max-w-7xl space-y-6 md:space-y-10"
+                className="w-full max-w-7xl space-y-4 md:space-y-10"
             >
                 {/* Section Title */}
                 <motion.h2

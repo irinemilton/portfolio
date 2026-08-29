@@ -28,7 +28,7 @@ export default function ProjectFilter({ projects }: ProjectFilterProps) {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5 }}
-                className="flex flex-wrap gap-3 mb-12 justify-center"
+                className="mb-6 flex flex-wrap justify-center gap-2 md:mb-8 md:gap-3"
             >
                 {allTechs.map((tech, index) => (
                     <motion.button
@@ -41,11 +41,10 @@ export default function ProjectFilter({ projects }: ProjectFilterProps) {
                         whileTap={{ scale: 0.95 }}
                         onClick={() => setSelectedTech(tech)}
                         className={`
-                            px-4 py-2 rounded-full text-sm font-medium
-                            transition-all duration-300
+                            rounded-full px-3 py-1.5 text-xs font-medium transition-all duration-300 md:px-4 md:py-2 md:text-sm
                             ${selectedTech === tech
-                                ? 'bg-white text-black border-white'
-                                : 'bg-transparent text-white border border-white/20 hover:border-white/50'
+                                ? 'border border-white bg-white text-black'
+                                : 'border border-white/20 bg-transparent text-white hover:border-white/50'
                             }
                         `}
                     >
@@ -58,9 +57,9 @@ export default function ProjectFilter({ projects }: ProjectFilterProps) {
             <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                className="text-center mb-8"
+                className="mb-5 text-center md:mb-8"
             >
-                <p className="text-sm opacity-50">
+                <p className="text-xs opacity-50 md:text-sm">
                     {filteredProjects.length} {filteredProjects.length === 1 ? 'PROJECT' : 'PROJECTS'}
                     {selectedTech !== 'All' && ` • FILTERED BY ${selectedTech.toUpperCase()}`}
                 </p>
@@ -69,7 +68,7 @@ export default function ProjectFilter({ projects }: ProjectFilterProps) {
             {/* Filtered projects */}
             <motion.div
                 layout
-                className="grid gap-12 perspective-1000"
+                className="grid gap-4 perspective-1000 md:gap-8"
             >
                 {filteredProjects.map((project, index) => (
                     <motion.div

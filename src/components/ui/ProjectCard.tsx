@@ -62,7 +62,7 @@ export default function ProjectCard({ project, index }: ProjectProps) {
                 transformStyle: "preserve-3d",
                 transform,
             }}
-            className="group relative w-full rounded-xl p-8 md:p-12 transition-colors duration-300"
+            className="group relative w-full overflow-hidden rounded-2xl border border-white/10 bg-white/[0.02] p-4 shadow-[0_0_24px_rgba(255,255,255,0.03)] backdrop-blur-sm transition-all duration-300 hover:border-white/20 hover:bg-white/[0.04] md:p-12"
         >
             {/* Spotlight Gradient */}
             <div
@@ -74,26 +74,26 @@ export default function ProjectCard({ project, index }: ProjectProps) {
 
             <div
                 style={{ transform: "translateZ(50px)" }}
-                className="flex flex-col md:flex-row md:items-start justify-between gap-8 relative z-10"
+                className="relative z-10 flex flex-col justify-between gap-5 md:flex-row md:items-start md:gap-8"
             >
-                <div>
-                    <div className="flex items-center gap-4 mb-4">
-                        <h3 className="text-3xl md:text-4xl font-bold tracking-tight">{project.title}</h3>
-                        <span className="text-sm opacity-50 px-3 py-1 border border-white/20 rounded-full">{project.year}</span>
+                <div className="min-w-0 flex-1">
+                    <div className="mb-3 flex flex-col items-start gap-2 sm:flex-row sm:items-center sm:gap-4">
+                        <h3 className="text-2xl font-bold tracking-tight text-white md:text-4xl">{project.title}</h3>
+                        <span className="rounded-full border border-white/20 bg-black/20 px-2.5 py-1 text-[10px] uppercase tracking-[0.2em] text-white/60 md:px-3 md:text-xs">{project.year}</span>
                     </div>
-                    <p className="text-base md:text-lg opacity-70 mb-8 max-w-2xl leading-relaxed">
+                    <p className="mb-5 max-w-2xl text-sm leading-relaxed text-white/75 md:mb-8 md:text-lg">
                         {project.description}
                     </p>
                     <div className="flex flex-wrap gap-2">
                         {project.tech.map((t: string) => (
-                            <span key={t} className="text-sm border border-white/10 px-3 py-1 rounded-md">
+                            <span key={t} className="rounded-md border border-white/10 bg-white/[0.02] px-2.5 py-1 text-[11px] text-white/80 md:px-3 md:text-sm">
                                 {t}
                             </span>
                         ))}
                     </div>
                 </div>
 
-                <div className="text-6xl font-bold opacity-10 group-hover:scale-110 transition-transform duration-500">
+                <div className="text-5xl font-bold opacity-10 transition-transform duration-500 group-hover:scale-110 md:text-6xl">
                     {String(index + 1).padStart(2, '0')}
                 </div>
             </div>
