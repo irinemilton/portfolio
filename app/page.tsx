@@ -24,16 +24,16 @@ const Divider = () => (
     whileInView={{ opacity: 1 }}
     viewport={{ once: true, amount: 0.5 }}
     transition={{ duration: 1 }}
-    className="w-full flex flex-col items-center justify-center py-24 md:py-36 gap-6 relative overflow-hidden"
+    className="w-full flex flex-col items-center justify-center py-4 md:py-6 gap-2 relative overflow-hidden"
   >
     {/* Glowing orb */}
-    <div className="w-48 h-px bg-gradient-to-r from-transparent via-white/50 to-transparent" />
+    <div className="w-40 h-px bg-gradient-to-r from-transparent via-white/50 to-transparent" />
     <motion.div
-      animate={{ scale: [1, 1.3, 1], opacity: [0.3, 0.6, 0.3] }}
+      animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.6, 0.3] }}
       transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-      className="w-2 h-2 rounded-full bg-white/60 shadow-[0_0_20px_6px_rgba(255,255,255,0.2)]"
+      className="w-1.5 h-1.5 rounded-full bg-white/60 shadow-[0_0_14px_4px_rgba(255,255,255,0.15)]"
     />
-    <div className="w-48 h-px bg-gradient-to-r from-transparent via-white/50 to-transparent" />
+    <div className="w-40 h-px bg-gradient-to-r from-transparent via-white/50 to-transparent" />
   </motion.div>
 );
 
@@ -54,7 +54,7 @@ export default function Home() {
     <>
       <LoadingScreen />
       <SmoothScroll>
-        <main className="flex flex-col pb-32">
+        <main className="flex flex-col pb-16">
           <Hero />
           <Divider />
           <RevealSection><About /></RevealSection>
