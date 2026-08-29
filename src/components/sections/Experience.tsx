@@ -27,7 +27,7 @@ export default function Experience() {
                         <motion.div
                             key={index}
                             variants={fadeUp}
-                            className="group relative border-l-2 border-white/10 pl-6 md:pl-10 hover:border-white/50 transition-colors duration-500"
+                            className="group relative border-l-2 border-white/10 pl-[200px] hover:border-white/50 transition-colors duration-500"
                         >
                             {/* Dot indicator */}
                             <div className="absolute w-3 h-3 md:w-4 md:h-4 rounded-full bg-white/20 group-hover:bg-white -left-[7px] md:-left-[9px] top-2 transition-colors duration-500" />

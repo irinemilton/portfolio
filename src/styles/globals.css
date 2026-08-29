@@ -1,7 +1,11 @@
 @import "tailwindcss";
 
-/* Design System Variables */
+/* =========================================================
+   DESIGN SYSTEM VARIABLES
+   ========================================================= */
+
 :root {
+    /* Spacing */
     --spacing-xs: 0.5rem;
     --spacing-sm: 1rem;
     --spacing-md: 2rem;
@@ -9,6 +13,7 @@
     --spacing-xl: 6rem;
     --spacing-2xl: 8rem;
 
+    /* Font Sizes */
     --font-size-base: 1rem;
     --font-size-lg: 1.25rem;
     --font-size-xl: 1.5rem;
@@ -18,93 +23,171 @@
     --font-size-5xl: 5rem;
     --font-size-6xl: 6rem;
 
+    /* Transitions */
     --transition-fast: 0.2s ease;
     --transition-normal: 0.3s ease;
     --transition-slow: 0.5s ease;
 }
 
-/* Base Styles */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+
+/* =========================================================
+   BASE STYLES
+   ========================================================= */
+
+@layer base {
+    /*
+     * Only define box-sizing here.
+     *
+     * Tailwind CSS v4 already provides its own reset/preflight
+     * for margins, padding, headings, etc.
+     *
+     * Keeping margin/padding resets out of this rule prevents
+     * them from interfering with Tailwind utility classes such
+     * as p-6, px-6, pl-8, pl-12, mt-10, etc.
+     */
+    *,
+    ::before,
+    ::after {
+        box-sizing: border-box;
+    }
+
+    html {
+        scroll-behavior: smooth;
+        overflow-x: hidden;
+        min-height: 100%;
+        scrollbar-gutter: stable;
+    }
+
+    body {
+        font-family: var(--font-inter),
+            -apple-system,
+            BlinkMacSystemFont,
+            "Segoe UI",
+            sans-serif;
+
+        color: #ffffff;
+        background-color: transparent;
+        line-height: 1.6;
+
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+
+        min-height: 100vh;
+    }
+
+    /* Typography */
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        font-family: var(--font-outfit), sans-serif;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        line-height: 1.1;
+    }
+
+    /* Smooth transitions */
+    a,
+    button {
+        transition: all var(--transition-normal);
+    }
+
+    /* Text selection */
+    ::selection {
+        background-color: #ffffff;
+        color: #000000;
+    }
+
+    /* Focus accessibility */
+    *:focus-visible {
+        outline: 2px solid #ffffff;
+        outline-offset: 4px;
+    }
 }
 
-html {
-    scroll-behavior: smooth;
-    overflow-x: hidden;
-    min-height: 100%;
-    scrollbar-gutter: stable;
+
+/* =========================================================
+   SCROLLBAR
+   ========================================================= */
+
+@layer base {
+    ::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: #000000;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: #333333;
+        border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: #555555;
+    }
 }
 
-body {
-    font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    color: #ffffff;
-    background-color: transparent;
-    line-height: 1.6;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    min-height: 100vh;
+
+/* =========================================================
+   CUSTOM UTILITY CLASSES
+   ========================================================= */
+
+@layer utilities {
+    /* Section spacing */
+    .section-padding {
+        padding: var(--spacing-2xl) var(--spacing-md);
+    }
+
+    /* Maximum-width container */
+    .container-max {
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+
+    /* Balanced text wrapping */
+    .text-balance {
+        text-wrap: balance;
+    }
+
+    /* Fade animation utility */
+    .fade-in {
+        animation: fadeIn 0.8s ease-out;
+    }
+
+    /* Slide animation utility */
+    .slide-in {
+        animation: slideIn 0.6s ease-out;
+    }
+
+    /* Hide scrollbar */
+    .scrollbar-hide {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+
+    .scrollbar-hide::-webkit-scrollbar {
+        display: none;
+    }
+
+    /* Horizontal scrolling animation */
+    .animate-scroll {
+        animation: scrollHorizontal 60s linear infinite;
+    }
+
+    .animate-scroll:hover {
+        animation-play-state: paused;
+    }
 }
 
-/* Typography */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    font-family: var(--font-outfit), sans-serif;
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    line-height: 1.1;
-}
 
-/* Smooth Transitions */
-a,
-button {
-    transition: all var(--transition-normal);
-}
+/* =========================================================
+   KEYFRAME ANIMATIONS
+   ========================================================= */
 
-/* Selection */
-::selection {
-    background-color: #ffffff;
-    color: #000000;
-}
-
-/* Scrollbar Styling */
-::-webkit-scrollbar {
-    width: 8px;
-}
-
-::-webkit-scrollbar-track {
-    background: #000000;
-}
-
-::-webkit-scrollbar-thumb {
-    background: #333333;
-    border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: #555555;
-}
-
-/* Utility Classes */
-.section-padding {
-    padding: var(--spacing-2xl) var(--spacing-md);
-}
-
-.container-max {
-    max-width: 1400px;
-    margin: 0 auto;
-}
-
-.text-balance {
-    text-wrap: balance;
-}
-
-/* Animation Utilities */
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -116,6 +199,7 @@ button {
         transform: translateY(0);
     }
 }
+
 
 @keyframes slideIn {
     from {
@@ -129,31 +213,7 @@ button {
     }
 }
 
-.fade-in {
-    animation: fadeIn 0.8s ease-out;
-}
 
-.slide-in {
-    animation: slideIn 0.6s ease-out;
-}
-
-/* Focus Styles */
-*:focus-visible {
-    outline: 2px solid #ffffff;
-    outline-offset: 4px;
-}
-
-/* Hide Scrollbar */
-.scrollbar-hide {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-}
-
-.scrollbar-hide::-webkit-scrollbar {
-    display: none;
-}
-
-/* Horizontal Scroll Animation */
 @keyframes scrollHorizontal {
     from {
         transform: translateX(0);
@@ -162,12 +222,4 @@ button {
     to {
         transform: translateX(-50%);
     }
-}
-
-.animate-scroll {
-    animation: scrollHorizontal 60s linear infinite;
-}
-
-.animate-scroll:hover {
-    animation-play-state: paused;
 }

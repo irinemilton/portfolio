@@ -37,7 +37,7 @@ export default function Timeline() {
                             </div>
 
                             {/* Content */}
-                            <div className="flex-1 border-l-2 border-white/20 pl-8 md:pl-12 group-hover:border-white/40 transition-colors">
+                            <div className="flex-1 border-l-2 border-white/20 pl-12 md:pl-20 group-hover:border-white/40 transition-colors">
                                 <h3 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-12 md:mb-14 tracking-tight">
                                     {item.title}
                                 </h3>
