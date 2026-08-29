@@ -1,5 +1,4 @@
 import DynamicLogo from '@/components/ui/DynamicLogo';
-import DynamicResume from '@/components/ui/DynamicResume';
 import NavigationMenu from '@/components/ui/NavigationMenu';
 import ServiceWorkerRegistration from '@/components/ServiceWorkerRegistration';
 import GoogleAnalytics from '@/components/analytics/GoogleAnalytics';
@@ -29,7 +28,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
         <Cursor />
         <DynamicLogo />
-        <DynamicResume />
         <NavigationMenu />
         <ServiceWorkerRegistration />
         
