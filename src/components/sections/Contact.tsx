@@ -16,44 +16,43 @@ export default function Contact() {
         e.preventDefault();
         setStatus('sending');
 
-        // Capture the form element immediately before any async calls
         const form = e.currentTarget;
         const formData = new FormData(form);
-        const object = Object.fromEntries(formData);
 
-        const json = JSON.stringify({
-            ...object,
-            access_key: '9d862ab4-f83c-4145-a2af-78006b3ad92e',
-        });
+        const name = formData.get('name')?.toString().trim();
+        const email = formData.get('email')?.toString().trim();
+        const message = formData.get('message')?.toString().trim();
 
         try {
-            const response = await fetch(
-                'https://api.web3forms.com/submit',
-                {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Accept: 'application/json',
-                    },
-                    body: json,
-                }
-            );
+            const response = await fetch('/api/contact', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    name,
+                    email,
+                    message,
+                }),
+            });
 
             const data = await response.json();
 
-            if (data.success) {
-                setStatus('success');
-                form.reset();
-            } else {
-                setStatus('error');
-                setResult(data.message || 'Something went wrong.');
-                console.error('Web3Forms Error:', data);
+            if (!response.ok || !data.success) {
+                throw new Error(
+                    data.message || 'Something went wrong while sending your message.'
+                );
             }
+
+            setStatus('success');
+            form.reset();
         } catch (error) {
-            console.error('Submission Error:', error);
+            console.error('Contact form error:', error);
             setStatus('error');
             setResult(
-                'Could not complete submission. Please try again or email me directly.'
+                error instanceof Error
+                    ? error.message
+                    : 'Could not send your message. Please try again.'
             );
         }
     };
