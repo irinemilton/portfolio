@@ -11,11 +11,6 @@ interface ProjectFilterProps {
 
 export default function ProjectFilter({ projects }: ProjectFilterProps) {
     const [selectedTech, setSelectedTech] = useState<string>('All');
-    const [isMounted, setIsMounted] = useState(false);
-
-    useEffect(() => {
-        setIsMounted(true);
-    }, []);
 
     // Extract all unique technologies
     const allTechs = ['All', ...new Set(projects.flatMap(p => p.tech))];
@@ -24,11 +19,6 @@ export default function ProjectFilter({ projects }: ProjectFilterProps) {
     const filteredProjects = selectedTech === 'All'
         ? projects
         : projects.filter(p => p.tech.includes(selectedTech));
-
-    // Prevent hydration errors
-    if (!isMounted) {
-        return null;
-    }
 
     return (
         <div className="w-full">

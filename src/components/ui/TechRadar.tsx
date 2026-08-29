@@ -30,9 +30,9 @@ export default function TechRadar({ skills }: TechRadarProps) {
                 TECH STACK
             </h3>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            <div className="grid grid-cols-1 gap-12 lg:grid-cols-2">
                 {/* Radar Chart Visualization */}
-                <div className="relative aspect-square max-w-md mx-auto">
+                <div className="relative mx-auto aspect-square w-full max-w-[420px] min-h-[280px] sm:min-h-[320px] lg:max-w-md">
                     {/* Concentric circles */}
                     {[100, 75, 50, 25].map((size) => (
                         <motion.div

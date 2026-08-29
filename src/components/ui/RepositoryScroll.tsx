@@ -12,11 +12,6 @@ interface RepositoryScrollProps {
 export default function RepositoryScroll({ repositories, error }: RepositoryScrollProps) {
     const scrollRef = useRef<HTMLDivElement>(null);
     const [isPaused, setIsPaused] = useState(false);
-    const [isMounted, setIsMounted] = useState(false);
-
-    useEffect(() => {
-        setIsMounted(true);
-    }, []);
 
     // Auto-scroll animation
     useAnimationFrame((time, delta) => {
@@ -31,11 +26,6 @@ export default function RepositoryScroll({ repositories, error }: RepositoryScro
             scrollRef.current.scrollLeft = 0;
         }
     });
-
-    // Prevent hydration errors
-    if (!isMounted) {
-        return null;
-    }
 
     // Show error message if API fetch failed
     if (error) {

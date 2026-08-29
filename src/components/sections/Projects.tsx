@@ -10,12 +10,8 @@ import { useEffect, useState } from 'react';
 export default function Projects() {
     const [repositories, setRepositories] = useState<Repository[]>(portfolioData.repositories);
     const [error, setError] = useState<string | null>(null);
-    const [isMounted, setIsMounted] = useState(false);
 
     useEffect(() => {
-        // Set mounted state to prevent hydration errors
-        setIsMounted(true);
-
         const fetchRepos = async () => {
             try {
                 console.log('[Frontend] Fetching repositories from API...');
@@ -54,11 +50,6 @@ export default function Projects() {
 
         fetchRepos();
     }, []);
-
-    // Completely prevent SSR - return null until client-side mounted
-    if (!isMounted) {
-        return null;
-    }
 
     return (
         <section id="projects" className="min-h-screen w-full flex flex-col items-center justify-center px-6 py-32 md:py-48 relative z-10 bg-black/40 backdrop-blur-sm">
