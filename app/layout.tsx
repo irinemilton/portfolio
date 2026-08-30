@@ -20,10 +20,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body className={`${inter.variable} ${outfit.variable} bg-black text-white antialiased relative cursor-none`}>
-        <link rel="icon" href="/favicon.ico" type="image/x-icon" />
-        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
-        <link rel="apple-touch-icon" href="/FAVICONIMG.jpeg" />
-
         {/* JSON-LD for structured data */}
         <script
           type="application/ld+json"

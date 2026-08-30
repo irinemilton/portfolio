@@ -1,8 +1,9 @@
 // Service Worker for PWA
-const CACHE_NAME = 'irine-portfolio-v3';
+const CACHE_NAME = 'irine-portfolio-v4';
 const urlsToCache = [
     '/manifest.json',
     '/favicon.ico',
+    '/FAVICONIMG.jpeg',
 ];
 
 // Install event - cache essential files
