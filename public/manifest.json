@@ -9,9 +9,9 @@
     "orientation": "portrait-primary",
     "icons": [
         {
-            "src": "/portimg.png",
-            "sizes": "any",
-            "type": "image/png",
+            "src": "/FAVICONIMG.jpeg",
+            "sizes": "512x512",
+            "type": "image/jpeg",
             "purpose": "any maskable"
         }
     ],
