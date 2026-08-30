@@ -56,8 +56,11 @@ export const siteMetadata: Metadata = {
         creator: '@irinemilton',
     },
     icons: {
-        icon: [{ url: '/FAVICONIMG.jpeg', type: 'image/jpeg' }],
-        shortcut: '/FAVICONIMG.jpeg',
+        icon: [
+            { url: '/favicon.ico', type: 'image/x-icon' },
+            { url: '/FAVICONIMG.jpeg', type: 'image/jpeg' },
+        ],
+        shortcut: '/favicon.ico',
         apple: '/FAVICONIMG.jpeg',
     },
     manifest: '/manifest.json',
