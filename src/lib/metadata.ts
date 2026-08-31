@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 
 export const siteMetadata: Metadata = {
+    metadataBase: new URL('https://irinemilton.qzz.io'),
     title: 'Irine Milton – Full Stack Developer | AI Projects | Portfolio',
     description: 'B.Tech CS student passionate about Full-Stack Development and AI/ML. Winner of YODHA National Hackathon. Building impactful solutions with React, Next.js, Python, and AI.',
     keywords: [
@@ -58,7 +59,7 @@ export const siteMetadata: Metadata = {
     icons: {
         icon: [
             { url: '/favicon.ico', type: 'image/x-icon' },
-            { url: '/FAVICONIMG.jpeg', type: 'image/jpeg' },
+            { url: '/FAVICONIMG.jpeg', type: 'image/jpeg', sizes: '512x512' },
         ],
         shortcut: '/favicon.ico',
         apple: '/FAVICONIMG.jpeg',
