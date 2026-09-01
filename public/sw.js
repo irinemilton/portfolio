@@ -1,10 +1,10 @@
 // Service Worker for PWA
 // Bump cache version after icon updates so production browsers fetch the new favicon immediately.
-const CACHE_NAME = 'irine-portfolio-v5';
+const CACHE_NAME = 'irine-portfolio-v6';
 const urlsToCache = [
     '/manifest.json',
+    '/favicon.png',
     '/favicon.ico',
-    '/FAVICONIMG.jpeg',
 ];
 
 // Install event - cache essential files

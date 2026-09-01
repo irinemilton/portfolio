@@ -95,6 +95,9 @@ export default function NavigationMenu() {
                                     animate={{ opacity: 1, y: 0 }}
                                     exit={{ opacity: 0, y: 30 }}
                                     transition={{ delay: index * 0.05 + 0.1, duration: 0.4, ease: [0.32, 0.72, 0, 1] }}
+                                    style={{
+                                        transform: item.label === 'Home' ? 'translateY(-8px)' : item.label === 'Contact' ? 'translateY(8px)' : 'none',
+                                    }}
                                 >
                                     <button
                                         onClick={() => handleNavigate(item.href)}
