@@ -1,7 +1,6 @@
 'use client';
 
-import { motion, useAnimationFrame } from 'framer-motion';
-import { useRef, useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import { Repository } from '@/lib/data';
 
 interface RepositoryScrollProps {
@@ -10,23 +9,6 @@ interface RepositoryScrollProps {
 }
 
 export default function RepositoryScroll({ repositories, error }: RepositoryScrollProps) {
-    const scrollRef = useRef<HTMLDivElement>(null);
-    const [isPaused, setIsPaused] = useState(false);
-
-    // Auto-scroll animation
-    useAnimationFrame((time, delta) => {
-        if (!scrollRef.current || isPaused) return;
-
-        const scrollSpeed = 0.3; // Reduced from 0.5 for smoother scrolling
-        scrollRef.current.scrollLeft += scrollSpeed;
-
-        // Reset scroll when reaching the end (infinite loop)
-        const maxScroll = scrollRef.current.scrollWidth - scrollRef.current.clientWidth;
-        if (scrollRef.current.scrollLeft >= maxScroll / 2) {
-            scrollRef.current.scrollLeft = 0;
-        }
-    });
-
     // Show error message if API fetch failed
     if (error) {
         return (
@@ -57,19 +39,9 @@ export default function RepositoryScroll({ repositories, error }: RepositoryScro
                 </h3>
             </motion.div>
 
-            <div
-                ref={scrollRef}
-                className="flex gap-6 overflow-x-auto scrollbar-hide"
-                style={{
-                    scrollbarWidth: 'none',
-                    msOverflowStyle: 'none',
-                }}
-                tabIndex={-1}
-                onKeyDown={(e) => e.preventDefault()}
-                onMouseEnter={() => setIsPaused(true)}
-                onMouseLeave={() => setIsPaused(false)}
-            >
-                {duplicatedRepos.map((repo, index) => (
+            <div className="w-full overflow-hidden">
+                <div className="flex w-max gap-6 animate-scroll">
+                    {duplicatedRepos.map((repo, index) => (
                     <motion.a
                         key={`${repo.name}-${index}`}
                         href={repo.repo !== 'Private' ? `https://github.com/${repo.repo}` : undefined}
@@ -101,6 +73,17 @@ export default function RepositoryScroll({ repositories, error }: RepositoryScro
                             ${repo.repo === 'Private' ? 'cursor-default' : 'cursor-pointer'}
                         `}
                     >
+                        <img
+                            src={getRepositoryImage(repo)}
+                            alt=""
+                            aria-hidden="true"
+                            className="absolute inset-0 h-full w-full object-cover opacity-25 grayscale transition-all duration-500 group-hover:scale-105 group-hover:opacity-40"
+                            onError={(event) => {
+                                event.currentTarget.src = '/file.svg';
+                            }}
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/75 to-black/20" />
+
                         {/* Hover gradient effect */}
                         <div className="absolute inset-0 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none bg-gradient-to-br from-white/5 to-transparent" />
 
@@ -150,21 +133,21 @@ export default function RepositoryScroll({ repositories, error }: RepositoryScro
                             <div className="absolute inset-0 rounded-lg border border-white/20" />
                         </div>
                     </motion.a>
-                ))}
+                    ))}
+                </div>
             </div>
 
-            {/* Scroll indicator */}
-            <motion.div
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.3 }}
-                className="mt-6 text-center"
-            >
-                <p className="text-xs opacity-30 tracking-wider">
-                    HOVER TO PAUSE • {repositories.length} REPOSITORIES
-                </p>
-            </motion.div>
         </div>
     );
+}
+
+function getRepositoryImage(repository: Repository) {
+    const projectImages: Record<string, string> = {
+        'irinemilton/MentoraX': 'https://raw.githubusercontent.com/irinemilton/MentoraX/main/MentoraX/src/assets/hero.png',
+    };
+
+    if (repository.repo === 'Private') return '/file.svg';
+    if (projectImages[repository.repo]) return projectImages[repository.repo];
+
+    return `https://opengraph.githubassets.com/1/${repository.repo}`;
 }

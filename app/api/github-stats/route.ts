@@ -66,17 +66,19 @@ export async function GET() {
             topLanguages,
         };
 
-        // Fetch contribution graph SVG
+        // Fetch contribution data separately so the graph can render in our theme.
         try {
-            // Using ssr-contributions-svg with explicit dark theme for better contrast
-            const graphResponse = await fetch(`https://ssr-contributions-svg.vercel.app/_/${username}?chart=calendar&format=svg&theme=dark`);
-            if (graphResponse.ok) {
-                const graphSvg = await graphResponse.text();
-                // Add the SVG to the stats object
-                Object.assign(stats, { contributionGraph: graphSvg });
+            const contributionsResponse = await fetch(
+                `https://github-contributions-api.jogruber.de/v4/${username}`
+            );
+            if (contributionsResponse.ok) {
+                const contributionsData = await contributionsResponse.json();
+                Object.assign(stats, {
+                    contributions: contributionsData.contributions,
+                });
             }
         } catch (graphError) {
-            console.error('[GitHub Stats API] Failed to fetch contribution graph:', graphError);
+            console.error('[GitHub Stats API] Failed to fetch contribution data:', graphError);
             // Non-fatal error, continue without the graph
         }
 

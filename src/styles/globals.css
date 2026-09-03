@@ -175,11 +175,14 @@
 
     /* Horizontal scrolling animation */
     .animate-scroll {
-        animation: scrollHorizontal 60s linear infinite;
+        animation: scrollHorizontal 55s linear infinite;
+        will-change: transform;
     }
 
-    .animate-scroll:hover {
-        animation-play-state: paused;
+    @media (prefers-reduced-motion: reduce) {
+        .animate-scroll {
+            animation-play-state: paused;
+        }
     }
 }
 

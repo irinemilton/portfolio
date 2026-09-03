@@ -19,7 +19,13 @@ interface GitHubStatsData {
         count: number;
         percentage: string;
     }[];
-    contributionGraph?: string;
+    contributions?: Contribution[];
+}
+
+interface Contribution {
+    date: string;
+    count: number;
+    level: number;
 }
 
 export default function GitHubStats({ username }: GitHubStatsProps) {
@@ -155,28 +161,15 @@ export default function GitHubStats({ username }: GitHubStatsProps) {
                         className="border border-white/10 rounded-lg p-6 hover:border-white/30 transition-all duration-300 overflow-hidden"
                     >
                         <h4 className="text-lg font-bold mb-4 opacity-70">Contribution Graph</h4>
-                        <div className="w-full flex justify-center">
-                            <div className="w-[60%] md:w-[50%] overflow-x-auto">
-                                {stats.contributionGraph ? (
-                                    <div
-                                        className="w-full min-w-[300px] bg-black/20 rounded-md p-3 grayscale
-                                        [&>svg]:w-full [&>svg]:h-auto
-                                        [&_rect]:rx-[2px] [&_rect]:ry-[2px]
-                                        [&_rect[data-level='0']]:fill-white/5
-                                        [&_rect[data-level='1']]:fill-white/20
-                                        [&_rect[data-level='2']]:fill-white/40
-                                        [&_rect[data-level='3']]:fill-white/60
-                                        [&_rect[data-level='4']]:fill-white
-                                        [&_text]:fill-white/30 [&_text]:text-[10px]"
-                                        dangerouslySetInnerHTML={{ __html: stats.contributionGraph }}
-                                    />
-                                ) : (
-                                    <div className="text-center py-8 text-white/30">
-                                        Graph not available
-                                    </div>
-                                )}
+                        <div className="w-full overflow-x-auto">
+                            {stats.contributions?.length ? (
+                                <ContributionGrid contributions={stats.contributions} />
+                            ) : (
+                                <div className="text-center py-8 text-white/30">
+                                    Contribution data not available
+                                </div>
+                            )}
                             </div>
-                        </div>\
                     </motion.div>\
 
                     {/* GitHub Streak */}
@@ -195,6 +188,45 @@ export default function GitHubStats({ username }: GitHubStatsProps) {
                 </>
             )}
         </motion.div>
+    );
+}
+
+function ContributionGrid({ contributions }: { contributions: Contribution[] }) {
+    const weeks = Array.from({ length: Math.ceil(contributions.length / 7) }, (_, week) =>
+        contributions.slice(week * 7, week * 7 + 7)
+    );
+
+    return (
+        <div className="relative min-w-[680px] overflow-hidden rounded-md border border-white/10 bg-black/20 p-4">
+            <div className="grid grid-flow-col auto-cols-fr gap-1.5">
+                {weeks.map((week, weekIndex) => (
+                    <div key={weekIndex} className="grid grid-rows-7 gap-1.5">
+                        {Array.from({ length: 7 }, (_, dayIndex) => {
+                            const contribution = week[dayIndex];
+                            const level = contribution?.level ?? 0;
+                            return (
+                                <span
+                                    key={contribution?.date ?? `${weekIndex}-${dayIndex}`}
+                                    title={contribution ? `${contribution.count} contributions on ${contribution.date}` : undefined}
+                                    className={`aspect-square rounded-[2px] ${
+                                        level === 0 ? 'bg-white/5' :
+                                        level === 1 ? 'bg-white/20' :
+                                        level === 2 ? 'bg-white/40' :
+                                        level === 3 ? 'bg-white/65' : 'bg-white'
+                                    }`}
+                                />
+                            );
+                        })}
+                    </div>
+                ))}
+            </div>
+            <motion.div
+                aria-hidden="true"
+                className="pointer-events-none absolute left-0 top-1/2 h-1 w-20 -translate-y-1/2 rounded-full bg-gradient-to-r from-transparent via-white/50 to-white shadow-[0_0_14px_4px_rgba(255,255,255,0.25)]"
+                animate={{ x: ['-120%', '520%'] }}
+                transition={{ duration: 4, repeat: Infinity, ease: 'linear', repeatDelay: 2 }}
+            />
+        </div>
     );
 }
 
