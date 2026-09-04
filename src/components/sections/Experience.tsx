@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { fadeUp, staggerContainer } from '@/lib/animations';
 import { portfolioData } from '@/lib/data';
+import CareerTree from '../ui/CareerTree';
 
 export default function Experience() {
     return (
@@ -19,6 +20,10 @@ export default function Experience() {
                     <h2 className="text-4xl md:text-6xl lg:text-8xl font-bold tracking-tight uppercase">
                         Experience
                     </h2>
+                </motion.div>
+
+                <motion.div variants={fadeUp}>
+                    <CareerTree />
                 </motion.div>
 
                 {/* Experience Grid */}

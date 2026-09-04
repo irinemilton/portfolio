@@ -297,4 +297,206 @@
         animation: none;
         display: none;
     }
+
 }
+
+        .career-tree {
+            border-block: 1px solid rgba(255, 255, 255, 0.12);
+            padding-block: 1.5rem 2rem;
+        }
+
+        .career-tree__intro {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-bottom: 1.25rem;
+            text-transform: uppercase;
+            letter-spacing: 0.24em;
+        }
+
+        .career-tree__eyebrow {
+            color: rgba(255, 255, 255, 0.75);
+            font-size: 0.7rem;
+        }
+
+        .career-tree__hint {
+            margin: 0;
+            color: rgba(255, 255, 255, 0.35);
+            font-size: 0.6rem;
+        }
+
+        .career-tree__canvas {
+            position: relative;
+            height: clamp(20rem, 38vw, 31rem);
+        }
+
+        .career-tree__svg {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            overflow: visible;
+        }
+
+        .career-tree__trunk,
+        .career-tree__branch {
+            fill: none;
+            stroke: rgba(255, 255, 255, 0.3);
+            stroke-width: 0.35;
+            vector-effect: non-scaling-stroke;
+        }
+
+        .career-tree__branch {
+            transition: stroke 250ms ease, stroke-width 250ms ease;
+        }
+
+        .career-tree__branch--active {
+            stroke: #ffffff;
+            stroke-width: 0.65;
+        }
+
+        .career-tree__core {
+            fill: #ffffff;
+            filter: drop-shadow(0 0 7px rgba(255, 255, 255, 0.65));
+        }
+
+        .career-tree__node {
+            position: absolute;
+            display: flex;
+            width: min(13rem, 22vw);
+            transform: translate(-50%, -50%);
+            flex-direction: column;
+            align-items: center;
+            gap: 0.25rem;
+            border: 0;
+            background: transparent;
+            color: rgba(255, 255, 255, 0.45);
+            text-align: center;
+            transition: color 250ms ease, transform 250ms ease;
+        }
+
+        .career-tree__node--start {
+            transform: translate(0, -50%);
+            align-items: flex-start;
+            text-align: left;
+        }
+
+        .career-tree__node--end {
+            transform: translate(-100%, -50%);
+            align-items: flex-end;
+            text-align: right;
+        }
+
+        .career-tree__node:hover,
+        .career-tree__node:focus-visible,
+        .career-tree__node--active {
+            color: #ffffff;
+        }
+
+        .career-tree__dot {
+            width: 0.65rem;
+            height: 0.65rem;
+            border: 1px solid rgba(255, 255, 255, 0.55);
+            border-radius: 999px;
+            background: #050505;
+            box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+            transition: background 250ms ease, box-shadow 250ms ease, transform 250ms ease;
+        }
+
+        .career-tree__node--active .career-tree__dot {
+            background: #ffffff;
+            box-shadow: 0 0 0 0.35rem rgba(255, 255, 255, 0.1), 0 0 1rem rgba(255, 255, 255, 0.5);
+            transform: scale(1.15);
+        }
+
+        .career-tree__node-year,
+        .career-tree__detail-label {
+            color: rgba(255, 255, 255, 0.38);
+            font-size: 0.58rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+        }
+
+        .career-tree__node-role {
+            font-size: clamp(0.7rem, 1.2vw, 1rem);
+            font-weight: 700;
+            line-height: 1.1;
+        }
+
+        .career-tree__node-company {
+            color: rgba(255, 255, 255, 0.45);
+            font-size: 0.65rem;
+        }
+
+        .career-tree__detail {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 2rem;
+            border-left: 1px solid rgba(255, 255, 255, 0.35);
+            padding: 1rem 0 0.25rem 1.25rem;
+        }
+
+        .career-tree__detail h3 {
+            margin: 0.35rem 0;
+            font-size: clamp(1.25rem, 2.5vw, 2rem);
+        }
+
+        .career-tree__detail p {
+            max-width: 42rem;
+            margin: 0;
+            color: rgba(255, 255, 255, 0.55);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .career-tree__skills {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+            gap: 0.4rem;
+        }
+
+        .career-tree__skills span {
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 0.35rem 0.55rem;
+            color: rgba(255, 255, 255, 0.55);
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+        }
+
+        @media (max-width: 768px) {
+            .career-tree__intro {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .career-tree__canvas {
+                height: 28rem;
+            }
+
+            .career-tree__node {
+                width: 7.5rem;
+            }
+
+            .career-tree__node-role {
+                font-size: 0.68rem;
+            }
+
+            .career-tree__node-company {
+                font-size: 0.55rem;
+            }
+
+            .career-tree__detail {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .career-tree__skills {
+                justify-content: flex-start;
+            }
+        }
