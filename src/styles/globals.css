@@ -213,6 +213,104 @@
             animation: flashlightSweep 5s ease-in-out 1.4s infinite;
         }
 
+        .about-scroll-words {
+            --scroll-words-start: 50vh;
+            --scroll-words-dimmed: rgba(255, 255, 255, 0.2);
+            --scroll-words-accent: #ffffff;
+            width: 100%;
+            max-width: 62rem;
+            overflow: hidden;
+            font-size: clamp(2.25rem, 6vw, 5.5rem);
+            font-weight: 700;
+            letter-spacing: -0.055em;
+            line-height: 1.05;
+        }
+
+        .about-scroll-words__inner {
+            display: block;
+            padding-block: 0.15em;
+        }
+
+        .about-scroll-words__prefix {
+            margin: 0;
+            color: #ffffff;
+            font: inherit;
+        }
+
+        .about-scroll-words__list {
+            display: inline-flex;
+            flex-wrap: wrap;
+            align-items: baseline;
+            gap: 0 0.22em;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            vertical-align: baseline;
+        }
+
+        .about-scroll-words__list li {
+            color: rgba(255, 255, 255, 0.2);
+            background: linear-gradient(
+                180deg,
+                var(--scroll-words-dimmed) 0,
+                var(--scroll-words-dimmed) calc(var(--scroll-words-start) - 0.5lh),
+                var(--scroll-words-accent) calc(var(--scroll-words-start) - 0.55lh),
+                var(--scroll-words-accent) calc(var(--scroll-words-start) + 0.55lh),
+                var(--scroll-words-dimmed) calc(var(--scroll-words-start) + 0.5lh)
+            );
+            background-attachment: fixed;
+            background-clip: text;
+            color: transparent;
+            scroll-snap-align: center;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .about-description {
+            max-width: 56rem;
+            font-size: clamp(1.05rem, 1.8vw, 1.45rem);
+            line-height: 1.8;
+            text-wrap: pretty;
+        }
+
+        .about-highlights {
+            border-top: 1px solid rgba(255, 255, 255, 0.12);
+            padding-top: 1.5rem;
+        }
+
+        .about-highlight {
+            min-height: 8rem;
+            border-left-width: 1px;
+            border-top: 1px solid rgba(255, 255, 255, 0.12);
+            padding: 1.5rem 1.25rem 1rem 1.5rem;
+        }
+
+        .about-highlight h3 {
+            font-size: clamp(1.35rem, 2.3vw, 2.3rem);
+            line-height: 1;
+        }
+
+        @supports (animation-timeline: view()) {
+            .about-scroll-words__list {
+                scroll-snap-type: y proximity;
+            }
+
+            .about-scroll-words__list li {
+                animation: aboutWordFocus 1ms linear both;
+                animation-timeline: view(block 35% 65%);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .about-scroll-words {
+                font-size: clamp(2rem, 10vw, 3.5rem);
+            }
+
+            .about-scroll-words__inner {
+                max-width: 100%;
+            }
+        }
+
     @media (prefers-reduced-motion: reduce) {
         .animate-scroll {
             animation-play-state: paused;
@@ -282,6 +380,16 @@
 
     65%, 100% {
         left: 120%;
+    }
+}
+
+@keyframes aboutWordFocus {
+    0%, 100% {
+        opacity: 0.55;
+    }
+
+    45%, 55% {
+        opacity: 1;
     }
 }
 

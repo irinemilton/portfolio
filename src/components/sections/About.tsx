@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { fadeUp, staggerContainer } from '@/lib/animations';
 import { portfolioData } from '@/lib/data';
+import ScrollWords from '../ui/ScrollWords';
 
 export default function About() {
     return (
@@ -19,10 +20,8 @@ export default function About() {
                     variants={fadeUp}
                     className="space-y-8 md:space-y-10"
                 >
-                    <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-tight">
-                        Building AI-powered solutions for real-world problems
-                    </h2>
-                    <p className="text-lg md:text-xl opacity-60 max-w-3xl leading-loose tracking-wide">
+                    <ScrollWords />
+                    <p className="about-description text-lg md:text-xl opacity-60 max-w-3xl leading-loose tracking-wide">
                         {portfolioData.about.description}
                     </p>
                 </motion.div>
@@ -30,7 +29,7 @@ export default function About() {
                 {/* Core Values Grid */}
                 <motion.div
                     variants={fadeUp}
-                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 md:gap-16"
+                    className="about-highlights grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 md:gap-16"
                 >
                     {portfolioData.about.highlights.map((highlight, index) => (
                         <motion.div
@@ -41,7 +40,7 @@ export default function About() {
                             transition={{ duration: 0.6, delay: index * 0.1 }}
                             className="group"
                         >
-                            <div className="border-l-2 border-white/20 pl-6 py-4 hover:border-white/60 transition-all duration-300">
+                            <div className="about-highlight border-l-2 border-white/20 pl-6 py-4 hover:border-white/60 transition-all duration-300">
                                 <h3 className="text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight leading-tight">
                                     {highlight.toUpperCase()}
                                 </h3>
