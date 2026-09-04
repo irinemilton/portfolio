@@ -49,10 +49,21 @@ export default function SectionTitle({ title, subtitle }: SectionTitleProps) {
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, margin: "-100px" }}
-                className="text-3xl md:text-5xl lg:text-6xl font-bold tracking-tighter overflow-hidden flex flex-wrap"
+                aria-label={title}
+                className="scroll-scramble-title text-3xl md:text-5xl lg:text-6xl font-bold tracking-tighter overflow-hidden flex flex-wrap"
             >
                 {characters.map((char, index) => (
-                    <motion.span variants={child} key={index} className="mr-[0.05em] last:mr-0 inline-block">
+                    <motion.span
+                        variants={child}
+                        key={index}
+                        aria-hidden="true"
+                        className="scroll-scramble-letter mr-[0.05em] last:mr-0 inline-block"
+                        style={{
+                            '--scatter-x': `${((index * 37) % 9) - 4}em`,
+                            '--scatter-y': `${((index * 19) % 7) - 3}em`,
+                            '--scatter-rotate': `${((index * 23) % 31) - 15}deg`,
+                        } as React.CSSProperties}
+                    >
                         {char === " " ? "\u00A0" : char}
                     </motion.span>
                 ))}

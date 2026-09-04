@@ -20,7 +20,7 @@ export default function Hero() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.5, duration: 1 }}
-                    className="mt-24 md:mt-32 text-base sm:text-lg md:text-xl lg:text-2xl opacity-80 tracking-widest uppercase font-medium text-center"
+                    className="hero-flashlight mt-24 md:mt-32 text-base sm:text-lg md:text-xl lg:text-2xl opacity-80 tracking-widest uppercase font-medium text-center"
                 >
                     {portfolioData.title}
                 </motion.p>

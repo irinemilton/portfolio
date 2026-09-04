@@ -3,8 +3,8 @@
 import { motion } from 'framer-motion';
 import { fadeUp, staggerContainer } from '@/lib/animations';
 import { portfolioData, Repository } from '@/lib/data';
-import ProjectFilter from '../ui/ProjectFilter';
 import RepositoryScroll from '../ui/RepositoryScroll';
+import ScrollProjectShowcase from '../ui/ScrollProjectShowcase';
 import { useEffect, useState } from 'react';
 
 export default function Projects() {
@@ -117,8 +117,8 @@ export default function Projects() {
                     SELECTED WORK
                 </motion.h2>
 
-                {/* Project Filter */}
-                <ProjectFilter projects={portfolioData.projects} />
+                {/* Scroll Project Showcase */}
+                <ScrollProjectShowcase projects={portfolioData.projects} />
 
                 {/* Repository Showcase */}
                 <RepositoryScroll
