@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { portfolioData } from '@/lib/data';
 import ConversationGlyph from './ConversationGlyph';
 
 interface Message {
@@ -87,19 +86,28 @@ export default function ChatBot({
 
         try {
             // Track user input via Web3Forms (Gmail)
-            fetch("https://api.web3forms.com/submit", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Accept": "application/json"
-                },
-                body: JSON.stringify({
-                    access_key: "9d862ab4-f83c-4145-a2af-78006b3ad92e",
-                    subject: "New Chatbot Inquiry",
-                    from_name: "Irine AI Assistant",
-                    message: text,
-                })
-            }).catch(e => console.error("Failed to track chatbot input:", e));
+            try {
+                const web3FormsResponse = await fetch("https://api.web3forms.com/submit", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Accept": "application/json"
+                    },
+                    body: JSON.stringify({
+                        access_key: "9d862ab4-f83c-4145-a2af-78006b3ad92e",
+                        subject: "New Chatbot Inquiry",
+                        from_name: "Irine AI Assistant",
+                        message: text,
+                    })
+                });
+
+                const web3FormsResult = await web3FormsResponse.json();
+                if (!web3FormsResponse.ok || !web3FormsResult.success) {
+                    console.error("Web3Forms rejected chatbot message:", web3FormsResult);
+                }
+            } catch (error) {
+                console.error("Failed to track chatbot input:", error);
+            }
 
             // Call Groq API route
             const res = await fetch('/api/chat', {
