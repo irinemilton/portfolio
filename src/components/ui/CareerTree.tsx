@@ -62,7 +62,7 @@ export default function CareerTree() {
                             onMouseEnter={() => setActiveIndex(index)}
                             onFocus={() => setActiveIndex(index)}
                             className={`career-tree__node career-tree__node--${position.anchor} ${isActive ? 'career-tree__node--active' : ''}`}
-                            style={{ left: `${position.x}%`, top: `${position.y}%` }}
+                            style={{ '--node-x': `${position.x}%`, '--node-y': `${position.y}%` } as React.CSSProperties}
                             aria-pressed={isActive}
                         >
                             <span className="career-tree__dot" />
