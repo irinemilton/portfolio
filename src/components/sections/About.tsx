@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { fadeUp, staggerContainer } from '@/lib/animations';
 import { portfolioData } from '@/lib/data';
 import ScrollWords from '../ui/ScrollWords';
+import ScrambleParagraph from '../ui/ScrambleParagraph';
 
 export default function About() {
     return (
@@ -21,15 +22,13 @@ export default function About() {
                     className="space-y-8 md:space-y-10"
                 >
                     <ScrollWords />
-                    <p className="about-description text-lg md:text-xl opacity-60 max-w-3xl leading-loose tracking-wide">
-                        {portfolioData.about.description}
-                    </p>
+                    <ScrambleParagraph text={portfolioData.about.description} />
                 </motion.div>
 
                 {/* Core Values Grid */}
                 <motion.div
                     variants={fadeUp}
-                    className="about-highlights grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 md:gap-16"
+                    className="about-highlights grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-12 md:gap-16"
                 >
                     {portfolioData.about.highlights.map((highlight, index) => (
                         <motion.div

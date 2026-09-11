@@ -88,9 +88,9 @@ export default function Contact() {
                             variants={fadeUp}
                             className="text-lg md:text-xl lg:text-2xl opacity-60 leading-relaxed tracking-wide max-w-xl"
                         >
-                            I'm always open to discussing new projects,
+                            I&apos;m always open to discussing new projects,
                             creative ideas, or opportunities to be part of
-                            your vision. Let's build something exceptional
+                            your vision. Let&apos;s build something exceptional
                             together.
                         </motion.p>
 
@@ -101,10 +101,13 @@ export default function Contact() {
                             {/* Email */}
                             <motion.a
                                 href={`mailto:${portfolioData.contact.email}`}
-                                className="group flex items-baseline gap-4 border-b border-white/10 pb-4 hover:border-white/30 transition-all duration-300"
+                                className="group flex items-center gap-4 border-b border-white/10 pb-4 hover:border-white/30 transition-all duration-300"
                             >
+                                <svg aria-hidden="true" className="h-5 w-5 shrink-0 text-white/45 transition-colors group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 5h18v14H3zM3 6l9 7 9-7" />
+                                </svg>
                                 <span className="text-[10px] md:text-xs opacity-40 min-w-[80px] uppercase tracking-[0.2em]">
-                                    Email
+                                    Gmail
                                 </span>
 
                                 <span className="text-lg md:text-2xl lg:text-3xl font-bold tracking-tight group-hover:opacity-100 opacity-80 transition-opacity truncate">
@@ -117,8 +120,11 @@ export default function Contact() {
                                 href={portfolioData.contact.github}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="group flex items-baseline gap-4 border-b border-white/10 pb-4 hover:border-white/30 transition-all duration-300"
+                                className="group flex items-center gap-4 border-b border-white/10 pb-4 hover:border-white/30 transition-all duration-300"
                             >
+                                <svg aria-hidden="true" className="h-5 w-5 shrink-0 text-white/45 transition-colors group-hover:text-white" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 2C6.48 2 2 6.58 2 12.24c0 4.52 2.87 8.35 6.84 9.7.5.1.68-.22.68-.49v-1.7c-2.78.62-3.37-1.22-3.37-1.22-.46-1.18-1.11-1.5-1.11-1.5-.91-.64.07-.63.07-.63 1.01.08 1.55 1.07 1.55 1.07.9 1.57 2.36 1.12 2.94.86.09-.67.35-1.12.64-1.38-2.22-.26-4.56-1.15-4.56-5.07 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.71 0 0 .84-.27 2.76 1.05A9.3 9.3 0 0 1 12 7.14c.85 0 1.7.12 2.5.36 1.92-1.32 2.76-1.05 2.76-1.05.55 1.41.2 2.45.1 2.71.64.72 1.03 1.63 1.03 2.75 0 3.93-2.35 4.8-4.58 5.06.36.32.68.94.68 1.9v2.81c0 .27.18.6.69.49A10.25 10.25 0 0 0 22 12.24C22 6.58 17.52 2 12 2Z" />
+                                </svg>
                                 <span className="text-[10px] md:text-xs opacity-40 min-w-[80px] uppercase tracking-[0.2em]">
                                     GitHub
                                 </span>
@@ -133,8 +139,11 @@ export default function Contact() {
                                 href={portfolioData.contact.linkedin}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="group flex items-baseline gap-4 border-b border-white/10 pb-4 hover:border-white/30 transition-all duration-300"
+                                className="group flex items-center gap-4 border-b border-white/10 pb-4 hover:border-white/30 transition-all duration-300"
                             >
+                                <svg aria-hidden="true" className="h-5 w-5 shrink-0 text-white/45 transition-colors group-hover:text-white" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M6.5 8.25A1.75 1.75 0 1 0 6.5 4.75a1.75 1.75 0 0 0 0 3.5ZM5 9.75h3v9.5H5v-9.5ZM10 9.75h2.88v1.3h.04c.4-.76 1.38-1.56 2.84-1.56 3.04 0 3.6 2 3.6 4.6v5.16h-3v-4.58c0-1.1-.02-2.52-1.54-2.52-1.54 0-1.78 1.2-1.78 2.44v4.66h-3v-9.5Z" />
+                                </svg>
                                 <span className="text-[10px] md:text-xs opacity-40 min-w-[80px] uppercase tracking-[0.2em]">
                                     LinkedIn
                                 </span>
@@ -316,7 +325,7 @@ export default function Contact() {
                                 </h3>
 
                                 <p className="opacity-60 mb-10 leading-relaxed text-sm md:text-base">
-                                    Thank you for reaching out. I've received
+                                    Thank you for reaching out. I&apos;ve received
                                     your message and will reply soon!
                                 </p>
 

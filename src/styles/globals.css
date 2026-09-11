@@ -273,6 +273,29 @@
             text-wrap: pretty;
         }
 
+        .about-scramble-paragraph {
+            max-width: 56rem;
+            margin: 0;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: clamp(1.05rem, 1.8vw, 1.45rem);
+            line-height: 1.8;
+            text-wrap: pretty;
+        }
+
+        .about-scramble-paragraph > span {
+            display: inline-block;
+            white-space: pre;
+            opacity: 0.55;
+            transform: translate3d(0, 4px, 0);
+        }
+
+        .about-scramble-paragraph--visible > span {
+            --scramble-direction: calc(1 - 2 * mod(var(--scramble-index), 2));
+            --scramble-distance: calc(mod(var(--scramble-index) * 7, 4) - 2);
+            animation: aboutParagraphScramble 900ms cubic-bezier(0.22, 1, 0.36, 1) both;
+            animation-delay: calc(var(--scramble-index) * 4ms);
+        }
+
         .about-highlights {
             border-top: 1px solid rgba(255, 255, 255, 0.12);
             padding-top: 1.5rem;
@@ -288,6 +311,33 @@
         .about-highlight h3 {
             font-size: clamp(1.35rem, 2.3vw, 2.3rem);
             line-height: 1;
+        }
+
+        @media (max-width: 768px) {
+            .about-highlights {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 1rem;
+                align-items: stretch;
+                border-top: 1px solid rgba(255, 255, 255, 0.18);
+            }
+
+            .about-highlight {
+                min-height: 7rem;
+                border-left: 1px solid rgba(255, 255, 255, 0.35);
+                border-top: 1px solid rgba(255, 255, 255, 0.35);
+                padding: 1rem;
+                background: rgba(255, 255, 255, 0.035);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 0.5rem;
+            }
+
+            .about-highlight h3 {
+                font-size: clamp(1rem, 4vw, 1.6rem);
+                line-height: 1.3;
+                text-align: center;
+            }
         }
 
         @supports (animation-timeline: view()) {
@@ -393,6 +443,20 @@
     }
 }
 
+@keyframes aboutParagraphScramble {
+    0% {
+        opacity: 0.35;
+        filter: blur(2px);
+        transform: translate3d(0, calc(var(--scramble-distance) * var(--scramble-direction) * 4px), 8px);
+    }
+
+    100% {
+        opacity: 1;
+        filter: blur(0);
+        transform: translate3d(0, 0, 0);
+    }
+}
+
 @media (prefers-reduced-motion: reduce) {
     .scroll-scramble-letter {
         animation: none;
@@ -404,6 +468,12 @@
     .hero-flashlight::after {
         animation: none;
         display: none;
+    }
+
+    .about-scramble-paragraph > span {
+        animation: none;
+        opacity: 1;
+        transform: none;
     }
 
 }
