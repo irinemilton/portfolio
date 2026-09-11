@@ -1,8 +1,8 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import Image from 'next/image';
 import { useState, useEffect } from 'react';
+import GhostAvatar from './GhostAvatar';
 
 export default function ChatTrigger({ onClick, isOpen }: { onClick: () => void; isOpen: boolean }) {
     const [isVisible, setIsVisible] = useState(true);
@@ -56,17 +56,9 @@ export default function ChatTrigger({ onClick, isOpen }: { onClick: () => void; 
                 whileHover={{ scale: 1.05, rotate: -2 }}
                 whileTap={{ scale: 0.96 }}
                 aria-label="Open chat"
-                className="group relative flex h-16 w-16 items-center justify-center overflow-hidden rounded-full border border-white/10 bg-white/5 shadow-[0_18px_40px_rgba(0,0,0,0.45)] ring-1 ring-white/10 transition-all duration-300 hover:border-white/20 hover:bg-white/8"
+                className="group relative flex h-16 w-16 items-center justify-center rounded-full"
             >
-                <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-transparent" />
-                <Image
-                    src="/mascout1.png"
-                    alt="Irine profile"
-                    width={120}
-                    height={120}
-                    priority
-                    className="relative z-10 h-full w-full object-cover scale-[1.08] transition-transform duration-300 group-hover:scale-[1.15]"
-                />
+                <GhostAvatar />
             </motion.button>
         </motion.div>
     );
