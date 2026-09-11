@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { useEffect, useRef, useState } from 'react';
+import { AnimatePresence, motion, useScroll, useTransform } from 'framer-motion';
 import { portfolioData } from '@/lib/data';
 
 export default function Resume() {
@@ -9,6 +9,13 @@ export default function Resume() {
     const resumeHref = portfolioData.contact.resume;
     const downloadName = 'Irine_Milton_Resume.pdf';
     const previewSrc = `${resumeHref}#view=FitH&toolbar=0&navpanes=0`;
+
+    const sectionRef = useRef<HTMLElement>(null);
+    const { scrollYProgress } = useScroll({
+        target: sectionRef,
+        offset: ['start 0.8', 'end 0.2'],
+    });
+    const progressHeight = useTransform(scrollYProgress, [0, 1], ['0%', '100%']);
 
     useEffect(() => {
         if (!isPreviewOpen) return;
@@ -24,14 +31,27 @@ export default function Resume() {
     }, [isPreviewOpen]);
 
     return (
-        <section id="resume" className="min-h-screen w-full flex items-center justify-center px-6 py-32 md:py-48 relative z-10 bg-black/40 backdrop-blur-sm overflow-hidden">
+        <section ref={sectionRef} id="resume" className="min-h-screen w-full flex items-center justify-center px-6 py-32 md:py-48 relative z-10 bg-black/40 backdrop-blur-sm overflow-hidden">
             <motion.div
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.18 }}
                 transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
-                className="max-w-7xl w-full grid grid-cols-1 lg:grid-cols-[0.9fr_1.1fr] gap-10 lg:gap-12 items-start"
+                className="max-w-7xl w-full grid grid-cols-1 lg:grid-cols-[0.9fr_1.1fr] gap-10 lg:gap-12 items-start relative"
             >
+                {/* Scroll Progress Line */}
+                <div className="hidden lg:block absolute left-[45%] top-0 bottom-0">
+                    <div className="absolute inset-y-0 left-1/2 -translate-x-1/2 w-px bg-white/10" />
+                    <motion.div
+                        style={{ height: progressHeight }}
+                        className="absolute top-0 left-1/2 -translate-x-1/2 w-px bg-gradient-to-b from-white/50 via-white/30 to-white/10"
+                    />
+                    <motion.div
+                        style={{ top: progressHeight }}
+                        className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2 w-2.5 h-2.5 rounded-full bg-white shadow-[0_0_14px_rgba(255,255,255,0.7)]"
+                    />
+                </div>
+
                 <div className="space-y-8 lg:sticky lg:top-28">
                     <div className="space-y-4">
                         <p className="text-[10px] uppercase tracking-[0.35em] text-white/35">Resume</p>

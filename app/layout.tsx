@@ -1,4 +1,5 @@
 import DynamicLogo from '@/components/ui/DynamicLogo';
+import NavLogo from '@/components/ui/NavLogo';
 import NavigationMenu from '@/components/ui/NavigationMenu';
 import ServiceWorkerRegistration from '@/components/ServiceWorkerRegistration';
 import GoogleAnalytics from '@/components/analytics/GoogleAnalytics';
@@ -27,6 +28,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
 
         <Cursor />
+        <NavLogo />
         <DynamicLogo />
         <NavigationMenu />
         <ServiceWorkerRegistration />

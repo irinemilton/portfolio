@@ -1,35 +1,36 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import GhostAvatar from './GhostAvatar';
 
 export default function ChatTrigger({ onClick, isOpen }: { onClick: () => void; isOpen: boolean }) {
     const [isVisible, setIsVisible] = useState(true);
-    const hideTimeoutRef = useState<NodeJS.Timeout | null>(null)[1];
+    const hideTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-    useEffect(() => {
-        const handleUserActivity = () => {
-            setIsVisible(true);
-        };
-
-        // Show on scroll, mouse move, or click
-        window.addEventListener('scroll', handleUserActivity);
-        window.addEventListener('mousemove', handleUserActivity);
-        window.addEventListener('click', handleUserActivity);
-
-        // Hide after 5 seconds of inactivity
-        const hideTimer = setTimeout(() => {
+    const resetHideTimer = useCallback(() => {
+        setIsVisible(true);
+        if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
+        hideTimerRef.current = setTimeout(() => {
             setIsVisible(false);
         }, 5000);
+    }, []);
+
+    useEffect(() => {
+        resetHideTimer();
+
+        // Show on scroll, mouse move, or click, then re-hide after inactivity
+        window.addEventListener('scroll', resetHideTimer);
+        window.addEventListener('mousemove', resetHideTimer);
+        window.addEventListener('click', resetHideTimer);
 
         return () => {
-            window.removeEventListener('scroll', handleUserActivity);
-            window.removeEventListener('mousemove', handleUserActivity);
-            window.removeEventListener('click', handleUserActivity);
-            clearTimeout(hideTimer);
+            window.removeEventListener('scroll', resetHideTimer);
+            window.removeEventListener('mousemove', resetHideTimer);
+            window.removeEventListener('click', resetHideTimer);
+            if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
         };
-    }, []);
+    }, [resetHideTimer]);
 
     return (
         <motion.div

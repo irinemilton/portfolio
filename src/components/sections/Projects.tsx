@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { fadeUp, staggerContainer } from '@/lib/animations';
 import { portfolioData, Repository } from '@/lib/data';
 import RepositoryScroll from '../ui/RepositoryScroll';
-import ScrollProjectShowcase from '../ui/ScrollProjectShowcase';
+import PageFlipShowcase from '../ui/PageFlipShowcase';
 import { useEffect, useState } from 'react';
 
 export default function Projects() {
@@ -117,8 +117,8 @@ export default function Projects() {
                     SELECTED WORK
                 </motion.h2>
 
-                {/* Scroll Project Showcase */}
-                <ScrollProjectShowcase projects={portfolioData.projects} />
+                {/* Flip Book Project Showcase */}
+                <PageFlipShowcase projects={portfolioData.projects} />
 
                 {/* Repository Showcase */}
                 <RepositoryScroll

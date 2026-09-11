@@ -1,9 +1,9 @@
 'use client';
 
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { fadeUp, staggerContainer } from '@/lib/animations';
 import { portfolioData } from '@/lib/data';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
 export default function Contact() {
     const [status, setStatus] = useState<
@@ -11,6 +11,14 @@ export default function Contact() {
     >('idle');
 
     const [result, setResult] = useState('');
+
+    const sectionRef = useRef<HTMLElement>(null);
+    const { scrollYProgress } = useScroll({
+        target: sectionRef,
+        offset: ['start end', 'end start'],
+    });
+    const orbY = useTransform(scrollYProgress, [0, 1], ['0%', '25%']);
+    const titleY = useTransform(scrollYProgress, [0, 1], ['0%', '-12%']);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -59,11 +67,12 @@ export default function Contact() {
 
     return (
         <section
+            ref={sectionRef}
             id="contact"
             className="min-h-screen w-full flex flex-col items-center justify-start px-6 py-20 md:py-28 relative overflow-hidden"
         >
             {/* Background Accent */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-white/[0.02] rounded-full blur-[120px] pointer-events-none" />
+            <motion.div style={{ y: orbY }} className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-white/[0.02] rounded-full blur-[120px] pointer-events-none" />
 
             <motion.div
                 variants={staggerContainer}
@@ -74,7 +83,11 @@ export default function Contact() {
             >
                 {/* Section Title */}
                 <motion.h2
-                    variants={fadeUp}
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    viewport={{ once: true, amount: 0.5 }}
+                    transition={{ duration: 0.6, ease: "easeOut" }}
+                    style={{ y: titleY }}
                     className="text-5xl md:text-7xl lg:text-9xl font-bold mb-16 md:mb-20 tracking-tight uppercase"
                 >
                     Connect

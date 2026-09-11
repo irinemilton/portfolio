@@ -6,6 +6,7 @@ export interface Project {
     description: string;
     tech: string[];
     year: string;
+    image: string;
 }
 
 export interface Repository {
@@ -51,28 +52,32 @@ export const portfolioData = {
             title: "CivicPulse AI",
             description: "Voice-first grievance platform utilizing OpenAI Whisper to transcribe, tag, and rank public grievances for government authorities. Built during Byte Quest 2026.",
             tech: ["React", "Node.js", "OpenAI Whisper", "AI/ML"],
-            year: "2026"
+            year: "2026",
+            image: "/civicpulse.png"
         },
         {
             id: 2,
             title: "ICU Psychosis AI",
             description: "Award-winning early detection system using Computer Vision to identify behavioral distress signals in ICU patients. Winner at YODHA National Hackathon.",
             tech: ["Python", "Computer Vision", "Real-time Analytics"],
-            year: "2026"
+            year: "2026",
+            image: "/icu monitoring.png"
         },
         {
             id: 3,
             title: "Shopzye",
             description: "Full-stack e-commerce platform featuring JWT authentication, admin dashboard, and secure checkout flow.",
             tech: ["React", "Django", "MySQL", "Redux"],
-            year: "2025"
+            year: "2025",
+            image: "/shopzye.png"
         },
         {
             id: 4,
             title: "DeCIDE",
             description: "AI-powered truth assistant to combat misinformation by verifying text and media in real-time. Built for Gen AI Exchange Hackathon.",
             tech: ["Generative AI", "Google Cloud", "Hackathon"],
-            year: "2025"
+            year: "2025",
+            image: "/decide.png"
         }
     ],
 

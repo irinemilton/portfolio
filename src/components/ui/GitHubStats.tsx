@@ -28,6 +28,18 @@ interface Contribution {
     level: number;
 }
 
+const LEVEL_COLORS = [
+    'bg-white/[0.04]',
+    'bg-white/25',
+    'bg-white/45',
+    'bg-white/70',
+    'bg-white',
+];
+
+interface ContributionGridProps {
+    contributions: Contribution[];
+}
+
 export default function GitHubStats({ username }: GitHubStatsProps) {
     const [stats, setStats] = useState<GitHubStatsData | null>(null);
     const [loading, setLoading] = useState(true);
@@ -169,8 +181,8 @@ export default function GitHubStats({ username }: GitHubStatsProps) {
                                     Contribution data not available
                                 </div>
                             )}
-                            </div>
-                    </motion.div>\
+                        </div>
+                    </motion.div>
 
                     {/* GitHub Streak */}
                     <motion.div
@@ -191,44 +203,173 @@ export default function GitHubStats({ username }: GitHubStatsProps) {
     );
 }
 
-function ContributionGrid({ contributions }: { contributions: Contribution[] }) {
-    const weeks = Array.from({ length: Math.ceil(contributions.length / 7) }, (_, week) =>
-        contributions.slice(week * 7, week * 7 + 7)
-    );
+function ContributionGrid({ contributions }: ContributionGridProps) {
+    if (!contributions.length) {
+        return (
+            <div className="text-center py-8 text-white/30">
+                Contribution data not available
+            </div>
+        );
+    }
+
+    const sorted = [...contributions].sort((a, b) => a.date.localeCompare(b.date));
+
+    const byDate = new Map<string, Contribution>();
+    sorted.forEach((c) => byDate.set(c.date, c));
+
+    const first = parseDate(sorted[0].date);
+    const last = parseDate(sorted[sorted.length - 1].date);
+
+    // Group into weeks starting on Sunday, matching GitHub's calendar layout.
+    const weeks: Date[][] = [];
+    for (
+        let weekStart = startOfWeek(first);
+        weekStart <= last;
+    ) {
+        const week: Date[] = [];
+        for (let dayOffset = 0; dayOffset < 7; dayOffset++) {
+            const day = new Date(weekStart);
+            day.setDate(weekStart.getDate() + dayOffset);
+            week.push(day);
+        }
+        weeks.push(week);
+        weekStart.setDate(weekStart.getDate() + 7);
+    }
+
+    // Month labels: show a month name on the first week of each month.
+    const monthSpans: { label: string; start: number; end: number }[] = [];
+    let currentMonth: { key: string; label: string; start: number } | null = null;
+
+    for (let index = 0; index < weeks.length; index++) {
+        const firstDay = weeks[index][0];
+        const key = `${firstDay.getFullYear()}-${firstDay.getMonth()}`;
+
+        if (!currentMonth || currentMonth.key !== key) {
+            if (currentMonth) {
+                monthSpans.push({
+                    label: currentMonth.label,
+                    start: currentMonth.start,
+                    end: index,
+                });
+            }
+            currentMonth = { key, label: MONTHS[firstDay.getMonth()], start: index };
+        }
+    }
+
+    if (currentMonth) {
+        monthSpans.push({
+            label: currentMonth.label,
+            start: currentMonth.start,
+            end: weeks.length,
+        });
+    }
+
+    const weekdayLabels = ['', 'Mon', '', 'Wed', '', 'Fri', ''];
 
     return (
-        <div className="relative min-w-[680px] overflow-hidden rounded-md border border-white/10 bg-black/20 p-4">
-            <div className="grid grid-flow-col auto-cols-fr gap-1.5">
-                {weeks.map((week, weekIndex) => (
-                    <div key={weekIndex} className="grid grid-rows-7 gap-1.5">
-                        {Array.from({ length: 7 }, (_, dayIndex) => {
-                            const contribution = week[dayIndex];
-                            const level = contribution?.level ?? 0;
-                            return (
-                                <span
-                                    key={contribution?.date ?? `${weekIndex}-${dayIndex}`}
-                                    title={contribution ? `${contribution.count} contributions on ${contribution.date}` : undefined}
-                                    className={`aspect-square rounded-[2px] ${
-                                        level === 0 ? 'bg-white/5' :
-                                        level === 1 ? 'bg-white/20' :
-                                        level === 2 ? 'bg-white/40' :
-                                        level === 3 ? 'bg-white/65' : 'bg-white'
-                                    }`}
-                                />
-                            );
-                        })}
-                    </div>
-                ))}
+        <div className="relative min-w-[760px] overflow-hidden rounded-md border border-white/10 bg-black/20 p-4">
+            {/* Month labels */}
+            <div
+                className="mb-2 grid gap-1.5"
+                style={{ gridTemplateColumns: `repeat(${weeks.length}, minmax(10px, 1fr))` }}
+            >
+                {Array.from({ length: weeks.length }, (_, index) => {
+                    const span = monthSpans.find((m) => m.start === index);
+
+                    return span ? (
+                        <div
+                            key={index}
+                            className="font-mono text-[10px] uppercase tracking-wider text-white/40"
+                            style={{ gridColumnStart: span.start + 1, gridColumnEnd: span.end + 1 }}
+                        >
+                            {span.label}
+                        </div>
+                    ) : null;
+                })}
             </div>
-            <motion.div
-                aria-hidden="true"
-                className="pointer-events-none absolute left-0 top-1/2 h-1 w-20 -translate-y-1/2 rounded-full bg-gradient-to-r from-transparent via-white/50 to-white shadow-[0_0_14px_4px_rgba(255,255,255,0.25)]"
-                animate={{ x: ['-120%', '520%'] }}
-                transition={{ duration: 4, repeat: Infinity, ease: 'linear', repeatDelay: 2 }}
-            />
+
+            <div className="flex gap-1.5">
+                {/* Weekday labels */}
+                <div className="grid shrink-0 grid-rows-7 gap-1.5 pr-1">
+                    {weekdayLabels.map((label, index) => (
+                        <div
+                            key={index}
+                            className="flex items-center justify-end text-[9px] uppercase text-white/35"
+                        >
+                            {label}
+                        </div>
+                    ))}
+                </div>
+
+                {/* Contribution cells */}
+                <div
+                    className="grid flex-1 gap-1.5"
+                    style={{ gridTemplateColumns: `repeat(${weeks.length}, minmax(10px, 1fr))` }}
+                >
+                    {weeks.map((week, weekIndex) => (
+                        <div key={weekIndex} className="grid grid-rows-7 gap-1.5">
+                            {week.map((day, dayIndex) => {
+                                const c = byDate.get(dateKey(day));
+                                const level = Math.min(c?.level ?? 0, 4);
+                                const count = c?.count ?? 0;
+                                const dateLabel = day.toLocaleDateString('en-US', {
+                                    month: 'short',
+                                    day: 'numeric',
+                                    year: 'numeric',
+                                });
+
+                                return (
+                                    <span
+                                        key={dayIndex}
+                                        title={
+                                            count > 0
+                                                ? `${count} contribution${count === 1 ? '' : 's'} on ${dateLabel}`
+                                                : `No contributions on ${dateLabel}`
+                                        }
+                                        className={`aspect-square rounded-[2px] ${LEVEL_COLORS[level]} transition-transform duration-200 hover:scale-125 hover:z-10`}
+                                    />
+                                );
+                            })}
+                        </div>
+                    ))}
+                </div>
+            </div>
+
+            {/* Legend */}
+            <div className="mt-3 flex items-center justify-end gap-1.5 text-[9px] uppercase tracking-wider text-white/35">
+                <span className="mr-1">Less</span>
+                {LEVEL_COLORS.map((color) => (
+                    <span key={color} className={`h-2.5 w-2.5 rounded-[2px] ${color}`} />
+                ))}
+                <span className="ml-1">More</span>
+            </div>
         </div>
     );
 }
+
+function parseDate(dateString: string): Date {
+    const [year, month, day] = dateString.split('-').map(Number);
+    return new Date(year, month - 1, day);
+}
+
+function dateKey(date: Date): string {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+}
+
+function startOfWeek(date: Date): Date {
+    const copy = new Date(date);
+    copy.setDate(date.getDate() - date.getDay());
+    copy.setHours(0, 0, 0, 0);
+    return copy;
+}
+
+const MONTHS = [
+    'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+];
 
 function StatCard({ label, value }: { label: string; value: number }) {
     return (
