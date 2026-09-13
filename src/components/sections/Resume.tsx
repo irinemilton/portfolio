@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { AnimatePresence, motion, useScroll, useTransform } from 'framer-motion';
+import { AnimatePresence, motion, useScroll, useTransform, useInView } from 'framer-motion';
 import { portfolioData } from '@/lib/data';
 
 export default function Resume() {
@@ -16,6 +16,7 @@ export default function Resume() {
         offset: ['start 0.8', 'end 0.2'],
     });
     const progressHeight = useTransform(scrollYProgress, [0, 1], ['0%', '100%']);
+    const isInView = useInView(sectionRef, { once: true, amount: 0.2 });
 
     useEffect(() => {
         if (!isPreviewOpen) return;
@@ -99,11 +100,14 @@ export default function Resume() {
 
                     <div className="relative overflow-hidden rounded-[28px] border border-white/10 bg-[#0b0b0b] shadow-[0_20px_60px_rgba(0,0,0,0.35)]">
                         <div className="relative aspect-[8.5/11]">
-                            <iframe
-                                src={previewSrc}
-                                title="Resume preview"
-                                className="pointer-events-none absolute inset-0 h-full w-full scale-[0.96] origin-top-left bg-white"
-                            />
+                            {isInView && (
+                                <iframe
+                                    src={previewSrc}
+                                    title="Resume preview"
+                                    loading="lazy"
+                                    className="pointer-events-none absolute inset-0 h-full w-full scale-[0.96] origin-top-left bg-white"
+                                />
+                            )}
                             <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/70" />
                             <button
                                 type="button"
