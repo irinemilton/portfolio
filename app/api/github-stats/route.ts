@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 
+export const runtime = 'nodejs';
 export const revalidate = 3600; // Cache the response for 1 hour to prevent rate limiting
 
 interface Contribution {
@@ -83,72 +84,95 @@ export async function GET() {
             headers['Authorization'] = `token ${process.env.GITHUB_TOKEN}`;
         }
 
-        // Fetch user data
-        const userResponse = await fetch(
-            `https://api.github.com/users/${username}`,
-            { headers }
-        );
+        // User profile
+        const userRes = await fetch(`https://api.github.com/users/${username}`, { headers });
+        if (!userRes.ok) throw new Error('Failed to fetch user data');
+        const userData = await userRes.json();
 
-        if (!userResponse.ok) {
-            throw new Error('Failed to fetch user data');
-        }
+        // Repo list
+        const reposRes = await fetch(`https://api.github.com/users/${username}/repos?per_page=100`, { headers });
+        if (!reposRes.ok) throw new Error('Failed to fetch repositories');
+        const repos = await reposRes.json();
 
-        const userData = await userResponse.json();
-
-        // Fetch repositories for language stats
-        const reposResponse = await fetch(
-            `https://api.github.com/users/${username}/repos?per_page=100`,
-            { headers }
-        );
-
-        if (!reposResponse.ok) {
-            throw new Error('Failed to fetch repositories');
-        }
-
-        const repos = await reposResponse.json();
-
-        // Calculate language statistics
+        // Language stats
         const languageStats: { [key: string]: number } = {};
         repos.forEach((repo: any) => {
             if (repo.language) {
                 languageStats[repo.language] = (languageStats[repo.language] || 0) + 1;
             }
         });
-
-        // Sort languages by usage
         const topLanguages = Object.entries(languageStats)
             .sort(([, a], [, b]) => b - a)
             .slice(0, 5)
             .map(([language, count]) => ({
                 language,
                 count,
-                percentage: ((count / repos.length) * 100).toFixed(1)
+                percentage: ((count / repos.length) * 100).toFixed(1),
             }));
+
+        // Contributions (GraphQL preferred)
+        let contributions: any[] = [];
+        if (process.env.GITHUB_TOKEN) {
+            const gqlQuery = `
+                query ($login: String!) {
+                    user(login: $login) {
+                        contributionsCollection {
+                            contributionCalendar {
+                                weeks {
+                                    contributionDays {
+                                        date
+                                        contributionCount
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            `;
+            const gqlRes = await fetch('https://api.github.com/graphql', {
+                method: 'POST',
+                headers: {
+                    Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ query: gqlQuery, variables: { login: username } }),
+            });
+            if (gqlRes.ok) {
+                const gqlData = await gqlRes.json();
+                const weeks = gqlData.data.user.contributionsCollection.contributionCalendar.weeks;
+                contributions = weeks.flatMap((w: any) =>
+                    w.contributionDays.map((d: any) => ({
+                        date: d.date,
+                        count: d.contributionCount,
+                        level: 0,
+                    }))
+                );
+            } else {
+                console.warn('[GitHub Stats API] GraphQL contributions fetch failed');
+            }
+        } else {
+            // Fallback to scraping or legacy API
+            try {
+                contributions = await fetchContributionsFromGitHub(username);
+            } catch (scrapeError) {
+                console.error('[GitHub Stats API] Scrape failed, trying legacy:', scrapeError);
+                try {
+                    contributions = await fetchContributionsLegacy(username);
+                } catch (legacyError) {
+                    console.error('[GitHub Stats API] Legacy fetch failed:', legacyError);
+                }
+            }
+        }
 
         const stats = {
             publicRepos: userData.public_repos,
             followers: userData.followers,
             following: userData.following,
-            totalStars: repos.reduce((acc: number, repo: any) => acc + repo.stargazers_count, 0),
-            totalForks: repos.reduce((acc: number, repo: any) => acc + repo.forks_count, 0),
+            totalStars: repos.reduce((a: number, r: any) => a + r.stargazers_count, 0),
+            totalForks: repos.reduce((a: number, r: any) => a + r.forks_count, 0),
             topLanguages,
+            contributions,
         };
-
-        // Fetch contribution data so the graph can render in our theme.
-        try {
-            const contributions = await fetchContributionsFromGitHub(username);
-            Object.assign(stats, { contributions });
-        } catch (graphError) {
-            console.error('[GitHub Stats API] GitHub scrape failed, trying fallback:', graphError);
-
-            try {
-                const contributions = await fetchContributionsLegacy(username);
-                Object.assign(stats, { contributions });
-            } catch (fallbackError) {
-                console.error('[GitHub Stats API] Fallback also failed:', fallbackError);
-                // Non-fatal error, continue without the graph
-            }
-        }
 
         return NextResponse.json(stats);
     } catch (error) {
