@@ -10,6 +10,8 @@ interface GitHubStatsProps {
 
 interface GitHubStatsData {
     publicRepos: number;
+    totalRepos: number;
+    privateRepos: number;
     followers: number;
     following: number;
     totalStars: number;
@@ -111,8 +113,9 @@ export default function GitHubStats({ username }: GitHubStatsProps) {
                 <>
                     {/* Stats Grid */}
                     <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-                        <StatCard label="Repositories" value={stats.publicRepos} />
-                        <StatCard label="Followers" value={stats.followers} />
+                        <StatCard label="Repositories" value={stats.totalRepos} />
+                        <StatCard label="Private Repos" value={stats.privateRepos} />
+
                         <StatCard label="Following" value={stats.following} />
                         <StatCard label="Stars" value={stats.totalStars} />
                         <StatCard label="Forks" value={stats.totalForks} />

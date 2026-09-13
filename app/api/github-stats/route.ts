@@ -89,8 +89,13 @@ export async function GET() {
         if (!userRes.ok) throw new Error('Failed to fetch user data');
         const userData = await userRes.json();
 
-        // Repo list
-        const reposRes = await fetch(`https://api.github.com/users/${username}/repos?per_page=100`, { headers });
+        // Repo list (including private repos when authenticated)
+        let reposRes;
+        if (process.env.GITHUB_TOKEN) {
+            reposRes = await fetch(`https://api.github.com/user/repos?per_page=100&visibility=all`, { headers });
+        } else {
+            reposRes = await fetch(`https://api.github.com/users/${username}/repos?per_page=100`, { headers });
+        }
         if (!reposRes.ok) throw new Error('Failed to fetch repositories');
         const repos = await reposRes.json();
 
@@ -170,6 +175,9 @@ export async function GET() {
             following: userData.following,
             totalStars: repos.reduce((a: number, r: any) => a + r.stargazers_count, 0),
             totalForks: repos.reduce((a: number, r: any) => a + r.forks_count, 0),
+            // Compute total repo count using public + private counts from user profile
+            totalRepos: userData.public_repos + (userData.total_private_repos ?? 0),
+            privateRepos: userData.total_private_repos ?? 0,
             topLanguages,
             contributions,
         };
