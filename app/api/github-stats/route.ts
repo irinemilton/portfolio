@@ -127,6 +127,7 @@ export async function GET() {
                                     contributionDays {
                                         date
                                         contributionCount
+                                        contributionLevel
                                     }
                                 }
                             }
@@ -134,6 +135,13 @@ export async function GET() {
                     }
                 }
             `;
+            const LEVEL_MAP: Record<string, number> = {
+                NONE: 0,
+                FIRST_QUARTILE: 1,
+                SECOND_QUARTILE: 2,
+                THIRD_QUARTILE: 3,
+                FOURTH_QUARTILE: 4,
+            };
             const gqlRes = await fetch('https://api.github.com/graphql', {
                 method: 'POST',
                 headers: {
@@ -149,7 +157,7 @@ export async function GET() {
                     w.contributionDays.map((d: any) => ({
                         date: d.date,
                         count: d.contributionCount,
-                        level: 0,
+                        level: LEVEL_MAP[d.contributionLevel] ?? 0,
                     }))
                 );
             } else {
