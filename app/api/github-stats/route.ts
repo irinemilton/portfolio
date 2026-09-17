@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 
 export const runtime = 'nodejs';
-export const revalidate = 3600; // Cache the response for 1 hour to prevent rate limiting
+// Cache is applied per-fetch via `next: { revalidate }` to work correctly with the nodejs runtime.
 
 interface Contribution {
     date: string;
@@ -84,17 +84,32 @@ export async function GET() {
             headers['Authorization'] = `token ${process.env.GITHUB_TOKEN}`;
         }
 
-        // User profile
-        const userRes = await fetch(`https://api.github.com/users/${username}`, { headers });
+        // User profile — use /user (authenticated) when a token is present so that
+        // `total_private_repos` is included in the response; fall back to the public endpoint.
+        const profileUrl = process.env.GITHUB_TOKEN
+            ? 'https://api.github.com/user'
+            : `https://api.github.com/users/${username}`;
+        const userRes = await fetch(profileUrl, {
+            headers,
+            next: { revalidate: 3600 },
+        });
         if (!userRes.ok) throw new Error('Failed to fetch user data');
         const userData = await userRes.json();
 
         // Repo list (including private repos when authenticated)
         let reposRes;
         if (process.env.GITHUB_TOKEN) {
-            reposRes = await fetch(`https://api.github.com/user/repos?per_page=100&visibility=all`, { headers });
+            // IMPORTANT: this returns repos for the authenticated user; ensure the token
+            // belongs to `${username}` so the data is correct.
+            reposRes = await fetch(
+                `https://api.github.com/user/repos?per_page=100&visibility=all`,
+                { headers, next: { revalidate: 3600 } },
+            );
         } else {
-            reposRes = await fetch(`https://api.github.com/users/${username}/repos?per_page=100`, { headers });
+            reposRes = await fetch(
+                `https://api.github.com/users/${username}/repos?per_page=100`,
+                { headers, next: { revalidate: 3600 } },
+            );
         }
         if (!reposRes.ok) throw new Error('Failed to fetch repositories');
         const repos = await reposRes.json();
@@ -106,13 +121,15 @@ export async function GET() {
                 languageStats[repo.language] = (languageStats[repo.language] || 0) + 1;
             }
         });
+        // Use only repos that have a detected language so percentages add up correctly.
+        const reposWithLanguage = repos.filter((r: any) => r.language).length || 1;
         const topLanguages = Object.entries(languageStats)
             .sort(([, a], [, b]) => b - a)
             .slice(0, 5)
             .map(([language, count]) => ({
                 language,
                 count,
-                percentage: ((count / repos.length) * 100).toFixed(1),
+                percentage: ((count / reposWithLanguage) * 100).toFixed(1),
             }));
 
         // Contributions (GraphQL preferred)
@@ -149,10 +166,16 @@ export async function GET() {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({ query: gqlQuery, variables: { login: username } }),
+                next: { revalidate: 3600 },
             });
             if (gqlRes.ok) {
                 const gqlData = await gqlRes.json();
-                const weeks = gqlData.data.user.contributionsCollection.contributionCalendar.weeks;
+                // Guard against null user / partial GraphQL errors to avoid a runtime crash.
+                const weeks: any[] =
+                    gqlData?.data?.user?.contributionsCollection?.contributionCalendar?.weeks ?? [];
+                if (weeks.length === 0) {
+                    console.warn('[GitHub Stats API] GraphQL returned no contribution weeks', gqlData?.errors);
+                }
                 contributions = weeks.flatMap((w: any) =>
                     w.contributionDays.map((d: any) => ({
                         date: d.date,
@@ -161,7 +184,8 @@ export async function GET() {
                     }))
                 );
             } else {
-                console.warn('[GitHub Stats API] GraphQL contributions fetch failed');
+                const errBody = await gqlRes.text();
+                console.warn('[GitHub Stats API] GraphQL contributions fetch failed', gqlRes.status, errBody);
             }
         } else {
             // Fallback to scraping or legacy API
