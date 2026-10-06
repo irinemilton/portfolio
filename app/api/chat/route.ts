@@ -1,6 +1,42 @@
 import { NextResponse } from 'next/server';
 import { portfolioData } from '@/lib/data';
 
+async function forwardChatMessage(message: string) {
+    const accessKey = process.env.WEB3FORMS_ACCESS_KEY;
+    if (!accessKey) {
+        console.error('WEB3FORMS_ACCESS_KEY is not configured.');
+        return;
+    }
+
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 8000);
+
+    try {
+        const response = await fetch('https://api.web3forms.com/submit', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+            },
+            body: JSON.stringify({
+                access_key: accessKey,
+                subject: 'New Chatbot Inquiry',
+                from_name: 'Irine AI Assistant',
+                message,
+            }),
+            signal: controller.signal,
+        });
+        const result = await response.json();
+        if (!response.ok || !result.success) {
+            console.error('Web3Forms rejected chatbot message:', result);
+        }
+    } catch (error) {
+        console.error('Chatbot email forwarding failed:', error instanceof Error ? error.message : error);
+    } finally {
+        clearTimeout(timeout);
+    }
+}
+
 export async function POST(req: Request) {
     const apiKey = process.env.OPENROUTER_API_KEY;
 
@@ -11,6 +47,14 @@ export async function POST(req: Request) {
 
     try {
         const { messages } = await req.json();
+
+        const latestUserMessage = [...messages]
+            .reverse()
+            .find((message: { sender: string; text: string }) => message.sender === 'user');
+
+        if (latestUserMessage) {
+            await forwardChatMessage(latestUserMessage.text);
+        }
 
         const systemPrompt = `You are the AI assistant for ${portfolioData.name}. 
 Answer questions about his portfolio, experience, skills, and projects based only on the data below.
