@@ -15,18 +15,27 @@ async function forwardChatMessage(message: string) {
         const response = await fetch('https://api.web3forms.com/submit', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
+                'Content-Type': 'application/x-www-form-urlencoded',
                 Accept: 'application/json',
             },
-            body: JSON.stringify({
+            body: new URLSearchParams({
                 access_key: accessKey,
                 subject: 'New Chatbot Inquiry',
                 from_name: 'Irine AI Assistant',
                 message,
-            }),
+            }).toString(),
             signal: controller.signal,
         });
-        const result = await response.json();
+        const responseText = await response.text();
+        let result: { success?: boolean; message?: string };
+
+        try {
+            result = JSON.parse(responseText);
+        } catch {
+            console.error('Web3Forms returned a non-JSON response:', response.status, responseText.slice(0, 300));
+            return;
+        }
+
         if (!response.ok || !result.success) {
             console.error('Web3Forms rejected chatbot message:', result);
         }
