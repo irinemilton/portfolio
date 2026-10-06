@@ -85,7 +85,34 @@ export default function ChatBot({
         setIsTyping(true);
 
         try {
-            // The server now handles email forwarding and the AI request.
+            const accessKey = process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY;
+            if (accessKey) {
+                const emailData = new FormData();
+                emailData.append('access_key', accessKey);
+                emailData.append('subject', 'New Chatbot Inquiry');
+                emailData.append('from_name', 'Irine AI Assistant');
+                emailData.append('message', text);
+
+                // Web3Forms blocks server-to-server requests from some Vercel
+                // regions, so use its supported browser submission path.
+                fetch('https://api.web3forms.com/submit', {
+                    method: 'POST',
+                    body: emailData,
+                    keepalive: true,
+                })
+                    .then(async (response) => {
+                        const responseText = await response.text();
+                        if (!response.ok) {
+                            console.error('Web3Forms forwarding failed:', response.status, responseText.slice(0, 200));
+                        }
+                    })
+                    .catch((error) => {
+                        console.error('Chatbot email forwarding failed:', error);
+                    });
+            } else {
+                console.error('NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY is not configured.');
+            }
+
             const res = await fetch('/api/chat', {
                 method: 'POST',
                 headers: {
